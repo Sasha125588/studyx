@@ -3,7 +3,7 @@
 import React, { type ReactNode } from 'react'
 import { IntlProvider } from 'react-intl'
 
-import type { Messages } from '@/utils/helpers/i18n/getMessageByLocale'
+import type { Messages } from '@/shared/helpers/i18n/getMessageByLocale'
 
 export interface I18nProviderProps {
 	locale: string

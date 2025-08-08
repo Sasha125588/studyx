@@ -10,7 +10,7 @@ import {
 	MotionHighlightItem
 } from '@/components/animate-ui/effects/motion-highlight'
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/shared/helpers/common/cn'
 
 type DropdownMenuContextType = {
 	isOpen: boolean

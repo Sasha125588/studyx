@@ -1,0 +1,26 @@
+{
+	"form.login.title": "Sign in",
+	"form.login.description": "Sign in to your account to continue",
+	"form.signup.title": "Sign up",
+	"form.signup.description": "Sign up to your account to continue",
+
+	"loading": "Loading...",
+
+	"button.login": "Login",
+	"button.signup": "Sign up",
+	"button.createAccount": "Create account",
+
+	"field.username.label": "Username",
+	"field.email.label": "Email",
+	"field.email.placeholder": "Enter your email",
+	"field.password.label": "Password",
+	"field.password.placeholder": "Enter your password",
+	"field.confirmPassword.label": "Confirm Password",
+	"field.confirmPassword.placeholder": "Confirm your password",
+
+	"form.forgotPassword": "Forgot password?",
+	"form.passwordRequirements": "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number",
+	"form.orContinueWith": "Or continue with",
+	"form.dontHaveAccount": "Don't have an account?",
+	"form.alreadyHaveAccount": "Already have an account?"
+}

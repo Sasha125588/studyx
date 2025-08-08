@@ -1,5 +1,7 @@
+'use client'
+
 import { I18nText } from '@/components/common/I18nText/I18nText'
-import { SocialLoginButtons } from '@/components/common/SocialLoginButtons/SocialLoginButtons'
+// import { SocialLoginButtons } from '@/components/common/SocialLoginButtons/SocialLoginButtons'
 import { Button } from '@/components/ui/button'
 import {
 	Form,
@@ -30,10 +32,10 @@ export const SignUpForm = () => {
 				<div className='flex flex-col gap-6'>
 					<div className='flex flex-col items-center text-center'>
 						<h1 className='text-2xl font-bold'>
-							<I18nText path='auth.signup.form.title' />
+							<I18nText path='form.signup.title' />
 						</h1>
 						<p className='text-muted-foreground text-balance'>
-							<I18nText path='auth.signup.form.description' />
+							<I18nText path='form.signup.description' />
 						</p>
 					</div>
 					<FormField
@@ -62,19 +64,19 @@ export const SignUpForm = () => {
 					/>
 					<FormField
 						control={form.control}
-						name='username'
+						name='name'
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel htmlFor='username'>
-									<I18nText path='field.username.label' />
+								<FormLabel htmlFor='name'>
+									<I18nText path='field.name.label' />
 								</FormLabel>
 								<FormControl>
 									<Input
-										id='username'
-										aria-label='Username'
+										id='name'
+										aria-label='Name'
 										type='text'
 										placeholder={i18n.formatMessage({
-											id: 'field.username.placeholder'
+											id: 'field.name.placeholder'
 										})}
 										disabled={state.loading}
 										{...field}
@@ -137,20 +139,16 @@ export const SignUpForm = () => {
 						className='w-full cursor-pointer dark:hover:bg-zinc-50/80'
 						disabled={state.loading}
 					>
-						{state.loading ? (
-							<I18nText path='site.loading' />
-						) : (
-							<I18nText path='button.createAccount' />
-						)}
+						{state.loading ? <I18nText path='loading' /> : <I18nText path='button.createAccount' />}
 					</Button>
 					<div className='after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t'>
 						<span className='bg-card text-muted-foreground relative z-10 px-2'>
-							<I18nText path='auth.form.orContinueWith' />
+							<I18nText path='form.orContinueWith' />
 						</span>
 					</div>
-					<SocialLoginButtons />
+					{/* <SocialLoginButtons /> */}
 					<div className='text-center text-sm'>
-						<I18nText path='auth.form.alreadyHaveAccount' />{' '}
+						<I18nText path='form.alreadyHaveAccount' />{' '}
 						<Button
 							type='button'
 							variant='link'

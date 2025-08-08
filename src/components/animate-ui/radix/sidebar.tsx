@@ -28,9 +28,8 @@ import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
 
-import { useIsMobile } from '@/hooks/useIsMobile'
-
-import { cn } from '@/lib/utils'
+import { cn } from '@/shared/helpers/common/cn'
+import { useIsMobile } from '@/shared/hooks/useIsMobile'
 
 const SIDEBAR_COOKIE_NAME = 'sidebar_state'
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7

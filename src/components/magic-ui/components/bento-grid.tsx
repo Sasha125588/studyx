@@ -3,7 +3,7 @@ import type { ComponentPropsWithoutRef, ReactNode } from 'react'
 
 import { Button } from '@/components/ui/button'
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/shared/helpers/common/cn'
 
 interface BentoGridProps extends ComponentPropsWithoutRef<'div'> {
 	children: ReactNode

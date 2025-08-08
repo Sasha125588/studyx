@@ -4,15 +4,14 @@ import { useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
-import { getErrorMessage } from '@/utils/helpers/auth/getErrorMessage'
-
 import { signUpFormSchema } from '../constants/signUpSchema'
 
 import { handleSignUp } from '@/app/(auth)/(actions)/handleSignUp'
+import { getErrorMessage } from '@/shared/helpers/auth/getErrorMessage'
 
 interface SignUpForm {
 	email: string
-	username: string
+	name: string
 	password: string
 	confirmPassword: string
 }
@@ -25,35 +24,34 @@ export const useSignUpForm = () => {
 		resolver: zodResolver(signUpFormSchema),
 		defaultValues: {
 			email: '',
-			username: '',
+			name: '',
 			password: '',
 			confirmPassword: ''
 		}
 	})
 
 	const onSubmit = signUpForm.handleSubmit(async values => {
+		const loadingToast = toast.loading('Creating your account...')
 		startTransition(async () => {
-			const loadingToast = toast.loading('Creating your account...')
+			try {
+				await handleSignUp(values.email, values.password, values.name)
 
-			const error = await handleSignUp(values.email, values.password, values.username)
-
-			if (error?.code) {
-				const errMsg = getErrorMessage(error.code)
-				toast.error(`Failed to create account. ${errMsg}`, {
+				toast.success('Account created successfully! Welcome to Task Hub!', {
 					id: loadingToast
 				})
-				return
+
+				router.push('/dashboard')
+			} catch (error) {
+				const errMsg = getErrorMessage(error instanceof Error ? error.message : String(error))
+				toast.error(`Failed to login. ${errMsg}.`, {
+					id: loadingToast
+				})
+				throw new Error(errMsg)
 			}
-
-			toast.success('Account created successfully! Welcome to Task Hub!', {
-				id: loadingToast
-			})
-
-			router.push('/dashboard')
 		})
 	})
 
-	const goToSignIn = () => redirect('/signin')
+	const goToSignIn = () => redirect('/login')
 
 	return {
 		state: {

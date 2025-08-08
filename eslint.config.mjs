@@ -11,6 +11,7 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
 	...compat.extends('next/core-web-vitals', 'next/typescript'),
+
 	{
 		rules: {
 			'no-restricted-syntax': ['error', 'FunctionExpression', 'FunctionDeclaration'],
@@ -20,7 +21,7 @@ const eslintConfig = [
 		}
 	},
 	{
-		files: ['src/components/animate-ui/**/*', 'src/components/ui/**/*'],
+		files: ['src/components/animate-ui/**/*', 'src/components/ui/**/*', 'src/lib/**/*'],
 		rules: {
 			'prefer-arrow-callback': 'off',
 			'func-style': 'off',

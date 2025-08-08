@@ -1,5 +1,7 @@
+'use client'
+
 import { I18nText } from '@/components/common/I18nText/I18nText'
-import { SocialLoginButtons } from '@/components/common/SocialLoginButtons/SocialLoginButtons'
+// import { SocialLoginButtons } from '@/components/common/SocialLoginButtons/SocialLoginButtons'
 import { Button } from '@/components/ui/button'
 import {
 	Form,
@@ -11,11 +13,11 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 
-import { useSignInForm } from './hooks/useSignInForm'
+import { useLoginForm } from './hooks/useLoginForm'
 import { useI18n } from '@/shared/providers'
 
-export const SignInForm = () => {
-	const { form, functions, state } = useSignInForm()
+export const LoginForm = () => {
+	const { form, functions, state } = useLoginForm()
 	const i18n = useI18n()
 
 	return (
@@ -30,10 +32,10 @@ export const SignInForm = () => {
 				<div className='flex flex-col gap-6'>
 					<div className='flex flex-col items-center text-center'>
 						<h1 className='text-2xl font-bold'>
-							<I18nText path='auth.signin.form.title' />
+							<I18nText path='form.login.title' />
 						</h1>
 						<p className='text-muted-foreground text-balance'>
-							<I18nText path='auth.signin.form.description' />
+							<I18nText path='form.login.description' />
 						</p>
 					</div>
 					<FormField
@@ -73,7 +75,7 @@ export const SignInForm = () => {
 										href='#'
 										className='ml-auto text-sm underline-offset-2 hover:underline'
 									>
-										<I18nText path='auth.form.forgotPassword' />
+										<I18nText path='form.forgotPassword' />
 									</a>
 								</div>
 								<FormControl>
@@ -90,7 +92,7 @@ export const SignInForm = () => {
 								</FormControl>
 								<FormMessage />
 								<p className='text-muted-foreground mt-2 text-sm'>
-									<I18nText path='auth.form.passwordRequirements' />
+									<I18nText path='form.passwordRequirements' />
 								</p>
 							</FormItem>
 						)}
@@ -100,16 +102,16 @@ export const SignInForm = () => {
 						className='w-full cursor-pointer dark:hover:bg-zinc-50/80'
 						disabled={state.loading}
 					>
-						{state.loading ? <I18nText path='site.loading' /> : <I18nText path='button.login' />}
+						{state.loading ? <I18nText path='loading' /> : <I18nText path='button.login' />}
 					</Button>
 					<div className='after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t'>
 						<span className='bg-card text-muted-foreground relative z-10 px-2'>
-							<I18nText path='auth.form.orContinueWith' />
+							<I18nText path='form.orContinueWith' />
 						</span>
 					</div>
-					<SocialLoginButtons />
+					{/* <SocialLoginButtons /> */}
 					<div className='text-center text-sm'>
-						<I18nText path='auth.form.dontHaveAccount' />{' '}
+						<I18nText path='form.dontHaveAccount' />{' '}
 						<Button
 							type='button'
 							variant='link'

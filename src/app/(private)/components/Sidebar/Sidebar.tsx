@@ -14,9 +14,10 @@ import {
 	Trash2
 } from 'lucide-react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { match } from 'path-to-regexp'
 import * as React from 'react'
+import { toast } from 'sonner'
 
 import {
 	Collapsible,
@@ -51,6 +52,7 @@ import {
 	SidebarRail,
 	SidebarTrigger
 } from '@/components/animate-ui/radix/sidebar'
+import { I18nText } from '@/components/common/I18nText/I18nText'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
 	Breadcrumb,
@@ -62,20 +64,27 @@ import {
 } from '@/components/ui/breadcrumb'
 import { Separator } from '@/components/ui/separator'
 
-import { useIsMobile } from '@/hooks/useIsMobile'
-
 import { SIDEBAR_DATA } from './constants/data'
-import { cn } from '@/lib/utils'
+import { signOut } from '@/lib/better-auth/client'
+import { cn } from '@/shared/helpers/common/cn'
+import { useIsMobile } from '@/shared/hooks/useIsMobile'
+
+export interface User {
+	name: string
+	surname: string
+	email: string
+}
 
 interface AppSidebarProps {
+	user: User
 	children: React.ReactNode
 }
 
 const siteInfo = SIDEBAR_DATA.site
 
-export const AppSidebar = ({ children }: AppSidebarProps) => {
+export const AppSidebar = ({ children, user }: AppSidebarProps) => {
 	const pathname = usePathname()
-
+	const router = useRouter()
 	const pageName = `/${pathname.split('/')[1]}`
 	const decodedCourseName = decodeURIComponent(pathname)
 
@@ -95,6 +104,20 @@ export const AppSidebar = ({ children }: AppSidebarProps) => {
 			setOpenItem(currentItem.title)
 		}
 	}, [pageName])
+
+	const handleSignOut = () => {
+		signOut({
+			fetchOptions: {
+				onSuccess: () => {
+					toast.success(<I18nText path='toast.loggedOut' />)
+					router.push('/login')
+				},
+				onError: () => {
+					toast.error(<I18nText path='toast.failedLogout' />)
+				}
+			}
+		})
+	}
 
 	return (
 		<SidebarProvider>
@@ -245,11 +268,16 @@ export const AppSidebar = ({ children }: AppSidebarProps) => {
 												src={SIDEBAR_DATA.user.avatar}
 												alt={SIDEBAR_DATA.user.name}
 											/>
-											<AvatarFallback className='rounded-lg'>CN</AvatarFallback>
+											<AvatarFallback className='rounded-lg font-bold'>
+												{user.name.charAt(0)}
+												{user.surname.charAt(0)}
+											</AvatarFallback>
 										</Avatar>
 										<div className='grid flex-1 text-left text-sm leading-tight'>
-											<span className='truncate font-semibold'>{SIDEBAR_DATA.user.name}</span>
-											<span className='truncate text-xs'>{SIDEBAR_DATA.user.email}</span>
+											<span className='truncate font-semibold'>
+												{user.name} {user.surname}
+											</span>
+											<span className='truncate text-xs'>{user.email}</span>
 										</div>
 										<ChevronsUpDown className='ml-auto size-4' />
 									</SidebarMenuButton>
@@ -270,8 +298,10 @@ export const AppSidebar = ({ children }: AppSidebarProps) => {
 												<AvatarFallback className='rounded-lg'>CN</AvatarFallback>
 											</Avatar>
 											<div className='grid flex-1 text-left text-sm leading-tight'>
-												<span className='truncate font-semibold'>{SIDEBAR_DATA.user.name}</span>
-												<span className='truncate text-xs'>{SIDEBAR_DATA.user.email}</span>
+												<span className='truncate font-semibold'>
+													{user.name} {user.surname}
+												</span>
+												<span className='truncate text-xs'>{user.email}</span>
 											</div>
 										</div>
 									</DropdownMenuLabel>
@@ -298,7 +328,7 @@ export const AppSidebar = ({ children }: AppSidebarProps) => {
 										</DropdownMenuItem>
 									</DropdownMenuGroup>
 									<DropdownMenuSeparator />
-									<DropdownMenuItem>
+									<DropdownMenuItem onClick={handleSignOut}>
 										<LogOut />
 										Log out
 									</DropdownMenuItem>

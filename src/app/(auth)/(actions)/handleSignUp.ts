@@ -1,10 +1,10 @@
 'use server'
 
-import { auth } from '@/lib/better-auth/auth'
+import { auth } from '@/lib/better-auth/server'
 
 export const handleSignUp = async (email: string, password: string, username: string) => {
 	try {
-		await auth.api.signUpEmail({
+		return await auth.api.signUpEmail({
 			body: {
 				email,
 				password,
