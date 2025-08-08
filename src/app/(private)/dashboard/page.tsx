@@ -1,9 +1,5 @@
 import { formatDate } from 'date-fns'
 
-import { BentoCard, BentoGrid } from '@/components/magic-ui/components/bento-grid'
-
-import { GRID_DATA } from '../courses/constants/data'
-
 const DashboardPage = () => {
 	const currentPartOfDay = new Date().getHours()
 

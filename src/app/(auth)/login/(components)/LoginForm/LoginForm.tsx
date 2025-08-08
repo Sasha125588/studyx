@@ -34,7 +34,7 @@ export const LoginForm = () => {
 						<h1 className='text-2xl font-bold'>
 							<I18nText path='form.login.title' />
 						</h1>
-						<p className='text-muted-foreground text-balance'>
+						<p className='text-muted-foreground w-max text-balance'>
 							<I18nText path='form.login.description' />
 						</p>
 					</div>

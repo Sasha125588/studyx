@@ -8,6 +8,7 @@ import { loginFormSchema } from '../constants/loginSchema'
 
 import { handleLogin } from '@/app/(auth)/(actions)/handleLogin'
 import { getErrorMessage } from '@/shared/helpers/auth/getErrorMessage'
+import { useI18n } from '@/shared/providers'
 
 interface SignInForm {
 	email: string
@@ -18,6 +19,8 @@ export const useLoginForm = () => {
 	const [isPending, startTransition] = useTransition()
 	const router = useRouter()
 
+	const i18n = useI18n()
+
 	const signInForm = useForm<SignInForm>({
 		resolver: zodResolver(loginFormSchema),
 		defaultValues: {
@@ -27,20 +30,19 @@ export const useLoginForm = () => {
 	})
 
 	const onSubmit = signInForm.handleSubmit(async values => {
-		const loadingToast = toast.loading('Logging...')
+		const loadingToast = toast.loading(i18n.formatMessage({ id: 'toast.loggingIn' }))
 		startTransition(async () => {
 			try {
 				await handleLogin(values.email, values.password)
 
-				toast.success('Successfully logged in!', {
+				toast.success(i18n.formatMessage({ id: 'toast.loggedIn' }), {
 					id: loadingToast
 				})
 
 				router.push('/dashboard')
 			} catch (error) {
 				const errMsg = getErrorMessage(error instanceof Error ? error.message : String(error))
-				console.log(errMsg)
-				toast.error(`Failed to login. ${errMsg}.`, {
+				toast.error(i18n.formatMessage({ id: 'toast.failedLogin' }) + ' ' + errMsg, {
 					id: loadingToast
 				})
 				return

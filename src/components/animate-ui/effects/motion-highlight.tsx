@@ -1,6 +1,6 @@
 'use client'
 
-import { AnimatePresence, Transition, motion } from 'motion/react'
+import { AnimatePresence, type Transition, motion } from 'motion/react'
 import * as React from 'react'
 
 import { cn } from '@/shared/helpers/common/cn'
