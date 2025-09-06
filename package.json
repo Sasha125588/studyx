@@ -6,7 +6,8 @@
 		"dev": "next dev --turbopack",
 		"build": "next build",
 		"start": "next start",
-		"lint": "next lint"
+		"lint": "next lint",
+		"generate-db-types": "bunx supabase gen types typescript --project-id hiumfpqtebwwjepqojsd --schema public > database.types.ts"
 	},
 	"dependencies": {
 		"@hookform/resolvers": "^5.2.1",
@@ -14,6 +15,7 @@
 		"@radix-ui/react-label": "^2.1.7",
 		"@radix-ui/react-separator": "^1.1.7",
 		"@radix-ui/react-slot": "^1.2.3",
+		"@radix-ui/react-tooltip": "^1.2.8",
 		"@supabase/ssr": "^0.6.1",
 		"better-auth": "^1.3.4",
 		"class-variance-authority": "^0.7.1",
@@ -30,6 +32,7 @@
 		"react-hook-form": "^7.62.0",
 		"react-intl": "^7.1.11",
 		"sonner": "^2.0.7",
+		"supabase": "^2.34.3",
 		"tailwind-merge": "^3.3.1",
 		"zod": "^4.0.15"
 	},

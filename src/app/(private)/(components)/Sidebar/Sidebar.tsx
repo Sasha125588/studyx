@@ -6,12 +6,8 @@ import {
 	ChevronRight,
 	ChevronsUpDown,
 	CreditCard,
-	Folder,
-	Forward,
 	LogOut,
-	MoreHorizontal,
-	Sparkles,
-	Trash2
+	Sparkles
 } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
@@ -42,7 +38,6 @@ import {
 	SidebarHeader,
 	SidebarInset,
 	SidebarMenu,
-	SidebarMenuAction,
 	SidebarMenuButton,
 	SidebarMenuItem,
 	SidebarMenuSub,
@@ -65,6 +60,7 @@ import {
 import { Separator } from '@/components/ui/separator'
 
 import { SIDEBAR_DATA } from './constants/data'
+import type { Database } from '@/generated/database.types'
 import { signOut } from '@/lib/better-auth/client'
 import { cn } from '@/shared/helpers/common/cn'
 import { useIsMobile } from '@/shared/hooks/useIsMobile'
@@ -78,32 +74,18 @@ export interface User {
 interface AppSidebarProps {
 	user: User
 	children: React.ReactNode
+	courses: Database['public']['Tables']['course']['Row'][]
 }
 
 const siteInfo = SIDEBAR_DATA.site
 
-export const AppSidebar = ({ children, user }: AppSidebarProps) => {
-	const pathname = usePathname()
+export const AppSidebar = ({ children, user, courses }: AppSidebarProps) => {
+	const pathname = usePathname() // /courses/%D0%9C%D0%9B%D0%A2%D0%90
 	const router = useRouter()
 	const pageName = `/${pathname.split('/')[1]}`
-	const decodedCourseName = decodeURIComponent(pathname)
+	const decodedCourseName = decodeURIComponent(pathname).split('/')[2] // МЛТА
 
 	const isMobile = useIsMobile()
-
-	const [openItem, setOpenItem] = React.useState<string | null>(
-		SIDEBAR_DATA.navMain.find(item => !!match(item.url)(pageName))?.title || null
-	)
-
-	const handleItemToggle = (itemTitle: string) => {
-		setOpenItem(prev => (prev === itemTitle ? null : itemTitle))
-	}
-
-	React.useEffect(() => {
-		const currentItem = SIDEBAR_DATA.navMain.find(item => !!match(item.url)(pageName))
-		if (currentItem) {
-			setOpenItem(currentItem.title)
-		}
-	}, [pageName])
 
 	const handleSignOut = () => {
 		signOut({
@@ -121,7 +103,10 @@ export const AppSidebar = ({ children, user }: AppSidebarProps) => {
 
 	return (
 		<SidebarProvider>
-			<Sidebar collapsible='icon'>
+			<Sidebar
+				variant='inset'
+				collapsible='icon'
+			>
 				<SidebarHeader>
 					{/* Team Switcher */}
 					<SidebarMenu>
@@ -151,8 +136,6 @@ export const AppSidebar = ({ children, user }: AppSidebarProps) => {
 							{SIDEBAR_DATA.navMain.map(item => (
 								<Collapsible
 									key={item.title}
-									open={openItem === item.title}
-									onOpenChange={() => handleItemToggle(item.title)}
 									className='group/collapsible'
 								>
 									<SidebarMenuItem>
@@ -168,90 +151,41 @@ export const AppSidebar = ({ children, user }: AppSidebarProps) => {
 												>
 													{item.icon && <item.icon />}
 													<span>{item.title}</span>
-													<ChevronRight className='chevron-right ml-auto transition-transform duration-300 group-data-[state=open]/collapsible:rotate-90' />
+													{item.items && (
+														<ChevronRight className='chevron-right ml-auto transition-transform duration-300 group-data-[state=open]/collapsible:rotate-90' />
+													)}
 												</Link>
 											</SidebarMenuButton>
 										</CollapsibleTrigger>
-										<CollapsibleContent>
-											<SidebarMenuSub>
-												{item.items?.map(subItem => {
-													const isActive = subItem.url === decodedCourseName
-													return (
-														<SidebarMenuSubItem key={subItem.title}>
-															<SidebarMenuSubButton
-																asChild
-																isActive={isActive}
-																className={cn(isActive && 'pointer-events-none')}
-															>
-																<Link
-																	href={subItem.url}
-																	replace
+										{item.title === 'My Courses' && (
+											<CollapsibleContent>
+												<SidebarMenuSub>
+													{courses.map(course => {
+														const isActive = course.url === decodedCourseName
+
+														return (
+															<SidebarMenuSubItem key={course.id}>
+																<SidebarMenuSubButton
+																	asChild
+																	isActive={isActive}
+																	className={cn(isActive && 'pointer-events-none')}
 																>
-																	<span>{subItem.title}</span>
-																</Link>
-															</SidebarMenuSubButton>
-														</SidebarMenuSubItem>
-													)
-												})}
-											</SidebarMenuSub>
-										</CollapsibleContent>
+																	<Link href={`/courses/${course.url}?courseId=${course.id}`}>
+																		<span>{course.url}</span>
+																	</Link>
+																</SidebarMenuSubButton>
+															</SidebarMenuSubItem>
+														)
+													})}
+												</SidebarMenuSub>
+											</CollapsibleContent>
+										)}
 									</SidebarMenuItem>
 								</Collapsible>
 							))}
 						</SidebarMenu>
 					</SidebarGroup>
 					{/* Nav Main */}
-
-					{/* Nav Project */}
-					<SidebarGroup className='group-data-[collapsible=icon]:hidden'>
-						<SidebarGroupLabel>Projects</SidebarGroupLabel>
-						<SidebarMenu>
-							{SIDEBAR_DATA.projects.map(item => (
-								<SidebarMenuItem key={item.name}>
-									<SidebarMenuButton asChild>
-										<a href={item.url}>
-											<item.icon />
-											<span>{item.name}</span>
-										</a>
-									</SidebarMenuButton>
-									<DropdownMenu>
-										<DropdownMenuTrigger asChild>
-											<SidebarMenuAction showOnHover>
-												<MoreHorizontal />
-												<span className='sr-only'>More</span>
-											</SidebarMenuAction>
-										</DropdownMenuTrigger>
-										<DropdownMenuContent
-											className='w-48 rounded-lg'
-											side={isMobile ? 'bottom' : 'right'}
-											align={isMobile ? 'end' : 'start'}
-										>
-											<DropdownMenuItem>
-												<Folder className='text-muted-foreground' />
-												<span>View Project</span>
-											</DropdownMenuItem>
-											<DropdownMenuItem>
-												<Forward className='text-muted-foreground' />
-												<span>Share Project</span>
-											</DropdownMenuItem>
-											<DropdownMenuSeparator />
-											<DropdownMenuItem>
-												<Trash2 className='text-muted-foreground' />
-												<span>Delete Project</span>
-											</DropdownMenuItem>
-										</DropdownMenuContent>
-									</DropdownMenu>
-								</SidebarMenuItem>
-							))}
-							<SidebarMenuItem>
-								<SidebarMenuButton className='text-sidebar-foreground/70'>
-									<MoreHorizontal className='text-sidebar-foreground/70' />
-									<span>More</span>
-								</SidebarMenuButton>
-							</SidebarMenuItem>
-						</SidebarMenu>
-					</SidebarGroup>
-					{/* Nav Project */}
 				</SidebarContent>
 				<SidebarFooter>
 					{/* Nav User */}

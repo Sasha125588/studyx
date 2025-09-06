@@ -24,25 +24,11 @@ export const SIDEBAR_DATA = {
 		{
 			title: 'Home',
 			url: '/dashboard',
-			icon: SquareTerminal,
-			items: [
-				{
-					title: 'History',
-					url: '#'
-				},
-				{
-					title: 'Starred',
-					url: '#'
-				},
-				{
-					title: 'Settings',
-					url: '#'
-				}
-			]
+			icon: SquareTerminal
 		},
 		{
 			title: 'My Courses',
-			url: '/courses',
+			url: '#',
 			icon: Bot,
 			items: [
 				{
@@ -65,49 +51,13 @@ export const SIDEBAR_DATA = {
 		},
 		{
 			title: 'Calendar',
-			url: '/calendar',
-			icon: BookOpen,
-			items: [
-				{
-					title: 'Introduction',
-					url: '#'
-				},
-				{
-					title: 'Get Started',
-					url: '#'
-				},
-				{
-					title: 'Tutorials',
-					url: '#'
-				},
-				{
-					title: 'Changelog',
-					url: '#'
-				}
-			]
+			url: '#',
+			icon: BookOpen
 		},
 		{
 			title: 'Settings',
-			url: '/settings',
-			icon: Settings2,
-			items: [
-				{
-					title: 'General',
-					url: '#'
-				},
-				{
-					title: 'Team',
-					url: '#'
-				},
-				{
-					title: 'Billing',
-					url: '#'
-				},
-				{
-					title: 'Limits',
-					url: '#'
-				}
-			]
+			url: '#',
+			icon: Settings2
 		}
 	],
 	projects: [

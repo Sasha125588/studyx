@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Nunito } from 'next/font/google'
+import { Manrope, Nunito } from 'next/font/google'
 import { cookies } from 'next/headers'
 import { Toaster } from 'sonner'
 
@@ -12,25 +12,31 @@ const nunito = Nunito({
 	subsets: ['latin']
 })
 
+const manrope = Manrope({
+	variable: '--font-manrope',
+	subsets: ['latin']
+})
+
 export const metadata: Metadata = {
 	title: 'Studyx',
 	description: 'Education platform'
 }
 
-const RootLayout = async ({
-	children
-}: Readonly<{
+interface RootLayoutProps {
 	children: React.ReactNode
-}>) => {
+}
+
+const RootLayout = async ({ children }: RootLayoutProps) => {
 	const cookieStore = await cookies()
 	const locale = cookieStore.get('locale')?.value ?? 'en'
 	const messages = getMessagesByLocale(locale)
+
 	return (
 		<html
 			lang={locale}
 			suppressHydrationWarning
 		>
-			<body className={`${nunito.variable} antialiased`}>
+			<body className={`${nunito.variable} ${manrope.variable} antialiased`}>
 				<I18nProvider
 					locale={locale}
 					messages={messages}

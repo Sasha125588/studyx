@@ -30,6 +30,6 @@ const errorMessages: Record<ErrorCodes, string> = {
 }
 
 export const getErrorMessage = (code: string) => {
-	const message = code.replace(/\s+/g, '_').toUpperCase() // Invalid email or password -> INVALID_EMAIL_OR_PASSWORD
+	const message = code.replaceAll(' ', '_').toUpperCase() // Invalid email or password -> INVALID_EMAIL_OR_PASSWORD
 	return errorMessages[message as ErrorCodes] ?? 'Unknown error'
 }
