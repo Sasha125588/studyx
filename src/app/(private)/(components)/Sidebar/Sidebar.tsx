@@ -62,8 +62,10 @@ import { Separator } from '@/components/ui/separator'
 import { SIDEBAR_DATA } from './constants/data'
 import type { Database } from '@/generated/database.types'
 import { signOut } from '@/lib/better-auth/client'
+import { getBreadcrumbs } from '@/shared/helpers/breadcrumb/getBreadcrumbs'
 import { cn } from '@/shared/helpers/common/cn'
 import { useIsMobile } from '@/shared/hooks/useIsMobile'
+import { useI18n } from '@/shared/providers'
 
 export interface User {
 	name: string
@@ -80,6 +82,7 @@ interface AppSidebarProps {
 const siteInfo = SIDEBAR_DATA.site
 
 export const AppSidebar = ({ children, user, courses }: AppSidebarProps) => {
+	const i18n = useI18n()
 	const pathname = usePathname() // /courses/%D0%9C%D0%9B%D0%A2%D0%90
 	const router = useRouter()
 	const pageName = `/${pathname.split('/')[1]}`
@@ -285,13 +288,21 @@ export const AppSidebar = ({ children, user, courses }: AppSidebarProps) => {
 						/>
 						<Breadcrumb>
 							<BreadcrumbList>
-								<BreadcrumbItem className='hidden md:block'>
-									<BreadcrumbLink href='#'>Building Your Application</BreadcrumbLink>
-								</BreadcrumbItem>
-								<BreadcrumbSeparator className='hidden md:block' />
-								<BreadcrumbItem>
-									<BreadcrumbPage>Data Fetching</BreadcrumbPage>
-								</BreadcrumbItem>
+								{getBreadcrumbs(pathname, i18n, { courses }).map((item, index) => (
+									<div
+										className='flex items-center gap-2'
+										key={item.label}
+									>
+										{index > 0 && <BreadcrumbSeparator className='hidden md:block' />}
+										<BreadcrumbItem className='hidden md:block'>
+											{item.isActive ? (
+												<BreadcrumbPage>{item.label}</BreadcrumbPage>
+											) : (
+												<BreadcrumbLink href={item.href || '#'}>{item.label}</BreadcrumbLink>
+											)}
+										</BreadcrumbItem>
+									</div>
+								))}
 							</BreadcrumbList>
 						</Breadcrumb>
 					</div>

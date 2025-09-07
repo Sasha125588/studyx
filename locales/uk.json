@@ -33,5 +33,9 @@
 	"toast.failedSignup": "Не вдалося створити обліковий запис.",
 	"toast.loggingOut": "Вихід з системи...",
 	"toast.loggedOut": "Успішно вийшли з системи",
-	"toast.failedLogout": "Не вдалося вийти з системи."
+	"toast.failedLogout": "Не вдалося вийти з системи.",
+
+	"home": "Головна",
+	"myCourses": "Мої курси",
+	"dashboard": "Панель керування"
 }

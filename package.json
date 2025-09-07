@@ -7,9 +7,10 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
-		"generate-db-types": "bunx supabase gen types typescript --project-id hiumfpqtebwwjepqojsd --schema public > database.types.ts"
+		"generate-db-types": "bunx supabase gen types typescript --project-id hiumfpqtebwwjepqojsd --schema public > generated/database.types.ts"
 	},
 	"dependencies": {
+		"@headlessui/react": "^2.2.7",
 		"@hookform/resolvers": "^5.2.1",
 		"@radix-ui/react-avatar": "^1.1.10",
 		"@radix-ui/react-label": "^2.1.7",
@@ -21,7 +22,7 @@
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
 		"date-fns": "^4.1.0",
-		"lucide-react": "^0.539.0",
+		"lucide-react": "^0.542.0",
 		"motion": "^12.23.12",
 		"next": "15.4.6",
 		"path-to-regexp": "^8.2.0",

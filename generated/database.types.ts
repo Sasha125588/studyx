@@ -72,6 +72,7 @@ export type Database = {
       }
       course: {
         Row: {
+          author: string[] | null
           created_at: string | null
           description: string | null
           edu_program: string | null
@@ -81,6 +82,7 @@ export type Database = {
           url: string | null
         }
         Insert: {
+          author?: string[] | null
           created_at?: string | null
           description?: string | null
           edu_program?: string | null
@@ -90,6 +92,7 @@ export type Database = {
           url?: string | null
         }
         Update: {
+          author?: string[] | null
           created_at?: string | null
           description?: string | null
           edu_program?: string | null

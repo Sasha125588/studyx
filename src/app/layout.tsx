@@ -4,7 +4,7 @@ import { cookies } from 'next/headers'
 import { Toaster } from 'sonner'
 
 import './globals.css'
-import { getMessagesByLocale } from '@/shared/helpers/i18n/getMessageByLocale'
+import { getMessagesByLocale } from '@/shared/helpers/i18n/getMessagesByLocale'
 import { I18nProvider } from '@/shared/providers'
 
 const nunito = Nunito({

@@ -1,2 +1,2 @@
-export * from './getMessageByLocale'
+export * from './getMessagesByLocale'
 export * from './setLocale'

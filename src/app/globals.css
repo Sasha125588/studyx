@@ -120,3 +120,17 @@
 		@apply bg-background text-foreground font-manrope;
 	}
 }
+
+.hide-scroll::-webkit-scrollbar {
+	display: none;
+}
+.hide-scroll {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+
+html {
+	-ms-overflow-style: none;
+	scrollbar-width: none; /* Firefox */
+	scroll-behavior: smooth;
+}
