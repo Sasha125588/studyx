@@ -1,14 +1,6 @@
 'use client'
 
-import {
-	BadgeCheck,
-	Bell,
-	ChevronRight,
-	ChevronsUpDown,
-	CreditCard,
-	LogOut,
-	Sparkles
-} from 'lucide-react'
+import { BadgeCheck, Bell, CreditCard, LogOut, Sparkles } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { match } from 'path-to-regexp'
@@ -16,10 +8,10 @@ import * as React from 'react'
 import { toast } from 'sonner'
 
 import {
-	Collapsible,
-	CollapsibleContent,
-	CollapsibleTrigger
-} from '@/components/animate-ui/radix/collapsible'
+	Tooltip,
+	TooltipPanel,
+	TooltipTrigger
+} from '@/components/animate-ui/components/base/tooltip'
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -34,18 +26,13 @@ import {
 	SidebarContent,
 	SidebarFooter,
 	SidebarGroup,
-	SidebarGroupLabel,
 	SidebarHeader,
 	SidebarInset,
 	SidebarMenu,
 	SidebarMenuButton,
 	SidebarMenuItem,
-	SidebarMenuSub,
-	SidebarMenuSubButton,
-	SidebarMenuSubItem,
 	SidebarProvider,
-	SidebarRail,
-	SidebarTrigger
+	SidebarRail
 } from '@/components/animate-ui/radix/sidebar'
 import { I18nText } from '@/components/common/I18nText/I18nText'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -57,13 +44,11 @@ import {
 	BreadcrumbPage,
 	BreadcrumbSeparator
 } from '@/components/ui/breadcrumb'
-import { Separator } from '@/components/ui/separator'
 
 import { SIDEBAR_DATA } from './constants/data'
-import type { Database } from '@/generated/database.types'
+import type { Course } from '@/generated/entities.types'
 import { signOut } from '@/lib/better-auth/client'
 import { getBreadcrumbs } from '@/shared/helpers/breadcrumb/getBreadcrumbs'
-import { cn } from '@/shared/helpers/common/cn'
 import { useIsMobile } from '@/shared/hooks/useIsMobile'
 import { useI18n } from '@/shared/providers'
 
@@ -76,7 +61,7 @@ export interface User {
 interface AppSidebarProps {
 	user: User
 	children: React.ReactNode
-	courses: Database['public']['Tables']['course']['Row'][]
+	courses: Course[]
 }
 
 const siteInfo = SIDEBAR_DATA.site
@@ -86,7 +71,6 @@ export const AppSidebar = ({ children, user, courses }: AppSidebarProps) => {
 	const pathname = usePathname() // /courses/%D0%9C%D0%9B%D0%A2%D0%90
 	const router = useRouter()
 	const pageName = `/${pathname.split('/')[1]}`
-	const decodedCourseName = decodeURIComponent(pathname).split('/')[2] // МЛТА
 
 	const isMobile = useIsMobile()
 
@@ -107,84 +91,49 @@ export const AppSidebar = ({ children, user, courses }: AppSidebarProps) => {
 	return (
 		<SidebarProvider>
 			<Sidebar
-				variant='inset'
-				collapsible='icon'
+				variant='sidebar'
+				collapsible='none'
+				className='gap-4'
 			>
 				<SidebarHeader>
-					{/* Team Switcher */}
 					<SidebarMenu>
 						<SidebarMenuItem>
 							<SidebarMenuButton
 								size='lg'
 								className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
 							>
-								<div className='bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg'>
-									<siteInfo.logo className='size-4' />
-								</div>
-								<div className='grid flex-1 text-left text-sm leading-tight'>
-									<span className='truncate font-semibold'>{siteInfo.name}</span>
-									<span className='truncate text-xs'>{siteInfo.plan}</span>
+								<div className='bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-10 items-center justify-center rounded-lg'>
+									<siteInfo.logo className='size-5' />
 								</div>
 							</SidebarMenuButton>
 						</SidebarMenuItem>
 					</SidebarMenu>
-					{/* Team Switcher */}
 				</SidebarHeader>
 
 				<SidebarContent className='overflow-hidden'>
 					{/* Nav Main */}
 					<SidebarGroup>
-						<SidebarGroupLabel>Platform</SidebarGroupLabel>
-						<SidebarMenu>
+						<SidebarMenu className='gap-1'>
 							{SIDEBAR_DATA.navMain.map(item => (
-								<Collapsible
-									key={item.title}
-									className='group/collapsible'
-								>
-									<SidebarMenuItem>
-										<CollapsibleTrigger asChild>
+								<SidebarMenuItem key={item.title}>
+									<Tooltip>
+										<TooltipTrigger className='w-full'>
 											<SidebarMenuButton
 												asChild
+												size='md'
 												isActive={!!match(item.url)(pageName)}
-												tooltip={item.title}
 											>
 												<Link
 													href={item.url}
-													replace
+													className='items-center justify-center'
 												>
-													{item.icon && <item.icon />}
-													<span>{item.title}</span>
-													{item.items && (
-														<ChevronRight className='chevron-right ml-auto transition-transform duration-300 group-data-[state=open]/collapsible:rotate-90' />
-													)}
+													<item.icon className='!size-5' />
 												</Link>
 											</SidebarMenuButton>
-										</CollapsibleTrigger>
-										{item.title === 'My Courses' && (
-											<CollapsibleContent>
-												<SidebarMenuSub>
-													{courses.map(course => {
-														const isActive = course.url === decodedCourseName
-
-														return (
-															<SidebarMenuSubItem key={course.id}>
-																<SidebarMenuSubButton
-																	asChild
-																	isActive={isActive}
-																	className={cn(isActive && 'pointer-events-none')}
-																>
-																	<Link href={`/courses/${course.url}?courseId=${course.id}`}>
-																		<span>{course.url}</span>
-																	</Link>
-																</SidebarMenuSubButton>
-															</SidebarMenuSubItem>
-														)
-													})}
-												</SidebarMenuSub>
-											</CollapsibleContent>
-										)}
-									</SidebarMenuItem>
-								</Collapsible>
+										</TooltipTrigger>
+										<TooltipPanel side='right'>{item.title}</TooltipPanel>
+									</Tooltip>
+								</SidebarMenuItem>
 							))}
 						</SidebarMenu>
 					</SidebarGroup>
@@ -192,7 +141,7 @@ export const AppSidebar = ({ children, user, courses }: AppSidebarProps) => {
 				</SidebarContent>
 				<SidebarFooter>
 					{/* Nav User */}
-					<SidebarMenu>
+					<SidebarMenu className='items-center justify-center'>
 						<SidebarMenuItem>
 							<DropdownMenu>
 								<DropdownMenuTrigger asChild>
@@ -210,13 +159,6 @@ export const AppSidebar = ({ children, user, courses }: AppSidebarProps) => {
 												{user.surname.charAt(0)}
 											</AvatarFallback>
 										</Avatar>
-										<div className='grid flex-1 text-left text-sm leading-tight'>
-											<span className='truncate font-semibold'>
-												{user.name} {user.surname}
-											</span>
-											<span className='truncate text-xs'>{user.email}</span>
-										</div>
-										<ChevronsUpDown className='ml-auto size-4' />
 									</SidebarMenuButton>
 								</DropdownMenuTrigger>
 								<DropdownMenuContent
@@ -281,11 +223,6 @@ export const AppSidebar = ({ children, user, courses }: AppSidebarProps) => {
 			<SidebarInset>
 				<header className='flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12'>
 					<div className='flex items-center gap-2 px-4'>
-						<SidebarTrigger className='-ml-1' />
-						<Separator
-							orientation='vertical'
-							className='mr-2 h-4'
-						/>
 						<Breadcrumb>
 							<BreadcrumbList>
 								{getBreadcrumbs(pathname, i18n, { courses }).map((item, index) => (
@@ -307,7 +244,7 @@ export const AppSidebar = ({ children, user, courses }: AppSidebarProps) => {
 						</Breadcrumb>
 					</div>
 				</header>
-				<div className='p-6'>{children}</div>
+				<div className='pl-4'>{children}</div>
 			</SidebarInset>
 		</SidebarProvider>
 	)

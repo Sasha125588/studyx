@@ -7,18 +7,18 @@ export const middleware = async (request: NextRequest) => {
 
 	const isAuthenticated = !!sessionCookie
 	const isAuthPage = pathname === '/login' || pathname === '/signup'
-	const isProtectedPage = pathname.startsWith('/dashboard') || pathname.startsWith('/courses')
+	const isProtectedPage = pathname.startsWith('/') || pathname.startsWith('/courses')
 
 	if (!isAuthenticated && isProtectedPage) {
 		return NextResponse.redirect(new URL('/login', request.url))
 	}
 
 	if (isAuthenticated && isAuthPage) {
-		return NextResponse.redirect(new URL('/dashboard', request.url))
+		return NextResponse.redirect(new URL('/', request.url))
 	}
 
-	if (pathname === '/') {
-		const redirectUrl = isAuthenticated ? '/dashboard' : '/login'
+	if (pathname === ' ') {
+		const redirectUrl = isAuthenticated ? '/' : '/login'
 		return NextResponse.redirect(new URL(redirectUrl, request.url))
 	}
 
@@ -26,5 +26,5 @@ export const middleware = async (request: NextRequest) => {
 }
 
 export const config = {
-	matcher: ['/dashboard/:path*', '/courses/:path*', '/', '/login', '/signup']
+	matcher: ['/courses/:path*', '/', '/:path*', '/login', '/signup']
 }

@@ -10,6 +10,7 @@
 		"generate-db-types": "bunx supabase gen types typescript --project-id hiumfpqtebwwjepqojsd --schema public > generated/database.types.ts"
 	},
 	"dependencies": {
+		"@base-ui-components/react": "^1.0.0-beta.6",
 		"@headlessui/react": "^2.2.7",
 		"@hookform/resolvers": "^5.2.1",
 		"@radix-ui/react-avatar": "^1.1.10",
@@ -23,7 +24,7 @@
 		"clsx": "^2.1.1",
 		"date-fns": "^4.1.0",
 		"lucide-react": "^0.542.0",
-		"motion": "^12.23.12",
+		"motion": "^12.23.24",
 		"next": "15.4.6",
 		"path-to-regexp": "^8.2.0",
 		"pg": "^8.16.3",

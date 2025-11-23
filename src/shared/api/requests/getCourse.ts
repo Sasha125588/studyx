@@ -1,20 +1,18 @@
 import db from '@/lib/supabase/client'
 
-export const getCourse = async (courseID: string) => {
-  return await db
-    .from('course')
-    .select(`
-      *,
-      module:module (
-        *,
-        lectures:lectures (
-          *
-        ),
-        practical:practical (
-          *
-        )
-      )
-    `)
-    .eq("id", +courseID)
-    .single()
-}
+export const getCourse = async (courseUrl: string) => await db
+.from('course')
+.select(`
+  *,
+  module:module (
+    *,
+    lectures:lectures (
+      *
+    ),
+    practical:practical (
+      *
+    )
+  )
+`)
+.eq("url", courseUrl)
+.single()

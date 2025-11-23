@@ -1,6 +1,6 @@
-import { type IntlShape } from 'react-intl'
+import type { IntlShape } from 'react-intl'
 
-import { type Database } from '@/generated/database.types'
+import type { Course } from '@/generated/entities.types'
 
 interface BreadcrumbItem {
 	label: string
@@ -9,7 +9,7 @@ interface BreadcrumbItem {
 }
 
 interface BreadcrumbConfig {
-	courses?: Database['public']['Tables']['course']['Row'][]
+	courses?: Course[]
 }
 
 export const getBreadcrumbs = (
@@ -41,11 +41,6 @@ export const getBreadcrumbs = (
 					isActive: true
 				})
 			}
-		} else if (path === 'dashboard') {
-			breadcrumbs.push({
-				label: i18n.formatMessage({ id: 'dashboard' }),
-				isActive: true
-			})
 		}
 	})
 

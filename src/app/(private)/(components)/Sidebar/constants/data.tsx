@@ -1,12 +1,12 @@
 import {
-	BookOpen,
-	Bot,
+	BookOpenTextIcon,
+	CalendarIcon,
 	Frame,
 	GalleryVerticalEnd,
+	HouseIcon,
 	Map,
 	PieChart,
-	Settings2,
-	SquareTerminal
+	SettingsIcon
 } from 'lucide-react'
 
 export const SIDEBAR_DATA = {
@@ -22,42 +22,24 @@ export const SIDEBAR_DATA = {
 	},
 	navMain: [
 		{
-			title: 'Home',
-			url: '/dashboard',
-			icon: SquareTerminal
+			title: 'Головна',
+			url: '/',
+			icon: HouseIcon
 		},
 		{
-			title: 'My Courses',
-			url: '#',
-			icon: Bot,
-			items: [
-				{
-					title: 'ДА',
-					url: '/courses/ДА'
-				},
-				{
-					title: 'МЛТА',
-					url: '/courses/МЛТА'
-				},
-				{
-					title: 'АіСД',
-					url: '/courses/АіСД'
-				},
-				{
-					title: 'ПР_C++',
-					url: '/courses/ПР_C++'
-				}
-			]
+			title: 'Курси',
+			url: '/courses',
+			icon: BookOpenTextIcon
 		},
 		{
-			title: 'Calendar',
+			title: 'Розклад',
 			url: '#',
-			icon: BookOpen
+			icon: CalendarIcon
 		},
 		{
-			title: 'Settings',
+			title: 'Налаштування',
 			url: '#',
-			icon: Settings2
+			icon: SettingsIcon
 		}
 	],
 	projects: [

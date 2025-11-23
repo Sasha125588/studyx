@@ -17,23 +17,18 @@ import {
 	SheetHeader,
 	SheetTitle
 } from '@/components/animate-ui/radix/sheet'
-import {
-	Tooltip,
-	TooltipContent,
-	TooltipProvider,
-	TooltipTrigger
-} from '@/components/animate-ui/radix/tooltip'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 
 import { cn } from '@/shared/helpers/common/cn'
 import { useIsMobile } from '@/shared/hooks/useIsMobile'
 
 const SIDEBAR_COOKIE_NAME = 'sidebar_state'
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
-const SIDEBAR_WIDTH = '16rem'
+// const SIDEBAR_WIDTH = '16rem'
 const SIDEBAR_WIDTH_MOBILE = '18rem'
 const SIDEBAR_WIDTH_ICON = '3rem'
 const SIDEBAR_KEYBOARD_SHORTCUT = 'b'
@@ -138,7 +133,7 @@ function SidebarProvider({
 					data-slot='sidebar-wrapper'
 					style={
 						{
-							'--sidebar-width': SIDEBAR_WIDTH,
+							// '--sidebar-width': SIDEBAR_WIDTH,
 							'--sidebar-width-icon': SIDEBAR_WIDTH_ICON,
 							...style
 						} as React.CSSProperties
@@ -191,7 +186,7 @@ function Sidebar({
 				<div
 					data-slot='sidebar'
 					className={cn(
-						'bg-sidebar text-sidebar-foreground flex h-full w-(--sidebar-width) flex-col',
+						'bg-sidebar text-sidebar-foreground flex h-full w-(--sidebar-width) flex-col py-1',
 						className
 					)}
 					{...props}
@@ -385,7 +380,7 @@ function SidebarHeader({ className, ...props }: SidebarHeaderProps) {
 		<div
 			data-slot='sidebar-header'
 			data-sidebar='header'
-			className={cn('flex flex-col gap-2 p-2', className)}
+			className={cn('flex flex-col gap-2', className)}
 			{...props}
 		/>
 	)
@@ -398,7 +393,7 @@ function SidebarFooter({ className, ...props }: SidebarFooterProps) {
 		<div
 			data-slot='sidebar-footer'
 			data-sidebar='footer'
-			className={cn('flex flex-col gap-2 p-2', className)}
+			className={cn('flex flex-col gap-2', className)}
 			{...props}
 		/>
 	)
@@ -558,6 +553,7 @@ const sidebarMenuButtonVariants = cva(
 			size: {
 				default: 'h-8 text-sm',
 				sm: 'h-7 text-xs',
+				md: 'h-9 text-xs',
 				lg: 'h-12 text-sm group-data-[collapsible=icon]:p-0!'
 			}
 		},
