@@ -1,4 +1,4 @@
-const CoursesPage = () => {
+const CoursesPage = async () => {
 	return <div>Courses Page</div>
 }
 

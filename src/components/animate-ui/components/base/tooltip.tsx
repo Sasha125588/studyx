@@ -29,7 +29,7 @@ function TooltipProvider({ delay = 0, ...props }: TooltipProviderProps) {
 }
 
 type TooltipProps = TooltipPrimitiveProps & {
-	delay?: TooltipPrimitiveProps['delay']
+	delay?: number
 }
 
 function Tooltip({ delay = 0, ...props }: TooltipProps) {

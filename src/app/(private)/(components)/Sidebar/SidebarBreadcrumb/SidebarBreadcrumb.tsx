@@ -1,0 +1,47 @@
+'use client'
+
+import { usePathname } from 'next/navigation'
+
+import {
+	Breadcrumb,
+	BreadcrumbItem,
+	BreadcrumbLink,
+	BreadcrumbList,
+	BreadcrumbPage,
+	BreadcrumbSeparator
+} from '@/components/ui/breadcrumb'
+
+import type { Course } from '@/generated/entities.types'
+import { getBreadcrumbs } from '@/shared/helpers/breadcrumb/getBreadcrumbs'
+import { useI18n } from '@/shared/providers'
+
+interface SidebarBreadcrumbProps {
+	courses: Course[]
+}
+
+export const SidebarBreadcrumb = ({ courses }: SidebarBreadcrumbProps) => {
+	const i18n = useI18n()
+	const pathname = usePathname() // /courses/%D0%9C%D0%9B%D0%A2%D0%90
+
+	return (
+		<Breadcrumb>
+			<BreadcrumbList>
+				{getBreadcrumbs(pathname, i18n, { courses }).map((item, index) => (
+					<div
+						className='flex items-center gap-2'
+						key={item.label}
+					>
+						{index > 0 && <BreadcrumbSeparator className='hidden md:block' />}
+						<BreadcrumbItem className='hidden md:block'>
+							{item.isActive ? (
+								<BreadcrumbPage>{item.label}</BreadcrumbPage>
+							) : (
+								<BreadcrumbLink href={item.href || '#'}>{item.label}</BreadcrumbLink>
+							)}
+						</BreadcrumbItem>
+					</div>
+				))}
+			</BreadcrumbList>
+		</Breadcrumb>
+	)
+}

@@ -1,16 +1,11 @@
 import type { Metadata } from 'next'
-import { Manrope, Nunito } from 'next/font/google'
+import { Manrope } from 'next/font/google'
 import { cookies } from 'next/headers'
 import { Toaster } from 'sonner'
 
 import './globals.css'
 import { getMessagesByLocale } from '@/shared/helpers/i18n/getMessagesByLocale'
 import { I18nProvider } from '@/shared/providers'
-
-const nunito = Nunito({
-	variable: '--font-nunito',
-	subsets: ['latin']
-})
 
 const manrope = Manrope({
 	variable: '--font-manrope',
@@ -36,7 +31,7 @@ const RootLayout = async ({ children }: RootLayoutProps) => {
 			lang={locale}
 			suppressHydrationWarning
 		>
-			<body className={`${nunito.variable} ${manrope.variable} antialiased`}>
+			<body className={`${manrope.variable} antialiased`}>
 				<I18nProvider
 					locale={locale}
 					messages={messages}
