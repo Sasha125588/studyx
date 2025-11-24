@@ -7,7 +7,9 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
-		"generate-db-types": "bunx supabase gen types typescript --project-id hiumfpqtebwwjepqojsd --schema public > generated/database.types.ts"
+		"type-check": "tsc --noEmit",
+		"generate-db-types": "bunx supabase gen types typescript --project-id hiumfpqtebwwjepqojsd --schema public > generated/database.types.ts",
+		"prepare": "husky"
 	},
 	"dependencies": {
 		"@base-ui-components/react": "^1.0.0-beta.6",
@@ -48,6 +50,8 @@
 		"@types/react-dom": "^19",
 		"eslint": "^9",
 		"eslint-config-next": "15.4.6",
+		"husky": "^9.1.7",
+		"lint-staged": "^16.2.7",
 		"prettier-plugin-tailwindcss": "^0.6.14",
 		"tailwindcss": "^4",
 		"tw-animate-css": "^1.3.6",
