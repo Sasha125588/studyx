@@ -39,7 +39,7 @@ export const useLoginForm = () => {
 					id: loadingToast
 				})
 
-				router.push('/dashboard')
+				router.refresh()
 			} catch (error) {
 				const errMsg = getErrorMessage(error instanceof Error ? error.message : String(error))
 				toast.error(i18n.formatMessage({ id: 'toast.failedLogin' }) + ' ' + errMsg, {

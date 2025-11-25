@@ -1,9 +1,12 @@
 import { MessageCircleQuestionIcon } from 'lucide-react'
 import Link from 'next/link'
 
-import { Button } from '@/components/ui/button'
+import {
+	Tooltip,
+	TooltipPanel,
+	TooltipTrigger
+} from '@/components/animate-ui/components/base/tooltip'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 
 import { CourseContent } from './components/CourseContent/CourseContent'
 import { CourseStats } from './components/CourseStats/CourseStats'
@@ -27,26 +30,22 @@ export const CoursePageMain = ({ course }: CoursePageMainProps) => (
 				<CardTitle>
 					<h3 className='text-3xl font-semibold'>{course.name}</h3>
 				</CardTitle>
-				<TooltipProvider delayDuration={0}>
-					<Tooltip>
-						<TooltipTrigger asChild>
-							<Button variant='outline'>
-								<MessageCircleQuestionIcon />
-							</Button>
-						</TooltipTrigger>
-						<TooltipContent
-							side='left'
-							className='px-2 py-1 text-[13px]'
+				<Tooltip>
+					<TooltipTrigger className='border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex h-10 w-10 items-center justify-center rounded-md border'>
+						<MessageCircleQuestionIcon className='h-4 w-4' />
+					</TooltipTrigger>
+					<TooltipPanel
+						side='left'
+						className='px-2 py-1 text-[13px]'
+					>
+						<Link
+							href={course.edu_program ?? ''}
+							target='_blank'
 						>
-							<Link
-								href={course.edu_program ?? ''}
-								target='_blank'
-							>
-								<p className='hover:underline'>Освітня програма</p>
-							</Link>
-						</TooltipContent>
-					</Tooltip>
-				</TooltipProvider>
+							<p className='hover:underline'>Освітня програма</p>
+						</Link>
+					</TooltipPanel>
+				</Tooltip>
 			</CardHeader>
 			<CardContent className='space-y-4'>
 				<div>{course.description}</div>
