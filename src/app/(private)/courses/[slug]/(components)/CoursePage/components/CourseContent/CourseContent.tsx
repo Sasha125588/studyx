@@ -1,6 +1,10 @@
-import { BookOpenIcon, CircleQuestionMarkIcon } from 'lucide-react'
-import { FileIcon } from 'lucide-react'
+import 'katex/dist/katex.min.css'
+import { BookOpenIcon, CircleQuestionMarkIcon, FileIcon } from 'lucide-react'
 import Link from 'next/link'
+import ReactMarkdown from 'react-markdown'
+import rehypeKatex from 'rehype-katex'
+import remarkGfm from 'remark-gfm'
+import remarkMath from 'remark-math'
 
 import {
 	Accordion,
@@ -10,10 +14,10 @@ import {
 } from '@/components/animate-ui/headless/accordion'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
-import type { ModuleWithRelations } from '../../CoursePage'
+import type { ModuleWithLessons } from '@/generated/entities.types'
 
 export interface CourseContentProps {
-	modules: ModuleWithRelations[]
+	modules: ModuleWithLessons[]
 }
 
 export const CourseContent = ({ modules }: CourseContentProps) => {
@@ -62,61 +66,56 @@ export const CourseContent = ({ modules }: CourseContentProps) => {
 							</AccordionButton>
 
 							<AccordionPanel className='divide-y divide-gray-100'>
-								{module.lectures.map((lecture, lectureIndex) => (
+								{module.lessons?.map((lesson, lessonIndex) => (
 									<div
-										key={lecture.id}
-										className='flex items-center justify-between p-4 transition-colors hover:bg-gray-50'
+										key={lesson.id}
+										className='group flex items-center justify-between p-4 transition-colors hover:bg-gray-50'
 									>
 										<div className='flex items-center gap-3'>
-											<div className='flex h-8 w-8 items-center justify-center rounded-lg bg-blue-100 text-blue-600'>
-												<FileIcon size={16} />
+											<div
+												className={`flex h-8 w-8 items-center justify-center rounded-lg ${
+													lesson.type === 'practical'
+														? 'bg-purple-100 text-purple-600'
+														: 'bg-blue-100 text-blue-600'
+												}`}
+											>
+												{lesson.type === 'practical' ? (
+													<CircleQuestionMarkIcon size={16} />
+												) : (
+													<FileIcon size={16} />
+												)}
 											</div>
 											<div>
-												<Link
-													href={lecture.file || '#'}
-													target='_blank'
-													className='font-medium text-gray-900 hover:text-blue-600'
+												<p
+													className={`font-medium text-gray-900 group-hover:${
+														lesson.type === 'practical' ? 'text-purple-600' : 'text-blue-600'
+													}`}
 												>
-													Лекція {lectureIndex + 1}. {lecture.title}
-												</Link>
+													{lesson.type === 'practical' ? 'Практична' : 'Лекція'} {lessonIndex + 1}.{' '}
+													{lesson.title}
+												</p>
 											</div>
 										</div>
-										<Link
-											href={lecture.file || '#'}
-											target='_blank'
-											className='rounded-lg bg-blue-50 px-3 py-1 text-sm text-blue-600 transition-colors hover:bg-blue-100'
-										>
-											Переглянути
-										</Link>
-									</div>
-								))}
-
-								{module.practical.map(practice => (
-									<div
-										key={practice.id}
-										className='flex items-center justify-between p-4 transition-colors hover:bg-gray-50'
-									>
-										<div className='flex items-center gap-3'>
-											<div className='flex h-8 w-8 items-center justify-center rounded-lg bg-purple-100 text-purple-600'>
-												<CircleQuestionMarkIcon size={16} />
-											</div>
-											<div>
-												<Link
-													href={practice.file || '#'}
-													target='_blank'
-													className='font-medium text-gray-900 hover:text-purple-600'
-												>
-													{practice.title}
-												</Link>
-											</div>
+										<div className='prose prose-slate prose-headings:font-semibold prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg prose-p:text-gray-700 prose-a:text-blue-600 prose-strong:font-bold prose-ol:list-decimal prose-ul:list-disc prose-li:marker:text-gray-500 max-w-none'>
+											<ReactMarkdown
+												remarkPlugins={[remarkGfm, remarkMath]}
+												rehypePlugins={[rehypeKatex]}
+											>
+												{lesson.content}
+											</ReactMarkdown>
 										</div>
-										<Link
-											href={practice.file || '#'}
-											target='_blank'
-											className='rounded-lg bg-purple-50 px-3 py-1 text-sm text-purple-600 transition-colors hover:bg-purple-100'
-										>
-											Переглянути
-										</Link>
+										{lesson.content && (
+											<Link
+												href={`#lesson-${lesson.id}`}
+												className={`rounded-lg px-3 py-1 text-sm transition-colors ${
+													lesson.type === 'practical'
+														? 'bg-purple-50 text-purple-600 hover:bg-purple-100'
+														: 'bg-blue-50 text-blue-600 hover:bg-blue-100'
+												}`}
+											>
+												Переглянути
+											</Link>
+										)}
 									</div>
 								))}
 							</AccordionPanel>

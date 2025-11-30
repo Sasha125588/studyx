@@ -29,15 +29,15 @@ export const getBreadcrumbs = (
 	paths.forEach((path, index) => {
 		if (path === 'courses') {
 			breadcrumbs.push({
-				label: i18n.formatMessage({ id: 'myCourses' }),
+				label: i18n.formatMessage({ id: 'courses' }),
 				href: '/courses',
 				isActive: paths.length === 1
 			})
 		} else if (config?.courses && index === 1 && paths[0] === 'courses') {
-			const course = config.courses.find(c => c.url === decodeURIComponent(path))
+			const course = config.courses.find(c => c.slug === decodeURIComponent(path))
 			if (course) {
 				breadcrumbs.push({
-					label: course.name ?? course.url ?? '',
+					label: course.title ?? course.slug ?? '',
 					isActive: true
 				})
 			}

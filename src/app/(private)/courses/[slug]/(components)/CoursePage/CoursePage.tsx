@@ -6,21 +6,16 @@ import {
 	TooltipPanel,
 	TooltipTrigger
 } from '@/components/animate-ui/components/base/tooltip'
+import { I18nText } from '@/components/common/I18nText/I18nText'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 import { CourseContent } from './components/CourseContent/CourseContent'
 import { CourseStats } from './components/CourseStats/CourseStats'
-import type { Course, Lecture, Module, Practical } from '@/generated/entities.types'
-
-export type ModuleWithRelations = Module & {
-	lectures: Lecture[]
-	practical: Practical[]
-}
+import type { CourseWithModules } from '@/generated/entities.types'
+import { getCourseAuthors } from '@/shared/helpers'
 
 interface CoursePageMainProps {
-	course: Course & {
-		module: ModuleWithRelations[]
-	}
+	course: CourseWithModules
 }
 
 export const CoursePageMain = ({ course }: CoursePageMainProps) => (
@@ -28,7 +23,7 @@ export const CoursePageMain = ({ course }: CoursePageMainProps) => (
 		<Card>
 			<CardHeader className='flex items-center justify-between'>
 				<CardTitle>
-					<h3 className='text-3xl font-semibold'>{course.name}</h3>
+					<h3 className='text-3xl font-semibold'>{course.title}</h3>
 				</CardTitle>
 				<Tooltip>
 					<TooltipTrigger className='border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex h-10 w-10 items-center justify-center rounded-md border'>
@@ -50,13 +45,14 @@ export const CoursePageMain = ({ course }: CoursePageMainProps) => (
 			<CardContent className='space-y-4'>
 				<div>{course.description}</div>
 				<div>
-					<p className='font-semibold text-blue-600'>
-						{course.author?.map(author => author).join(', ')}
+					<p className='text-muted-foreground text-sm'>
+						<I18nText path='authors' />
 					</p>
+					<p className='font-semibold text-blue-600'>{getCourseAuthors(course.course_authors)}</p>
 				</div>
 			</CardContent>
 		</Card>
-		<CourseStats modules={course.module} />
-		<CourseContent modules={course.module} />
+		<CourseStats modules={course.modules ?? []} />
+		<CourseContent modules={course.modules ?? []} />
 	</div>
 )

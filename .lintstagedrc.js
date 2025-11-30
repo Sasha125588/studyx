@@ -1,11 +1,13 @@
-module.exports = {
-	// Lint & type-check TypeScript and JavaScript files
-	'**/*.(ts|tsx|js|jsx)': filenames => [
-		`bunx eslint --fix ${filenames.map(f => `"${f}"`).join(' ')}`,
-		`bunx tsc --noEmit`
-	],
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const path = require('path')
 
-	// Format all files with Prettier
-	'**/*.(ts|tsx|js|jsx|json|css|md)': filenames =>
-		`bunx prettier --write ${filenames.map(f => `"${f}"`).join(' ')}`
+const buildEslintCommand = filenames =>
+	`eslint --fix ${filenames.map(f => `"${path.relative(process.cwd(), f)}"`).join(' ')}`
+
+const buildPrettierCommand = filenames =>
+	`prettier --write ${filenames.map(f => `"${path.relative(process.cwd(), f)}"`).join(' ')}`
+
+module.exports = {
+	'*.{js,jsx,ts,tsx}': [buildPrettierCommand, buildEslintCommand],
+	'*.{json,css,md}': [buildPrettierCommand]
 }

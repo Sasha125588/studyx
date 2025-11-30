@@ -36,6 +36,10 @@
 	"toast.failedLogout": "Не вдалося вийти з системи.",
 
 	"home": "Головна",
-	"myCourses": "Мої курси",
-	"dashboard": "Панель керування"
+	"courses": "Курси",
+	"dashboard": "Панель керування",
+
+	"authors": "Автори",
+
+	"continueLearning": "Продовжити навчання"
 }

@@ -1,12 +1,18 @@
-import type { ModuleWithRelations } from '../../CoursePage'
+	import type { ModuleWithLessons } from '@/generated/entities.types'
 
 export interface CourseStatsProps {
-	modules: ModuleWithRelations[]
+	modules: ModuleWithLessons[]
 }
-
+		
 export const CourseStats = ({ modules }: CourseStatsProps) => {
-	const totalLectures = modules.reduce((acc, m) => acc + m.lectures.length, 0) ?? 0
-	const totalPractical = modules.reduce((acc, m) => acc + m.practical.length, 0) ?? 0
+	const totalLectures = modules.reduce(
+		(acc, m) => acc + (m.lessons?.filter(l => l.type !== 'practical').length || 0),
+		0
+	)
+	const totalPractical = modules.reduce(
+		(acc, m) => acc + (m.lessons?.filter(l => l.type === 'practical').length || 0),
+		0
+	)
 
 	return (
 		<div className='mb-8 grid grid-cols-4 gap-4'>

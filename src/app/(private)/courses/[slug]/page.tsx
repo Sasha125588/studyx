@@ -1,5 +1,5 @@
 import { CoursePageMain } from './(components)/CoursePage/CoursePage'
-import { getCourse } from '@/shared/api/requests/getCourse'
+import { getCourse } from '@/shared/api/requests/courses/{id]/getCourse'
 
 interface CoursePageProps {
 	params: Promise<{ slug: string }>

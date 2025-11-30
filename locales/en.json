@@ -36,6 +36,10 @@
 	"toast.failedLogout": "Failed to log out.",
 
 	"home": "Home",
-	"myCourses": "My Courses",
-	"dashboard": "Dashboard"
+	"courses": "Courses",
+	"dashboard": "Dashboard",
+
+	"authors": "Authors",
+
+	"continueLearning": "Continue Learning"
 }

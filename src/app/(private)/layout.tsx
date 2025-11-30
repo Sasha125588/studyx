@@ -3,7 +3,7 @@ import { SidebarInset, SidebarProvider } from '@/components/animate-ui/radix/sid
 import { Header } from './(components)/Header/Header'
 import { AppSidebar } from './(components)/Sidebar/Sidebar'
 import { getUser } from '@/shared/api/requests/auth/getUser'
-import { getCourses } from '@/shared/api/requests/getCourses'
+import { getCourses } from '@/shared/api/requests/courses/getCourses'
 
 interface PrivateLayoutProps {
 	children: React.ReactNode
