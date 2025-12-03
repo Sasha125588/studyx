@@ -1,7 +1,7 @@
 import { SidebarInset, SidebarProvider } from '@/components/animate-ui/radix/sidebar'
 
-import { Header } from './(components)/Header/Header'
-import { AppSidebar } from './(components)/Sidebar/Sidebar'
+import { Header } from './(components)/layout/Header/Header'
+import { AppSidebar } from './(components)/layout/Sidebar/Sidebar'
 import { getUser } from '@/shared/api/requests/auth/getUser'
 import { getCourses } from '@/shared/api/requests/courses/getCourses'
 
@@ -19,6 +19,7 @@ const PrivateLayout = async ({ children }: PrivateLayoutProps) => {
 		<SidebarProvider>
 			<AppSidebar />
 			<SidebarInset>
+				{/* #f8f8f8 */}
 				<Header
 					courses={courses ?? []}
 					user={user}

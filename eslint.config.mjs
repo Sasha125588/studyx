@@ -27,8 +27,13 @@ const eslintConfig = defineConfig([
 		rules: {
 			'prefer-arrow-callback': 'off',
 			'func-style': 'off',
-			'no-restricted-syntax': 'off'
+			'no-restricted-syntax': 'off',
+			'react-hooks/preserve-manual-memoization': 'off',
+			'react-hooks/refs': 'off'
 		}
+	},
+	{
+		ignores: ['node_modules/**', '.next/**', 'out/**', 'build/**', 'next-env.d.ts']
 	}
 ])
 

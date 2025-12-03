@@ -6,7 +6,7 @@
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
-		"lint": "next lint",
+		"lint": "eslint .",
 		"type-check": "tsc --noEmit",
 		"generate-db-types": "bunx supabase gen types typescript --project-id hiumfpqtebwwjepqojsd --schema public > generated/database.types.ts",
 		"prepare": "husky"
@@ -39,6 +39,7 @@
 		"react-hook-form": "^7.62.0",
 		"react-intl": "^7.1.11",
 		"react-markdown": "^10.1.0",
+		"recharts": "^3.5.1",
 		"rehype-katex": "^7.0.1",
 		"remark-gfm": "^4.0.1",
 		"remark-math": "^6.0.0",

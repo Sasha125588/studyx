@@ -15,7 +15,7 @@ export const AppSidebar = () => {
 		<Sidebar
 			variant='sidebar'
 			collapsible='none'
-			className='gap-4 border-r bg-white'
+			className='sticky top-0 h-screen gap-4 border-r'
 		>
 			<SidebarHeader>
 				<SidebarMenu>

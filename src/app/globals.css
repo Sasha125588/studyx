@@ -134,3 +134,30 @@ html {
 	scrollbar-width: none; /* Firefox */
 	scroll-behavior: smooth;
 }
+
+.main-gradient {
+	background:
+		linear-gradient(var(--bg, var(--accent)), var(--bg, var(--accent))) padding-box,
+		linear-gradient(to right, #73d2a5, #d0e537) border-box;
+}
+
+.dark .main-gradient {
+	--bg: oklch(0.21 0.006 285.885);
+}
+
+/* Gradient background for active items */
+.bg-main-gradient {
+	background: linear-gradient(to right, #73d2a5, #d0e537);
+}
+
+/* Apply gradient border to active sidebar menu buttons */
+[data-sidebar='menu-button'][data-active='true'] {
+	border: 2px solid transparent;
+	background:
+		linear-gradient(var(--bg, var(--sidebar-accent)), var(--bg, var(--sidebar-accent))) padding-box,
+		linear-gradient(to right, #73d2a5, #d0e537) border-box;
+}
+
+.dark [data-sidebar='menu-button'][data-active='true'] {
+	--bg: oklch(0.21 0.006 285.885);
+}
