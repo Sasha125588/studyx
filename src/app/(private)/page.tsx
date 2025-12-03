@@ -1,7 +1,10 @@
 // import { formatDate } from 'date-fns'
+import { ChevronRightIcon } from 'lucide-react'
+import Link from 'next/link'
+
 import { I18nText } from '@/components/common/I18nText/I18nText'
 import { H2 } from '@/components/common/Typography/H2'
-import { H3 } from '@/components/common/Typography/H3'
+import { H4 } from '@/components/common/Typography/H4'
 
 import { LearningTimeChart } from './(components)/LearningTimeChart/LearningTimeChart'
 import { RecentCoursesList } from './(components)/RecentCoursesList/RecentCoursesList'
@@ -31,9 +34,20 @@ const DashboardPage = async () => {
 			</div>
 			<LearningTimeChart />
 			<div className='mt-6 space-y-4'>
-				<H3>
-					<I18nText path='continueLearning' />
-				</H3>
+				<div className='flex items-center justify-between'>
+					<H4>
+						<I18nText path='continueLearning' />
+					</H4>
+					<Link
+						href='/courses'
+						className='flex items-center gap-1 text-violet-500 hover:underline'
+					>
+						<p className='text-sm font-semibold'>
+							<I18nText path='allCourses' />
+						</p>
+						<ChevronRightIcon size={16} />
+					</Link>
+				</div>
 				<RecentCoursesList recentCourses={courses ?? []} />
 			</div>
 			<div className='h-[600px]'></div>

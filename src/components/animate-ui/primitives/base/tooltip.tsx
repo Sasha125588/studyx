@@ -12,9 +12,8 @@ import {
 } from 'motion/react'
 import * as React from 'react'
 
-import { useControlledState } from '@/hooks/use-controlled-state'
-
-import { getStrictContext } from '@/lib/get-strict-context'
+import { getStrictContext } from '@/components/animate-ui/hooks/get-strict-context'
+import { useControlledState } from '@/components/animate-ui/hooks/use-controlled-state'
 
 type TooltipContextType = {
 	isOpen: boolean

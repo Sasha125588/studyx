@@ -41,8 +41,8 @@ const chartConfig = {
 
 export const LearningTimeChart = () => {
 	return (
-		<Card>
-			<CardContent className='flex gap-4'>
+		<Card className='rounded-[20px] py-4'>
+			<CardContent className='flex gap-4 px-4'>
 				<div className='w-[70%]'>
 					<div className='flex items-center justify-between'>
 						<CardTitle className='text-xl font-semibold'>Learning Time:</CardTitle>
@@ -178,10 +178,10 @@ export const LearningTimeChart = () => {
 					</div>
 				</div>
 			</CardContent>
-			<CardFooter>
+			<CardFooter className='px-4'>
 				<div className='flex w-full items-center gap-6'>
-					<div className='flex h-16 flex-1 rounded-xl border-1 border-[#daf7e7]'>
-						<div className='flex h-full w-[30%] items-center justify-center rounded-l-lg bg-[#daf7e7] text-lg font-semibold text-[#64ab7a]'>
+					<div className='flex h-16 flex-1 rounded-2xl border-1 border-[#daf7e7]'>
+						<div className='flex h-full w-[30%] items-center justify-center rounded-l-[15px] bg-[#daf7e7] text-lg font-semibold text-[#64ab7a]'>
 							4h 21m
 						</div>
 						<div className='flex w-[70%] justify-between px-4 py-2.5'>
@@ -200,8 +200,8 @@ export const LearningTimeChart = () => {
 							</div>
 						</div>
 					</div>
-					<div className='flex h-16 flex-1 rounded-xl border-1 border-[#f0d8dc]'>
-						<div className='flex h-full w-[30%] items-center justify-center rounded-l-lg bg-[#f0d8dc] text-lg font-semibold text-[#b86a6e]'>
+					<div className='flex h-16 flex-1 rounded-2xl border-1 border-[#f0d8dc]'>
+						<div className='flex h-full w-[30%] items-center justify-center rounded-l-[15px] bg-[#f0d8dc] text-lg font-semibold text-[#b86a6e]'>
 							29h 47m
 						</div>
 						<div className='flex w-[70%] justify-between px-4 py-2.5'>
@@ -220,8 +220,8 @@ export const LearningTimeChart = () => {
 							</div>
 						</div>
 					</div>
-					<div className='flex h-16 flex-1 rounded-xl border-1 border-[#f2efda]'>
-						<div className='flex h-full w-[30%] items-center justify-center rounded-l-lg bg-[#f2efda] text-lg font-semibold text-[#918c3a]'>
+					<div className='flex h-16 flex-1 rounded-2xl border-1 border-[#f2efda]'>
+						<div className='flex h-full w-[30%] items-center justify-center rounded-l-[15px] bg-[#f2efda] text-lg font-semibold text-[#918c3a]'>
 							884h
 						</div>
 						<div className='flex w-[70%] justify-between px-4 py-2.5'>

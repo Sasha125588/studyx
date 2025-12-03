@@ -42,7 +42,7 @@ export const RecentCoursesItem = ({ course }: RecentCoursesItemProps) => {
 	const nextLesson = getNextLesson(course)
 
 	return (
-		<Card className='group relative gap-4 overflow-hidden rounded-lg py-5 transition-all hover:shadow-md'>
+		<Card className='group relative gap-4 overflow-hidden rounded-[20px] py-5 transition-all duration-300 ease-in-out hover:translate-y-[-2px] hover:border-violet-500'>
 			<CardHeader className='px-5'>
 				<CardDescription className='text-sm font-medium text-gray-500'>
 					{course.title?.slice(0, 40)}

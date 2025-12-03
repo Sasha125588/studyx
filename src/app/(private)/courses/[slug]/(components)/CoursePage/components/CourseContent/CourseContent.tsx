@@ -8,10 +8,10 @@ import remarkMath from 'remark-math'
 
 import {
 	Accordion,
-	AccordionButton,
+	AccordionContent,
 	AccordionItem,
-	AccordionPanel
-} from '@/components/animate-ui/headless/accordion'
+	AccordionTrigger
+} from '@/components/animate-ui/radix/accordion'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 import type { ModuleWithLessons } from '@/generated/entities.types'
@@ -46,13 +46,17 @@ export const CourseContent = ({ modules }: CourseContentProps) => {
 				</CardTitle>
 			</CardHeader>
 			<CardContent>
-				<Accordion className='space-y-4'>
+				<Accordion
+					type='multiple'
+					className='space-y-4'
+				>
 					{modules?.map((module, index) => (
 						<AccordionItem
 							key={module.id}
-							className='overflow-hidden rounded-xl border bg-white'
+							value={module.id.toString()}
+							className='overflow-hidden rounded-[20px] border transition-all duration-300 ease-in-out hover:translate-y-[-2px] hover:border-blue-500'
 						>
-							<AccordionButton className='w-full p-4'>
+							<AccordionTrigger className='w-full p-4'>
 								<div className='flex w-full items-center justify-between'>
 									<div className='flex items-center gap-2 text-lg font-semibold'>
 										<p>Модуль {index + 1}</p>
@@ -63,9 +67,9 @@ export const CourseContent = ({ modules }: CourseContentProps) => {
 										<p className='text-sm text-gray-500'>{module.description}</p>
 									)}
 								</div>
-							</AccordionButton>
+							</AccordionTrigger>
 
-							<AccordionPanel className='divide-y divide-gray-100'>
+							<AccordionContent className='divide-y divide-gray-100'>
 								{module.lessons?.map((lesson, lessonIndex) => (
 									<div
 										key={lesson.id}
@@ -118,7 +122,7 @@ export const CourseContent = ({ modules }: CourseContentProps) => {
 										)}
 									</div>
 								))}
-							</AccordionPanel>
+							</AccordionContent>
 						</AccordionItem>
 					))}
 				</Accordion>

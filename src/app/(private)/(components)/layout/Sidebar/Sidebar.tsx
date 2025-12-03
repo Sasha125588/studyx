@@ -20,10 +20,7 @@ export const AppSidebar = () => {
 			<SidebarHeader>
 				<SidebarMenu>
 					<SidebarMenuItem>
-						<SidebarMenuButton
-							size='lg'
-							className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
-						>
+						<SidebarMenuButton size='lg'>
 							<div className='bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-10 items-center justify-center rounded-lg'>
 								<SIDEBAR_DATA.site.logo className='size-5' />
 							</div>
