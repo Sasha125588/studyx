@@ -1,0 +1,30 @@
+# Dependencies
+node_modules
+
+# Next.js
+.next
+out
+
+# Turbo
+.turbo
+
+# Production
+build
+dist
+
+# Misc
+.DS_Store
+*.pem
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local env files
+.env
+.env*.local
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts

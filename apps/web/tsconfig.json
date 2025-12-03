@@ -1,0 +1,18 @@
+{
+	"extends": "../../packages/config/typescript/nextjs.json",
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["./src/*"],
+			"@/generated/*": ["./generated/*"]
+		}
+	},
+	"include": [
+		"next-env.d.ts",
+		"src/**/*.ts",
+		"src/**/*.tsx",
+		".next/types/**/*.ts",
+		"generated/**/*.ts"
+	],
+	"exclude": ["node_modules", ".next"]
+}
