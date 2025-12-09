@@ -47,10 +47,5 @@
 		"@types/react-dom": "19.2.3",
 		"baseline-browser-mapping": "^2.9.0"
 	},
-	"packageManager": "bun@1.2.13",
-	"dependencies": {
-		"next": "16.0.8",
-		"react": "19.2.1",
-		"react-dom": "19.2.1"
-	}
+	"packageManager": "bun@1.2.13"
 }

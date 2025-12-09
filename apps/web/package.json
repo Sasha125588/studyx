@@ -27,12 +27,12 @@
 		"katex": "^0.16.25",
 		"lucide-react": "^0.542.0",
 		"motion": "^12.23.25",
-		"next": "16.0.5",
+		"next": "16.0.8",
 		"path-to-regexp": "^8.2.0",
 		"pg": "^8.16.3",
 		"radix-ui": "^1.4.3",
-		"react": "19.2.0",
-		"react-dom": "19.2.0",
+		"react": "19.2.1",
+		"react-dom": "19.2.1",
 		"react-hook-form": "^7.62.0",
 		"react-intl": "^7.1.11",
 		"react-markdown": "^10.1.0",
@@ -55,10 +55,14 @@
 		"@types/react-dom": "19.2.3",
 		"baseline-browser-mapping": "^2.9.0",
 		"eslint": "^9",
-		"eslint-config-next": "16.0.5",
+		"eslint-config-next": "16.0.8",
 		"eslint-config-prettier": "^10.1.8",
 		"tailwindcss": "^4",
 		"tw-animate-css": "^1.3.6",
 		"typescript": "^5.7.2"
+	},
+	"overrides": {
+		"@types/react": "19.2.7",
+		"@types/react-dom": "19.2.3"
 	}
 }
