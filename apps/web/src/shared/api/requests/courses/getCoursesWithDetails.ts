@@ -23,4 +23,5 @@ export const getCoursesWithDetails = async () =>
       )
     `
 		)
+		.order('id', { ascending: true })
 		.order('order_index', { referencedTable: 'modules.lessons', ascending: true })

@@ -1,56 +1,328 @@
 // import { formatDate } from 'date-fns'
-import { ChevronRightIcon } from 'lucide-react'
+import {
+	AlarmClockCheckIcon,
+	ChevronRightIcon,
+	ClockIcon,
+	MoreVerticalIcon,
+	UserIcon,
+	VideoIcon
+} from 'lucide-react'
 import Link from 'next/link'
 
 import { I18nText } from '@/components/common/I18nText/I18nText'
 import { H2 } from '@/components/common/Typography/H2'
-import { H4 } from '@/components/common/Typography/H4'
+import { H3 } from '@/components/common/Typography/H3'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 
-import { LearningTimeChart } from './(components)/LearningTimeChart/LearningTimeChart'
-import { RecentCoursesList } from './(components)/RecentCoursesList/RecentCoursesList'
+import { LearningTimeChart } from './(components)/dashboard/LearningTimeChart/LearningTimeChart'
+import { RecentCoursesList } from './(components)/dashboard/RecentCoursesList/RecentCoursesList'
+import { StatsCards } from './(components)/dashboard/Stats/StatsCards'
 import { getCoursesWithDetails } from '@/shared/api/requests/courses/getCoursesWithDetails'
+
+const upcomingEvents = [
+	{
+		title: 'Live-сесія з куратором',
+		time: 'Сьогодні, 19:00',
+		action: 'Join'
+	},
+	{
+		title: 'Груповий розбір ДЗ',
+		time: 'Чт, 18:30',
+		action: 'Details'
+	}
+]
+
+const weeklyGoal = {
+	targetHours: 6,
+	doneHours: 3.5,
+	streak: 5
+}
+
+const scheduleDays = [
+	{ label: 'пн', day: '3', active: false, lessons: 3 },
+	{ label: 'вт', day: '4', active: true, lessons: 4 },
+	{ label: 'ср', day: '5', active: false, lessons: 2 },
+	{ label: 'чт', day: '6', active: false, lessons: 0 },
+	{ label: 'пт', day: '7', active: false, lessons: 1 },
+	{ label: 'сб', day: '8', active: false, lessons: 0 },
+	{ label: 'вс', day: '9', active: false, lessons: 0 }
+]
+
+const scheduleEvents = [
+	{
+		time: '8:00–9:20',
+		type: 'practice',
+		title: 'ООП',
+		teacher: 'ст.в. Кирик Т.А.'
+	},
+	{
+		time: '9:35–10:55',
+		type: 'lecture',
+		title: "Об'єктно-орієнтоване програмування",
+		teacher: 'проф. Турбал Ю.В.'
+	},
+	{
+		time: '11:10–12:30',
+		type: 'lecture',
+		title: 'Основи теорії сталого розвитку',
+		teacher: 'проф. Сяська І.О. | Zoom: 821 078 9205 | Код: 2023',
+		isOnline: true
+	},
+	{
+		time: '12:45–14:05',
+		type: 'lecture',
+		title: 'Основи теорії сталого розвитку 2',
+		teacher: 'проф. Сяська І.О. | Zoom: 821 078 9205 | Код: 2023',
+		isOnline: true
+	}
+]
+
+const nextEvent = upcomingEvents[0]
+
+const currentPartOfDay = new Date().getHours()
+
+const greeting =
+	currentPartOfDay < 12 ? 'Добрий ранок' : currentPartOfDay < 18 ? 'Добрий день' : 'Добрий вечір'
+
+const goalProgress = Math.min(
+	100,
+	Math.round((weeklyGoal.doneHours / weeklyGoal.targetHours) * 100)
+)
 
 const DashboardPage = async () => {
 	const { data: courses } = await getCoursesWithDetails()
-
-	const currentPartOfDay = new Date().getHours()
-
-	const greeting =
-		currentPartOfDay < 12
-			? 'Good morning'
-			: currentPartOfDay < 18
-				? 'Good afternoon'
-				: 'Good evening'
+	const continueCourses = courses ?? []
 
 	return (
-		<div className='space-y-6'>
-			<div className='flex flex-col gap-2'>
-				<H2 className=''>
-					{greeting}, Student <span className='pl-1'>👋</span>
-				</H2>
-				{/* <p className='text-muted-foreground text-[15px] font-medium'>
-					{formatDate(new Date(), 'PPPP')}
-				</p> */}
-			</div>
-			<LearningTimeChart />
-			<div className='mt-6 space-y-4'>
-				<div className='flex items-center justify-between'>
-					<H4>
-						<I18nText path='continueLearning' />
-					</H4>
-					<Link
-						href='/courses'
-						className='flex items-center gap-1 text-violet-500 hover:underline'
-					>
-						<p className='text-sm font-semibold'>
-							<I18nText path='allCourses' />
+		<div className='space-y-8'>
+			<Card className='relative overflow-hidden rounded-[20px] bg-linear-to-r from-[#73d2a5]/10 via-violet-50/50 to-[#d0e537]/10 shadow-xs'>
+				<CardContent className='relative flex flex-col gap-6 p-6 lg:flex-row lg:items-center lg:justify-between'>
+					<div className='space-y-3'>
+						<H2>
+							{greeting}, студенте <span className='pl-1'>👋</span>
+						</H2>
+						<p className='max-w-xl text-sm text-slate-600'>
+							Продовжуйте навчання:{' '}
+							{continueCourses.length
+								? `ще ${continueCourses.length} курс(и/ів) чекають на вас.`
+								: 'додайте свій перший курс та почніть прогресувати.'}
 						</p>
-						<ChevronRightIcon size={16} />
-					</Link>
+						<div className='flex flex-wrap gap-3'>
+							<Link href='/courses'>
+								<Button className='cursor-pointer duration-300 ease-in-out'>
+									Перейти до курсів
+								</Button>
+							</Link>
+							<Button
+								variant='outline'
+								className='cursor-pointer border-slate-200 text-slate-700 duration-300 ease-in-out'
+							>
+								Відкрити розклад
+								<ChevronRightIcon size={16} />
+							</Button>
+						</div>
+					</div>
+					<div className='grid w-full max-w-xl gap-4 sm:grid-cols-2'>
+						<div className='rounded-2xl border border-white/70 bg-white/80 p-4 shadow-sm backdrop-blur'>
+							<p className='text-xs font-semibold tracking-wide text-slate-500 uppercase'>
+								Ціль тижня
+							</p>
+							<p className='text-2xl font-semibold text-slate-900'>
+								{weeklyGoal.doneHours} / {weeklyGoal.targetHours} годин
+							</p>
+							<div className='mt-3 h-2 w-full bg-slate-100'>
+								<div
+									className='h-2 bg-violet-500 transition-all'
+									style={{ width: `${goalProgress}%` }}
+								/>
+							</div>
+							<p className='mt-2 text-xs font-medium text-slate-600'>
+								Серія: {weeklyGoal.streak} днів підряд
+							</p>
+						</div>
+						<div className='rounded-2xl border border-white/70 bg-white/80 p-4 shadow-sm backdrop-blur'>
+							<p className='text-xs font-semibold tracking-wide text-slate-500 uppercase'>
+								Найближча подія
+							</p>
+							<p className='text-lg font-semibold text-slate-900'>{nextEvent.title}</p>
+							<p className='text-sm text-slate-600'>{nextEvent.time}</p>
+							<div className='mt-3 flex gap-2'>
+								<Button
+									size='sm'
+									className='px-4 duration-300 ease-in-out'
+								>
+									Приєднатись
+								</Button>
+								<Button
+									size='sm'
+									variant='outline'
+									className='border-slate-200 px-4 duration-300 ease-in-out'
+								>
+									Деталі
+								</Button>
+							</div>
+						</div>
+					</div>
+				</CardContent>
+			</Card>
+
+			<StatsCards />
+
+			<div className='flex gap-4'>
+				<div className='flex-1'>
+					<LearningTimeChart />
+					<div className='mt-6 space-y-4'>
+						<div className='flex items-center justify-between'>
+							<H3>
+								<I18nText path='continueLearning' />
+							</H3>
+							<Link href='/courses'>
+								<Button
+									variant='outline'
+									className='cursor-pointer duration-300 ease-in-out'
+								>
+									<ChevronRightIcon size={16} />
+									<I18nText path='allCourses' />
+								</Button>
+							</Link>
+						</div>
+						<RecentCoursesList recentCourses={continueCourses} />
+					</div>
 				</div>
-				<RecentCoursesList recentCourses={courses ?? []} />
+				<Card className='flex w-[30%] flex-col justify-between rounded-[20px] shadow-xs'>
+					<CardContent className='space-y-5'>
+						<div className='flex items-center justify-between'>
+							<H3>Розклад</H3>
+							<Button
+								variant='outline'
+								className='cursor-pointer duration-300 ease-in-out'
+							>
+								<ChevronRightIcon size={16} />
+								Детальніше
+							</Button>
+						</div>
+						<div className='flex items-center justify-between pb-2'>
+							{scheduleDays.map(day => (
+								<button
+									key={day.label}
+									className={`flex h-[66px] w-[48px] shrink-0 cursor-pointer flex-col items-center justify-center gap-1 rounded-[14px] border-[1.5px] transition duration-300 ease-in-out ${
+										day.active
+											? 'border-violet-300 bg-violet-100 text-violet-700'
+											: 'border-slate-100 bg-white hover:border-violet-200 hover:bg-violet-50'
+									}`}
+								>
+									<span className='text-[11px] font-medium text-slate-500 uppercase'>
+										{day.label}
+									</span>
+									<span
+										className={`text-[28px] leading-none font-semibold ${
+											day.active && 'text-violet-700'
+										}`}
+									>
+										{day.day}
+									</span>
+									<div className='flex items-center gap-1'>
+										{day.lessons > 0 &&
+											Array.from({ length: day.lessons }).map((_, index) => (
+												<span
+													key={index}
+													className='h-1 w-1 rounded-full bg-slate-600'
+												/>
+											))}
+									</div>
+								</button>
+							))}
+						</div>
+						<div className='flex flex-col divide-y divide-slate-100'>
+							{scheduleEvents.map(event => (
+								<div
+									key={event.title + event.time}
+									className='flex flex-col gap-2 py-4'
+								>
+									<div className='flex items-start justify-between gap-3'>
+										<div className='flex items-center gap-3'>
+											<p className='text-xl leading-tight font-semibold text-slate-900'>
+												{event.time}
+											</p>
+											<span
+												className={`rounded-full px-3 py-1 text-[12px] font-medium ${
+													event.type === 'qa'
+														? 'bg-blue-50 text-blue-700'
+														: event.type === 'lecture'
+															? 'bg-emerald-50 text-emerald-700'
+															: 'bg-rose-50 text-rose-700'
+												}`}
+											>
+												{event.type === 'lecture'
+													? 'Лекція'
+													: event.type === 'practice' && 'Лабораторна'}
+											</span>
+											{event.isOnline && (
+												<span className='flex items-center gap-1.5 rounded-full bg-violet-50 px-2 py-1 text-[11px] font-medium text-violet-700'>
+													<VideoIcon
+														size={12}
+														className='text-violet-600'
+													/>
+													Онлайн
+												</span>
+											)}
+										</div>
+										<MoreVerticalIcon
+											size={18}
+											className='text-slate-400'
+										/>
+									</div>
+									<div className='flex items-center gap-2 text-[17px] font-medium'>
+										<span>{event.title}</span>
+									</div>
+									<div className='flex items-center gap-2 text-[14px] text-slate-600'>
+										<UserIcon
+											size={16}
+											className='text-slate-400'
+										/>
+										<span>{event.teacher}</span>
+									</div>
+								</div>
+							))}
+						</div>
+					</CardContent>
+					<CardFooter className='flex flex-col gap-3 border-t border-slate-100'>
+						{scheduleEvents.length > 0 && (
+							<div className='flex w-full items-start gap-3 rounded-lg border border-violet-100 bg-violet-50/60 p-3'>
+								<div className='flex h-10 w-10 items-center justify-center rounded-lg bg-violet-100/90 text-violet-700'>
+									<ClockIcon size={18} />
+								</div>
+								<div className='flex-1 space-y-1'>
+									<p className='text-[13px] font-medium'>Наступне заняття</p>
+									<p className='text-sm font-semibold'>
+										{scheduleEvents[0].time} • {scheduleEvents[0].title}
+									</p>
+									<div className='flex items-center gap-2 text-[13px] text-slate-600'>
+										<UserIcon
+											size={14}
+											className='text-slate-400'
+										/>
+										<span className='truncate'>{scheduleEvents[0].teacher}</span>
+									</div>
+								</div>
+								<ChevronRightIcon className='h-4 w-4 text-slate-300' />
+							</div>
+						)}
+					</CardFooter>
+				</Card>
 			</div>
-			<div className='h-[600px]'></div>
+
+			<div className='grid h-40 gap-4 lg:grid-cols-3'>
+				<Card className='rounded-[20px] shadow-xs lg:col-span-2'>
+					<CardHeader className='pb-3'>
+						<div className='flex items-center gap-2'>
+							<AlarmClockCheckIcon className='h-5 w-5 text-violet-500' />
+							<CardTitle className='text-lg font-semibold'>Мої завдання</CardTitle>
+						</div>
+					</CardHeader>
+				</Card>
+			</div>
 		</div>
 	)
 }

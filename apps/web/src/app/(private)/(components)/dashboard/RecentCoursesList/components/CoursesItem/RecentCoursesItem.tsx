@@ -42,38 +42,37 @@ export const RecentCoursesItem = ({ course }: RecentCoursesItemProps) => {
 	const nextLesson = getNextLesson(course)
 
 	return (
-		<Card className='group relative gap-4 overflow-hidden rounded-[20px] py-5 transition-all duration-300 ease-in-out hover:translate-y-[-2px] hover:border-violet-500'>
-			<CardHeader className='px-5'>
-				<CardDescription className='text-sm font-medium text-gray-500'>
-					{course.title?.slice(0, 40)}
-					{course.title?.length && course.title?.length > 40 && '...'}
+		<Card className='group flex h-full flex-col justify-between rounded-[20px] border shadow-xs transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:border-emerald-500 hover:shadow-md'>
+			<CardHeader>
+				<CardDescription className='text-sm font-medium text-slate-500'>
+					{course.title?.slice(0, 64)}
+					{course.title?.length && course.title?.length > 64 && '...'}
 				</CardDescription>
-				<CardTitle className='text-lg leading-tight font-semibold text-gray-900'>
-					{nextLesson?.title?.slice(0, 40)}
-					{nextLesson?.title?.length && nextLesson?.title?.length > 40 && '...'}
+				<CardTitle className='text-lg leading-tight font-semibold text-slate-900'>
+					{nextLesson?.title?.slice(0, 48) ?? 'Продовжити модуль'}
+					{nextLesson?.title && nextLesson.title.length > 48 && '...'}
 				</CardTitle>
 			</CardHeader>
-			<CardFooter className='px-5'>
-				<CardAction className='flex items-center gap-2.5'>
-					<Link href={`/courses/${course.slug}`}>
-						<Button
-							className='size-9 cursor-pointer rounded-full'
-							variant='default'
-							size='icon'
-						>
+			<CardFooter>
+				<CardAction className='flex items-center justify-between gap-2.5'>
+					<Button
+						asChild
+						size='sm'
+						className='size-9 rounded-full'
+					>
+						<Link href={`/courses/${course.slug}`}>
 							<PlayIcon
-								className='size-3 fill-white'
-								strokeWidth={0}
+								size={14}
+								fill='currentColor'
+								className='size-3.5 text-white'
 							/>
-						</Button>
-					</Link>
-					<div className='flex items-center gap-1'>
-						<p className='text-sm font-semibold text-gray-900'>Продовжити</p>
-						<span className='text-sm font-medium text-gray-500'>
-							– {nextLesson?.moduleName}. Заняття {nextLesson?.lessonNumber} з{' '}
-							{nextLesson?.totalLessons}
-						</span>
-					</div>
+						</Link>
+					</Button>
+					<p className='text-[13px] font-medium text-slate-500'>
+						{nextLesson
+							? `${nextLesson.moduleName ?? 'Модуль'} • Заняття ${nextLesson.lessonNumber} з ${nextLesson.totalLessons}`
+							: 'Модуль — • Заняття —'}
+					</p>
 				</CardAction>
 			</CardFooter>
 		</Card>
