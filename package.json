@@ -31,7 +31,7 @@
 		"@types/react-dom": "19.2.3",
 		"baseline-browser-mapping": "^2.9.0",
 		"eslint": "^9",
-		"eslint-config-next": "16.0.5",
+		"eslint-config-next": "16.0.8",
 		"eslint-config-prettier": "^10.1.8",
 		"husky": "^9.1.7",
 		"lint-staged": "^16.2.7",
@@ -47,5 +47,10 @@
 		"@types/react-dom": "19.2.3",
 		"baseline-browser-mapping": "^2.9.0"
 	},
-	"packageManager": "bun@1.2.13"
+	"packageManager": "bun@1.2.13",
+	"dependencies": {
+		"next": "16.0.8",
+		"react": "19.2.1",
+		"react-dom": "19.2.1"
+	}
 }
