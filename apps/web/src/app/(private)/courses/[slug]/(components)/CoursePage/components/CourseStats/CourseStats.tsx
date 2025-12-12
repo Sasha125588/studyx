@@ -1,4 +1,4 @@
-import type { ModuleWithLessons } from '@/generated/entities.types'
+import type { ModuleWithLessons } from '@studyx/database'
 
 export interface CourseStatsProps {
 	modules: ModuleWithLessons[]

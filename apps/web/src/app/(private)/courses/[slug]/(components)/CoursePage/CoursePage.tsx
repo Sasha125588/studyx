@@ -1,3 +1,4 @@
+import type { CourseWithModules } from '@studyx/database'
 import { MessageCircleQuestionIcon } from 'lucide-react'
 import Link from 'next/link'
 
@@ -11,7 +12,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 import { CourseContent } from './components/CourseContent/CourseContent'
 import { CourseStats } from './components/CourseStats/CourseStats'
-import type { CourseWithModules } from '@/generated/entities.types'
 import { getCourseAuthors } from '@/shared/helpers'
 
 interface CoursePageMainProps {

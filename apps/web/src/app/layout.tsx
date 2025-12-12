@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { Manrope } from 'next/font/google'
-import { cookies } from 'next/headers'
+import { headers } from 'next/headers'
+import { NuqsAdapter } from 'nuqs/adapters/next/app'
+import { Suspense } from 'react'
 import { Toaster } from 'sonner'
 
 import './globals.css'
@@ -21,9 +23,9 @@ interface RootLayoutProps {
 	children: React.ReactNode
 }
 
-const RootLayout = async ({ children }: RootLayoutProps) => {
-	const cookieStore = await cookies()
-	const locale = cookieStore.get('locale')?.value ?? 'en'
+const LocaleProvider = async ({ children }: { children: React.ReactNode }) => {
+	const headersList = await headers()
+	const locale = headersList.get('x-locale') ?? 'en'
 	const messages = getMessagesByLocale(locale)
 
 	return (
@@ -32,18 +34,41 @@ const RootLayout = async ({ children }: RootLayoutProps) => {
 			suppressHydrationWarning
 		>
 			<body className={`${manrope.variable} antialiased`}>
-				<I18nProvider
-					locale={locale}
-					messages={messages}
-				>
-					{children}
-					<Toaster
-						richColors
-						duration={1500}
-					/>
-				</I18nProvider>
+				<NuqsAdapter>
+					<I18nProvider
+						locale={locale}
+						messages={messages}
+					>
+						{children}
+						<Toaster
+							richColors
+							duration={1500}
+						/>
+					</I18nProvider>
+				</NuqsAdapter>
 			</body>
 		</html>
+	)
+}
+
+const RootLayout = ({ children }: RootLayoutProps) => {
+	return (
+		<Suspense
+			fallback={
+				<html
+					lang='en'
+					suppressHydrationWarning
+				>
+					<body className={`${manrope.variable} antialiased`}>
+						<div className='flex h-screen items-center justify-center'>
+							<div className='h-8 w-8 animate-spin rounded-full border-4 border-violet-500 border-t-transparent' />
+						</div>
+					</body>
+				</html>
+			}
+		>
+			<LocaleProvider>{children}</LocaleProvider>
+		</Suspense>
 	)
 }
 

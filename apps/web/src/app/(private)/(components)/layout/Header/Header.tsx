@@ -1,3 +1,4 @@
+import type { Course } from '@studyx/database'
 import { BellIcon } from 'lucide-react'
 
 import InputSearch from '@/components/ui/input-search'
@@ -5,7 +6,6 @@ import InputSearch from '@/components/ui/input-search'
 import { SidebarBreadcrumb } from '../Sidebar/SidebarBreadcrumb/SidebarBreadcrumb'
 
 import { type User, UserProfile } from './UserProfile/UserProfile'
-import type { Course } from '@/generated/entities.types'
 
 interface HeaderProps {
 	courses: Course[]

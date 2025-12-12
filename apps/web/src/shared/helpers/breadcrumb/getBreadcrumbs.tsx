@@ -1,6 +1,5 @@
+import type { Course } from '@studyx/database'
 import type { IntlShape } from 'react-intl'
-
-import type { Course } from '@/generated/entities.types'
 
 interface BreadcrumbItem {
 	label: string

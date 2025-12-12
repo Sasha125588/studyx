@@ -1,3 +1,4 @@
+import type { CourseWithModules } from '@studyx/database'
 import { PlayIcon } from 'lucide-react'
 import Link from 'next/link'
 
@@ -10,8 +11,6 @@ import {
 	CardHeader,
 	CardTitle
 } from '@/components/ui/card'
-
-import type { CourseWithModules } from '@/generated/entities.types'
 
 interface RecentCoursesItemProps {
 	course: CourseWithModules

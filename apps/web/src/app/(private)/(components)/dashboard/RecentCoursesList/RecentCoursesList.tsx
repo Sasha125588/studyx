@@ -1,5 +1,6 @@
+import type { CourseWithModules } from '@studyx/database'
+
 import { RecentCoursesItem } from './components/CoursesItem/RecentCoursesItem'
-import type { CourseWithModules } from '@/generated/entities.types'
 
 interface RecentCoursesListProps {
 	recentCourses: CourseWithModules[]

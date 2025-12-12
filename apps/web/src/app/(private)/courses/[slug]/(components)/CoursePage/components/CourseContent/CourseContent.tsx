@@ -1,3 +1,4 @@
+import type { ModuleWithLessons } from '@studyx/database'
 import 'katex/dist/katex.min.css'
 import { BookOpenIcon, CircleQuestionMarkIcon, FileIcon } from 'lucide-react'
 import Link from 'next/link'
@@ -13,8 +14,6 @@ import {
 	AccordionTrigger
 } from '@/components/animate-ui/radix/accordion'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-
-import type { ModuleWithLessons } from '@/generated/entities.types'
 
 export interface CourseContentProps {
 	modules: ModuleWithLessons[]

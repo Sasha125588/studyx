@@ -1,6 +1,5 @@
+import type { Database } from '@studyx/database'
 import { createBrowserClient } from '@supabase/ssr'
-
-import type { Database } from '@/generated/database.types'
 
 export const createClient = () => {
 	return createBrowserClient<Database>(

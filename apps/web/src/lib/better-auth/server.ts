@@ -4,6 +4,7 @@ import { Pool } from 'pg'
 
 export const auth = betterAuth({
 	secret: process.env.BETTER_AUTH_SECRET!,
+	baseURL: 'http://localhost:4000',
 	database: new Pool({
 		connectionString: process.env.NEXT_PUBLIC_DATABASE_URL
 	}),

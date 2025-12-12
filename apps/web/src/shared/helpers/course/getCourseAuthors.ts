@@ -1,4 +1,4 @@
-import type { CourseAuthorWithUser } from '@/generated/entities.types'
+import type { CourseAuthorWithUser } from '@studyx/database'
 
 export const getCourseAuthors = (authors?: CourseAuthorWithUser[]) => {
 	if (!authors || authors.length === 0) return 'Unknown'

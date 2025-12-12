@@ -13,11 +13,16 @@
 		"build": "turbo run build",
 		"build:web": "turbo run build --filter=web",
 		"build:api": "turbo run build --filter=api",
+		"build:full": "bun run build:api && bun run build:with-api",
+		"build:with-api": "(cd apps/api && bun run start &) && sleep 2 && bun run build:web; pkill -f 'dist/index.js' || true",
+		"start": "(lsof -ti:3000,4000 | xargs kill -9 2>/dev/null || true) && bun run start:api & sleep 1 && bun run start:web",
+		"start:web": "cd apps/web && bun run start",
+		"start:api": "cd apps/api && bun run start",
 		"lint": "turbo run lint",
 		"type-check": "turbo run type-check",
 		"clean": "turbo run clean && rm -rf node_modules",
 		"format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
-		"generate-db-types": "bunx supabase gen types typescript --project-id hiumfpqtebwwjepqojsd --schema public > apps/web/generated/database.types.ts",
+		"generate-db-types": "bunx supabase gen types typescript --project-id hiumfpqtebwwjepqojsd --schema public > packages/database/src/types.ts",
 		"prepare": "husky"
 	},
 	"devDependencies": {

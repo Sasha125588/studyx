@@ -1,39 +1,22 @@
-import type { CourseWithModules } from '@/generated/entities.types'
-import { createClient } from '@/lib/supabase/server'
+import { cacheLife } from 'next/cache'
+
+import { api } from '@/lib/elysia/client'
 
 export const getCourse = async (courseSlug: string) => {
-	const db = await createClient()
+	'use cache'
+	cacheLife('minutes')
 
-	return await db
-		.from('courses')
-		.select(
-			`
-  *,
-  course_authors (
-    id,
-    author_name,
-    user:user (
-      id,
-      name,
-      image
-    )
-  ),
-  modules (
-    *,
-    lessons (
-      *,
-      lesson_attachments (
-        *
-      )
-    )
-  )
-`
-		)
-		.eq('slug', courseSlug)
-		.order('order_index', { referencedTable: 'modules.lessons', ascending: true })
-		.order('order_index', {
-			referencedTable: 'modules.lessons.lesson_attachments',
-			ascending: true
-		})
-		.single<CourseWithModules>()
+	try {
+		const { data, error } = await api.courses({ slug: courseSlug }).get()
+
+		return {
+			data: data ?? null,
+			error: error ? String(error.value) : null
+		}
+	} catch {
+		return {
+			data: null,
+			error: 'API unavailable'
+		}
+	}
 }

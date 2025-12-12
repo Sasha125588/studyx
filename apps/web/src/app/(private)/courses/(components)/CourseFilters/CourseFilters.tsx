@@ -1,0 +1,268 @@
+'use client'
+
+import { RotateCcw, SearchIcon, SlidersHorizontal, X } from 'lucide-react'
+import { parseAsString, useQueryState } from 'nuqs'
+import { useState } from 'react'
+
+import { Tabs, TabsList, TabsTrigger } from '@/components/animate-ui/components/radix/tabs'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue
+} from '@/components/ui/select'
+
+import type { UseCourseFiltersReturn } from '../CourseList/hooks/useCourseFilters'
+import {
+	MY_COURSES_STATUS,
+	MY_COURSES_STATUS_LABELS,
+	type MyCoursesStatus,
+	SORT_OPTIONS,
+	SORT_OPTIONS_LABELS,
+	type SortOption,
+	TAB_LABELS,
+	TAB_VALUES,
+	type TabValue
+} from '../constants/filters'
+
+const SEARCH_DEBOUNCE_MS = 300
+
+interface CourseFiltersProps {
+	filters: UseCourseFiltersReturn['filters']
+	authors: UseCourseFiltersReturn['authors']
+	skills: UseCourseFiltersReturn['skills']
+	setTab: UseCourseFiltersReturn['setTab']
+	setSearch: UseCourseFiltersReturn['setSearch']
+	setMyCoursesStatus: UseCourseFiltersReturn['setMyCoursesStatus']
+	setSortBy: UseCourseFiltersReturn['setSortBy']
+	setAuthor: UseCourseFiltersReturn['setAuthor']
+	setSkill: UseCourseFiltersReturn['setSkill']
+	resetFilters: UseCourseFiltersReturn['resetFilters']
+	hasActiveFilters: boolean
+	coursesCount: number
+}
+
+export const CourseFilters = ({
+	filters,
+	authors,
+	skills,
+	setTab,
+	setMyCoursesStatus,
+	setSortBy,
+	setAuthor,
+	setSkill,
+	resetFilters,
+	hasActiveFilters,
+	coursesCount
+}: Omit<CourseFiltersProps, 'setSearch'>) => {
+	const [showFilters, setShowFilters] = useState(false)
+
+	const [search, setSearch] = useQueryState(
+		'q',
+		parseAsString.withDefault('').withOptions({
+			throttleMs: SEARCH_DEBOUNCE_MS,
+			shallow: false
+		})
+	)
+
+	const handleClearSearch = () => {
+		setSearch(null)
+	}
+
+	const tabValues = Object.values(TAB_VALUES) as TabValue[]
+	const sortOptions = Object.values(SORT_OPTIONS) as SortOption[]
+	const myCoursesStatuses = Object.values(MY_COURSES_STATUS) as MyCoursesStatus[]
+
+	return (
+		<div className='space-y-4'>
+			{/* Таби та пошук */}
+			<div className='flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between'>
+				<Tabs
+					value={filters.tab}
+					onValueChange={value => setTab(value as TabValue)}
+				>
+					<TabsList>
+						{tabValues.map(tab => (
+							<TabsTrigger
+								key={tab}
+								value={tab}
+							>
+								{TAB_LABELS[tab]}
+							</TabsTrigger>
+						))}
+					</TabsList>
+				</Tabs>
+
+				<div className='flex items-center gap-3'>
+					{/* Пошук */}
+					<div className='relative w-full sm:w-72'>
+						<div className='text-muted-foreground pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3'>
+							<SearchIcon className='size-4' />
+						</div>
+						<Input
+							type='search'
+							placeholder='Пошук курсу...'
+							value={search}
+							onChange={e => setSearch(e.target.value || null)}
+							className='h-9 rounded-full border-slate-200 bg-white pr-9 pl-9 focus-visible:border-violet-300 focus-visible:ring-violet-100'
+						/>
+						{search && (
+							<button
+								type='button'
+								onClick={handleClearSearch}
+								className='text-muted-foreground hover:text-foreground absolute inset-y-0 right-0 flex items-center pr-3 transition-colors'
+							>
+								<X className='size-4' />
+							</button>
+						)}
+					</div>
+
+					{/* Кнопка фільтрів */}
+					<Button
+						variant='outline'
+						size='sm'
+						onClick={() => setShowFilters(!showFilters)}
+						className={`rounded-full border-slate-200 ${showFilters ? 'border-violet-200 bg-violet-50 text-violet-700' : ''}`}
+					>
+						<SlidersHorizontal className='mr-2 size-4' />
+						Фільтри
+						{hasActiveFilters && (
+							<span className='ml-1.5 flex size-5 items-center justify-center rounded-full bg-violet-600 text-[10px] font-bold text-white'>
+								!
+							</span>
+						)}
+					</Button>
+				</div>
+			</div>
+
+			{/* Панель фільтрів */}
+			{showFilters && (
+				<div className='animate-in slide-in-from-top-2 fade-in rounded-xl border border-slate-200 bg-white p-4 shadow-sm duration-200'>
+					<div className='flex flex-wrap items-end gap-4'>
+						{/* Підфільтр для "Мої курси" */}
+						{filters.tab === TAB_VALUES.MY && (
+							<div className='space-y-1.5'>
+								<label className='text-xs font-medium text-slate-500'>Статус</label>
+								<Select
+									value={filters.myCoursesStatus}
+									onValueChange={value => setMyCoursesStatus(value as MyCoursesStatus)}
+								>
+									<SelectTrigger className='w-40'>
+										<SelectValue />
+									</SelectTrigger>
+									<SelectContent>
+										{myCoursesStatuses.map(status => (
+											<SelectItem
+												key={status}
+												value={status}
+											>
+												{MY_COURSES_STATUS_LABELS[status]}
+											</SelectItem>
+										))}
+									</SelectContent>
+								</Select>
+							</div>
+						)}
+
+						{/* Фільтр за автором */}
+						{authors.length > 0 && (
+							<div className='space-y-1.5'>
+								<label className='text-xs font-medium text-slate-500'>Автор</label>
+								<Select
+									value={filters.author || 'all'}
+									onValueChange={value => setAuthor(value === 'all' ? null : value)}
+								>
+									<SelectTrigger className='w-48'>
+										<SelectValue placeholder='Всі автори' />
+									</SelectTrigger>
+									<SelectContent>
+										<SelectItem value='all'>Всі автори</SelectItem>
+										{authors.map(author => (
+											<SelectItem
+												key={author.id}
+												value={author.id}
+											>
+												{author.name}
+											</SelectItem>
+										))}
+									</SelectContent>
+								</Select>
+							</div>
+						)}
+
+						{/* Фільтр за навичкою */}
+						{skills.length > 0 && (
+							<div className='space-y-1.5'>
+								<label className='text-xs font-medium text-slate-500'>Навичка</label>
+								<Select
+									value={filters.skill || 'all'}
+									onValueChange={value => setSkill(value === 'all' ? null : value)}
+								>
+									<SelectTrigger className='w-48'>
+										<SelectValue placeholder='Всі навички' />
+									</SelectTrigger>
+									<SelectContent>
+										<SelectItem value='all'>Всі навички</SelectItem>
+										{skills.map(skill => (
+											<SelectItem
+												key={skill}
+												value={skill}
+											>
+												{skill}
+											</SelectItem>
+										))}
+									</SelectContent>
+								</Select>
+							</div>
+						)}
+
+						{/* Сортування */}
+						<div className='space-y-1.5'>
+							<label className='text-xs font-medium text-slate-500'>Сортування</label>
+							<Select
+								value={filters.sortBy}
+								onValueChange={value => setSortBy(value as SortOption)}
+							>
+								<SelectTrigger className='w-48'>
+									<SelectValue />
+								</SelectTrigger>
+								<SelectContent>
+									{sortOptions.map(option => (
+										<SelectItem
+											key={option}
+											value={option}
+										>
+											{SORT_OPTIONS_LABELS[option]}
+										</SelectItem>
+									))}
+								</SelectContent>
+							</Select>
+						</div>
+
+						{/* Скинути фільтри */}
+						{hasActiveFilters && (
+							<Button
+								variant='ghost'
+								size='sm'
+								onClick={resetFilters}
+								className='text-slate-500 hover:text-slate-700'
+							>
+								<RotateCcw className='mr-1.5 size-4' />
+								Скинути
+							</Button>
+						)}
+
+						{/* Кількість результатів */}
+						<div className='ml-auto text-sm text-slate-500'>
+							Знайдено: <span className='font-semibold text-slate-700'>{coursesCount}</span>{' '}
+							{coursesCount === 1 ? 'курс' : coursesCount < 5 ? 'курси' : 'курсів'}
+						</div>
+					</div>
+				</div>
+			)}
+		</div>
+	)
+}

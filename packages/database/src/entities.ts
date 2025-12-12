@@ -1,4 +1,4 @@
-import type { Database } from './database.types'
+import type { Database } from './types'
 
 export type User = Database['public']['Tables']['user']['Row']
 export type UserInsert = Database['public']['Tables']['user']['Insert']
@@ -106,7 +106,7 @@ export type UserWithEnrollments = User & {
 export const LessonTypes = {
 	LECTURE: 'lecture' as const,
 	PRACTICAL: 'practical' as const
-}
+} as const
 
 export const EnrollmentStatuses = {
 	ACTIVE: 'active' as const,

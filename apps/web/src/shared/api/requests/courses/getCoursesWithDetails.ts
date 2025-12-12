@@ -1,27 +1,23 @@
-import db from '@/lib/supabase/client'
+'use cache'
 
-export const getCoursesWithDetails = async () =>
-	await db
-		.from('courses')
-		.select(
-			`
-      *,
-      course_authors (
-        id,
-        author_name,
-        user:user (
-          id,
-          name,
-          image
-        )
-      ),
-      modules (
-        *,
-        lessons (
-          *
-        )
-      )
-    `
-		)
-		.order('id', { ascending: true })
-		.order('order_index', { referencedTable: 'modules.lessons', ascending: true })
+import { cacheLife } from 'next/cache'
+
+import { api } from '@/lib/elysia/client'
+
+export const getCoursesWithDetails = async () => {
+	cacheLife('minutes')
+
+	try {
+		const { data, error } = await api.courses['with-details'].get()
+
+		return {
+			data: data ?? null,
+			error: error ? String(error.value) : null
+		}
+	} catch {
+		return {
+			data: null,
+			error: 'API unavailable'
+		}
+	}
+}

@@ -1,10 +1,10 @@
 import { cors } from '@elysiajs/cors'
 import { Elysia, t } from 'elysia'
 
-import { auth } from './lib/auth'
+import { auth } from './modules/auth'
+import { coursesRoutes } from './modules/courses'
 
 const app = new Elysia()
-	// CORS middleware
 	.use(
 		cors({
 			origin: [
@@ -17,6 +17,7 @@ const app = new Elysia()
 	)
 	// Better Auth routes - /auth/*
 	.all('/auth/*', ({ request }) => auth.handler(request))
+	.use(coursesRoutes)
 	// Health check
 	.get('/health', () => ({
 		status: 'ok',
@@ -40,12 +41,12 @@ const app = new Elysia()
 		}
 	}))
 
-export type App = typeof app
-
-const port = process.env.PORT ?? 4000
+const port = process.env.API_PORT ?? 4000
 
 app.listen(port, () => {
 	console.log(`🚀 API server running on http://localhost:${port}`)
 })
 
 export default app
+
+export type App = typeof app

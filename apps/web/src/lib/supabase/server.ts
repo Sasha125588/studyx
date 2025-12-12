@@ -1,7 +1,6 @@
+import type { Database } from '@studyx/database'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
-
-import type { Database } from '@/generated/database.types'
 
 export async function createClient() {
 	const cookieStore = await cookies()

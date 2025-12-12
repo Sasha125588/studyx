@@ -1,5 +1,6 @@
 'use client'
 
+import type { Course } from '@studyx/database'
 import { usePathname } from 'next/navigation'
 
 import {
@@ -11,7 +12,6 @@ import {
 	BreadcrumbSeparator
 } from '@/components/ui/breadcrumb'
 
-import type { Course } from '@/generated/entities.types'
 import { getBreadcrumbs } from '@/shared/helpers/breadcrumb/getBreadcrumbs'
 import { useI18n } from '@/shared/providers'
 
