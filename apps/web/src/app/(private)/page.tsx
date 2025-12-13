@@ -91,8 +91,7 @@ const goalProgress = Math.min(
 )
 
 const DashboardPage = async () => {
-	const { data: courses } = await getCoursesWithDetails()
-	const continueCourses = courses ?? []
+	const { data: continueCourses } = await getCoursesWithDetails()
 
 	return (
 		<div className='space-y-8'>

@@ -1,4 +1,4 @@
-import type { CourseEnrollment, CourseWithModules } from '@studyx/database'
+import type { CourseEnrollment } from '@studyx/database'
 import Link from 'next/link'
 import { Suspense } from 'react'
 
@@ -40,8 +40,6 @@ const CoursesPage = async () => {
 		)
 	}
 
-	const courseList = courses ?? []
-
 	return (
 		<div className='space-y-8'>
 			<div className='flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between'>
@@ -62,7 +60,7 @@ const CoursesPage = async () => {
 
 			<Suspense fallback={<CoursesListSkeleton />}>
 				<CourseList
-					courses={courseList}
+					courses={courses}
 					enrollments={enrollments}
 					userId={userId}
 				/>

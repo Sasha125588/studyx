@@ -11,7 +11,7 @@ const CoursePage = async ({ params }: CoursePageProps) => {
 	const { slug } = await params
 	const decodedSlug = decodeURIComponent(slug)
 
-	const { data: course, error } = await getCourse(decodedSlug)
+	const { data, error } = await getCourse(decodedSlug)
 
 	if (error) {
 		return (
@@ -23,7 +23,7 @@ const CoursePage = async ({ params }: CoursePageProps) => {
 		)
 	}
 
-	if (!course) {
+	if (!data) {
 		return (
 			<Card className='border-amber-200 bg-amber-50'>
 				<CardContent className='py-6 text-amber-800'>Курс не знайдено</CardContent>
@@ -31,7 +31,7 @@ const CoursePage = async ({ params }: CoursePageProps) => {
 		)
 	}
 
-	return <CoursePageMain course={course} />
+	return <CoursePageMain course={data} />
 }
 
 export default CoursePage

@@ -11,12 +11,12 @@ export const getCoursesWithDetails = async () => {
 		const { data, error } = await api.courses['with-details'].get()
 
 		return {
-			data: data ?? null,
+			data: data ?? [],
 			error: error ? String(error.value) : null
 		}
 	} catch {
 		return {
-			data: null,
+			data: [],
 			error: 'API unavailable'
 		}
 	}
