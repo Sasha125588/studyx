@@ -92,6 +92,7 @@ const goalProgress = Math.min(
 
 const DashboardPage = async () => {
 	const { data: continueCourses } = await getCoursesWithDetails()
+	const safeContinueCourses = Array.isArray(continueCourses) ? continueCourses : []
 
 	return (
 		<div className='space-y-8'>
@@ -103,8 +104,8 @@ const DashboardPage = async () => {
 						</H2>
 						<p className='max-w-xl text-sm text-slate-600'>
 							Продовжуйте навчання:{' '}
-							{continueCourses.length
-								? `ще ${continueCourses.length} курс(и/ів) чекають на вас.`
+							{safeContinueCourses.length
+								? `ще ${safeContinueCourses.length} курс(и/ів) чекають на вас.`
 								: 'додайте свій перший курс та почніть прогресувати.'}
 						</p>
 						<div className='flex flex-wrap gap-3'>
@@ -186,7 +187,7 @@ const DashboardPage = async () => {
 								</Button>
 							</Link>
 						</div>
-						<RecentCoursesList recentCourses={continueCourses} />
+						<RecentCoursesList recentCourses={safeContinueCourses} />
 					</div>
 				</div>
 				<Card className='flex w-[30%] flex-col justify-between rounded-[20px] shadow-xs'>

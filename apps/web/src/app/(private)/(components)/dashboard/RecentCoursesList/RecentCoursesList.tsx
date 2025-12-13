@@ -7,9 +7,11 @@ interface RecentCoursesListProps {
 }
 
 export const RecentCoursesList = ({ recentCourses }: RecentCoursesListProps) => {
+	const courses = Array.isArray(recentCourses) ? recentCourses : []
+
 	return (
 		<div className='grid w-full gap-4 md:grid-cols-2'>
-			{recentCourses.slice(0, 4).map(course => (
+			{courses.slice(0, 4).map(course => (
 				<RecentCoursesItem
 					key={course.id}
 					course={course}
