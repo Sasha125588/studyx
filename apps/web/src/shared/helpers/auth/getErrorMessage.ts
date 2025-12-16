@@ -1,6 +1,6 @@
-import type { authClient } from '../../../lib/better-auth/client'
+import type { auth } from '@/lib/better-auth/server'
 
-type ErrorCodes = keyof typeof authClient.$ERROR_CODES
+type ErrorCodes = keyof typeof auth.$ERROR_CODES
 
 const errorMessages: Partial<Record<ErrorCodes, string>> = {
 	USER_NOT_FOUND: 'User not found',
