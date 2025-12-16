@@ -10,9 +10,9 @@ export const getUser = async () => {
 	})
 
 	const currentUser = session?.user
-	const name = currentUser?.name?.split(' ')[0] || 'Anonymous'
-	const surname = currentUser?.name?.split(' ')[1] || 'Anonymous'
-	const email = currentUser?.email || 'Anonymous'
+	const name = currentUser?.name?.split(' ')[0] ?? 'Anonymous'
+	const surname = currentUser?.name?.split(' ')[1] ?? 'Anonymous'
+	const email = currentUser?.email ?? 'Anonymous'
 
 	return {
 		currentUser,

@@ -144,7 +144,7 @@ function DropdownMenuSubTrigger({
 				<motion.div
 					data-slot='dropdown-menu-sub-trigger'
 					data-inset={inset}
-					data-disabled={disabled}
+					data-disabled={disabled || undefined}
 					whileTap={{ scale: 0.95 }}
 					className={cn(
 						"[&:not([data-highlight])]:focus:bg-accent focus:text-accent-foreground [&:not([data-highlight])]:data-[state=open]:bg-accent data-[state=open]:text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative z-[1] flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none select-none [&_[data-chevron]]:transition-transform [&_[data-chevron]]:duration-150 [&_[data-chevron]]:ease-in-out data-[state=open]:[&_[data-chevron]]:rotate-90 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
@@ -273,7 +273,7 @@ function DropdownMenuItem({
 					data-slot='dropdown-menu-item'
 					data-inset={inset}
 					data-variant={variant}
-					data-disabled={disabled}
+					data-disabled={disabled || undefined}
 					whileTap={{ scale: 0.95 }}
 					className={cn(
 						"[&:not([data-highlight])]:focus:bg-accent focus:text-accent-foreground data-[variant=destructive]:text-destructive [&:not([data-highlight])]:data-[variant=destructive]:focus:bg-destructive/10 dark:[&:not([data-highlight])]:data-[variant=destructive]:focus:bg-destructive/20 data-[variant=destructive]:focus:text-destructive data-[variant=destructive]:*:[svg]:!text-destructive [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:text-accent-foreground relative z-[1] flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm transition-colors outline-none select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
@@ -307,7 +307,7 @@ function DropdownMenuCheckboxItem({
 			>
 				<motion.div
 					data-slot='dropdown-menu-checkbox-item'
-					data-disabled={disabled}
+					data-disabled={disabled || undefined}
 					whileTap={{ scale: 0.95 }}
 					className={cn(
 						"[&:not([data-highlight])]:focus:bg-accent focus:text-accent-foreground relative flex cursor-default items-center gap-2 rounded-sm py-1.5 pr-2 pl-8 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",

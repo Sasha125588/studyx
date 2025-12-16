@@ -1,4 +1,3 @@
- 
 'use client'
 
 import type { CourseEnrollment, CourseWithModules } from '@studyx/database'

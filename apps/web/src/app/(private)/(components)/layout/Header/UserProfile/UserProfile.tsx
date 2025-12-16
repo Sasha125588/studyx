@@ -1,6 +1,9 @@
 'use client'
 
-import { BadgeCheck, Bell, CreditCard, LogOut, Sparkles } from 'lucide-react'
+import { BadgeCheck, Bell, CreditCard, Loader2Icon, LogOut, Sparkles } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { useTransition } from 'react'
+import { toast } from 'sonner'
 
 import {
 	DropdownMenu,
@@ -11,9 +14,12 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger
 } from '@/components/animate-ui/radix/dropdown-menu'
+import { I18nText } from '@/components/common/I18nText/I18nText'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 import { SIDEBAR_DATA } from '../../Sidebar/constants/data'
+
+import { handleSignOut } from './(actons)/handleSignOut'
 
 export interface User {
 	name: string
@@ -26,19 +32,20 @@ interface UserProfileProps {
 }
 
 export const UserProfile = ({ user }: UserProfileProps) => {
-	// const handleSignOut = () => {
-	// 	signOut({
-	// 		fetchOptions: {
-	// 			onSuccess: () => {
-	// 				toast.success(<I18nText path='toast.loggedOut' />)
-	// 				router.push('/login')
-	// 			},
-	// 			onError: () => {
-	// 				toast.error(<I18nText path='toast.failedLogout' />)
-	// 			}
-	// 		}
-	// 	})
-	// }
+	const router = useRouter()
+
+	const [isPending, startTransition] = useTransition()
+
+	const signOut = () =>
+		startTransition(async () => {
+			const response = await handleSignOut()
+			if (response.success) {
+				toast.success(<I18nText path='toast.loggedOut' />)
+				router.replace('/login')
+			} else {
+				toast.error(<I18nText path='toast.failedLogout' />)
+			}
+		})
 
 	return (
 		<DropdownMenu>
@@ -102,9 +109,11 @@ export const UserProfile = ({ user }: UserProfileProps) => {
 					</DropdownMenuItem>
 				</DropdownMenuGroup>
 				<DropdownMenuSeparator />
-				{/* <DropdownMenuItem onClick={handleSignOut}> */}
-				<DropdownMenuItem>
-					<LogOut />
+				<DropdownMenuItem
+					disabled={isPending}
+					onClick={signOut}
+				>
+					{isPending ? <Loader2Icon className='animate-spin' /> : <LogOut />}
 					Log out
 				</DropdownMenuItem>
 			</DropdownMenuContent>
