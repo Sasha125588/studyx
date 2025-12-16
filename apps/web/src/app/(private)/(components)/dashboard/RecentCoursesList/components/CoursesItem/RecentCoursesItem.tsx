@@ -41,13 +41,13 @@ export const RecentCoursesItem = ({ course }: RecentCoursesItemProps) => {
 	const nextLesson = getNextLesson(course)
 
 	return (
-		<Card className='group flex h-full flex-col justify-between rounded-[20px] border shadow-xs transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:border-emerald-500 hover:shadow-md'>
+		<Card className='group flex h-full flex-col justify-between border shadow-xs hover:-translate-y-0.5 hover:border-emerald-500 hover:shadow-md'>
 			<CardHeader>
-				<CardDescription className='text-sm font-medium text-slate-500'>
+				<CardDescription className='text-sm font-medium'>
 					{course.title?.slice(0, 64)}
 					{course.title?.length && course.title?.length > 64 && '...'}
 				</CardDescription>
-				<CardTitle className='text-lg leading-tight font-semibold text-slate-900'>
+				<CardTitle className='text-lg leading-tight font-semibold'>
 					{nextLesson?.title?.slice(0, 48) ?? 'Продовжити модуль'}
 					{nextLesson?.title && nextLesson.title.length > 48 && '...'}
 				</CardTitle>
@@ -57,17 +57,17 @@ export const RecentCoursesItem = ({ course }: RecentCoursesItemProps) => {
 					<Button
 						asChild
 						size='sm'
-						className='size-9 rounded-full'
+						className='size-9'
 					>
 						<Link href={`/courses/${course.slug}`}>
 							<PlayIcon
 								size={14}
 								fill='currentColor'
-								className='size-3.5 text-white'
+								className='size-3.5'
 							/>
 						</Link>
 					</Button>
-					<p className='text-[13px] font-medium text-slate-500'>
+					<p className='text-muted-foreground text-[13px] font-medium'>
 						{nextLesson
 							? `${nextLesson.moduleName ?? 'Модуль'} • Заняття ${nextLesson.lessonNumber} з ${nextLesson.totalLessons}`
 							: 'Модуль — • Заняття —'}

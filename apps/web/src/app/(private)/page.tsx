@@ -12,6 +12,7 @@ import Link from 'next/link'
 import { I18nText } from '@/components/common/I18nText/I18nText'
 import { H2 } from '@/components/common/Typography/H2'
 import { H3 } from '@/components/common/Typography/H3'
+import { MouseEffectCard } from '@/components/kokonut-ui/mouse-effect-card'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 
@@ -96,13 +97,13 @@ const DashboardPage = async () => {
 
 	return (
 		<div className='space-y-8'>
-			<Card className='relative overflow-hidden rounded-[20px] bg-linear-to-r from-[#73d2a5]/10 via-violet-50/50 to-[#d0e537]/10 shadow-xs'>
-				<CardContent className='relative flex flex-col gap-6 p-6 lg:flex-row lg:items-center lg:justify-between'>
-					<div className='space-y-3'>
+			<div className='grid gap-4 lg:grid-cols-2'>
+				<MouseEffectCard maxDots={80}>
+					<div className='space-y-3 py-1'>
 						<H2>
 							{greeting}, студенте <span className='pl-1'>👋</span>
 						</H2>
-						<p className='max-w-xl text-sm text-slate-600'>
+						<p className='text-muted-foreground max-w-xl text-sm'>
 							Продовжуйте навчання:{' '}
 							{safeContinueCourses.length
 								? `ще ${safeContinueCourses.length} курс(и/ів) чекають на вас.`
@@ -116,56 +117,61 @@ const DashboardPage = async () => {
 							</Link>
 							<Button
 								variant='outline'
-								className='cursor-pointer border-slate-200 text-slate-700 duration-300 ease-in-out'
+								className='text-foreground cursor-pointer duration-300 ease-in-out'
 							>
 								Відкрити розклад
 								<ChevronRightIcon size={16} />
 							</Button>
 						</div>
 					</div>
-					<div className='grid w-full max-w-xl gap-4 sm:grid-cols-2'>
-						<div className='rounded-2xl border border-white/70 bg-white/80 p-4 shadow-sm backdrop-blur'>
-							<p className='text-xs font-semibold tracking-wide text-slate-500 uppercase'>
+				</MouseEffectCard>
+
+				<div className='grid gap-4 sm:grid-cols-2'>
+					<Card className='flex flex-col justify-center'>
+						<CardContent className='p-4 py-0'>
+							<p className='text-muted-foreground text-xs font-semibold tracking-wide uppercase'>
 								Ціль тижня
 							</p>
-							<p className='text-2xl font-semibold text-slate-900'>
+							<p className='text-2xl font-semibold'>
 								{weeklyGoal.doneHours} / {weeklyGoal.targetHours} годин
 							</p>
-							<div className='mt-3 h-2 w-full bg-slate-100'>
+							<div className='bg-muted mt-3 h-2 w-full rounded-full'>
 								<div
-									className='h-2 bg-violet-500 transition-all'
+									className='h-2 rounded-full bg-violet-500 transition-all'
 									style={{ width: `${goalProgress}%` }}
 								/>
 							</div>
-							<p className='mt-2 text-xs font-medium text-slate-600'>
+							<p className='text-muted-foreground mt-2 text-xs font-medium'>
 								Серія: {weeklyGoal.streak} днів підряд
 							</p>
-						</div>
-						<div className='rounded-2xl border border-white/70 bg-white/80 p-4 shadow-sm backdrop-blur'>
-							<p className='text-xs font-semibold tracking-wide text-slate-500 uppercase'>
+						</CardContent>
+					</Card>
+					<Card className='flex flex-col justify-center'>
+						<CardContent className='p-4 py-0'>
+							<p className='text-muted-foreground text-xs font-semibold tracking-wide uppercase'>
 								Найближча подія
 							</p>
-							<p className='text-lg font-semibold text-slate-900'>{nextEvent.title}</p>
-							<p className='text-sm text-slate-600'>{nextEvent.time}</p>
+							<p className='text-lg font-semibold'>{nextEvent.title}</p>
+							<p className='text-muted-foreground text-sm'>{nextEvent.time}</p>
 							<div className='mt-3 flex gap-2'>
 								<Button
 									size='sm'
-									className='px-4 duration-300 ease-in-out'
+									className='cursor-pointer px-4 duration-300 ease-in-out'
 								>
 									Приєднатись
 								</Button>
 								<Button
 									size='sm'
 									variant='outline'
-									className='border-slate-200 px-4 duration-300 ease-in-out'
+									className='border-border cursor-pointer px-4 duration-300 ease-in-out'
 								>
 									Деталі
 								</Button>
 							</div>
-						</div>
-					</div>
-				</CardContent>
-			</Card>
+						</CardContent>
+					</Card>
+				</div>
+			</div>
 
 			<StatsCards />
 
@@ -190,7 +196,7 @@ const DashboardPage = async () => {
 						<RecentCoursesList recentCourses={safeContinueCourses} />
 					</div>
 				</div>
-				<Card className='flex w-[30%] flex-col justify-between rounded-[20px] shadow-xs'>
+				<Card className='flex w-[30%] flex-col justify-between'>
 					<CardContent className='space-y-5'>
 						<div className='flex items-center justify-between'>
 							<H3>Розклад</H3>
@@ -206,15 +212,13 @@ const DashboardPage = async () => {
 							{scheduleDays.map(day => (
 								<button
 									key={day.label}
-									className={`flex h-[66px] w-[48px] shrink-0 cursor-pointer flex-col items-center justify-center gap-1 rounded-[14px] border-[1.5px] transition duration-300 ease-in-out ${
+									className={`flex h-[66px] w-[48px] shrink-0 cursor-pointer flex-col items-center justify-center gap-1 rounded-sm border-[1.5px] transition duration-300 ease-in-out ${
 										day.active
 											? 'border-violet-300 bg-violet-100 text-violet-700'
-											: 'border-slate-100 bg-white hover:border-violet-200 hover:bg-violet-50'
+											: 'hover:border-violet-200 hover:bg-violet-50'
 									}`}
 								>
-									<span className='text-[11px] font-medium text-slate-500 uppercase'>
-										{day.label}
-									</span>
+									<span className='text-[11px] font-medium uppercase'>{day.label}</span>
 									<span
 										className={`text-[28px] leading-none font-semibold ${
 											day.active && 'text-violet-700'
@@ -227,14 +231,14 @@ const DashboardPage = async () => {
 											Array.from({ length: day.lessons }).map((_, index) => (
 												<span
 													key={index}
-													className='h-1 w-1 rounded-full bg-slate-600'
+													className='h-1 w-1 rounded-full bg-neutral-500'
 												/>
 											))}
 									</div>
 								</button>
 							))}
 						</div>
-						<div className='flex flex-col divide-y divide-slate-100'>
+						<div className='flex flex-col divide-y'>
 							{scheduleEvents.map(event => (
 								<div
 									key={event.title + event.time}
@@ -242,9 +246,7 @@ const DashboardPage = async () => {
 								>
 									<div className='flex items-start justify-between gap-3'>
 										<div className='flex items-center gap-3'>
-											<p className='text-xl leading-tight font-semibold text-slate-900'>
-												{event.time}
-											</p>
+											<p className='text-xl leading-tight font-semibold'>{event.time}</p>
 											<span
 												className={`rounded-full px-3 py-1 text-[12px] font-medium ${
 													event.type === 'qa'
@@ -268,29 +270,23 @@ const DashboardPage = async () => {
 												</span>
 											)}
 										</div>
-										<MoreVerticalIcon
-											size={18}
-											className='text-slate-400'
-										/>
+										<MoreVerticalIcon size={18} />
 									</div>
-									<div className='flex items-center gap-2 text-[17px] font-medium'>
+									<div className='text-foreground/90 flex items-center gap-2 text-[17px] font-medium'>
 										<span>{event.title}</span>
 									</div>
-									<div className='flex items-center gap-2 text-[14px] text-slate-600'>
-										<UserIcon
-											size={16}
-											className='text-slate-400'
-										/>
+									<div className='text-muted-foreground flex items-center gap-2 text-[14px]'>
+										<UserIcon size={16} />
 										<span>{event.teacher}</span>
 									</div>
 								</div>
 							))}
 						</div>
 					</CardContent>
-					<CardFooter className='flex flex-col gap-3 border-t border-slate-100'>
+					<CardFooter className='flex flex-col gap-3 border-t'>
 						{scheduleEvents.length > 0 && (
-							<div className='flex w-full items-start gap-3 rounded-lg border border-violet-100 bg-violet-50/60 p-3'>
-								<div className='flex h-10 w-10 items-center justify-center rounded-lg bg-violet-100/90 text-violet-700'>
+							<div className='flex w-full items-start gap-3 rounded-xl border border-violet-100 bg-violet-50/60 p-3 dark:border-violet-900/20 dark:bg-violet-900/20'>
+								<div className='flex h-10 w-10 items-center justify-center rounded-xl bg-violet-100/90 text-violet-700'>
 									<ClockIcon size={18} />
 								</div>
 								<div className='flex-1 space-y-1'>
@@ -298,15 +294,12 @@ const DashboardPage = async () => {
 									<p className='text-sm font-semibold'>
 										{scheduleEvents[0].time} • {scheduleEvents[0].title}
 									</p>
-									<div className='flex items-center gap-2 text-[13px] text-slate-600'>
-										<UserIcon
-											size={14}
-											className='text-slate-400'
-										/>
+									<div className='text-muted-foreground flex items-center gap-2 text-[13px]'>
+										<UserIcon size={14} />
 										<span className='truncate'>{scheduleEvents[0].teacher}</span>
 									</div>
 								</div>
-								<ChevronRightIcon className='h-4 w-4 text-slate-300' />
+								<ChevronRightIcon className='h-4 w-4' />
 							</div>
 						)}
 					</CardFooter>
@@ -314,10 +307,10 @@ const DashboardPage = async () => {
 			</div>
 
 			<div className='grid h-40 gap-4 lg:grid-cols-3'>
-				<Card className='rounded-[20px] shadow-xs lg:col-span-2'>
+				<Card className='lg:col-span-2'>
 					<CardHeader className='pb-3'>
 						<div className='flex items-center gap-2'>
-							<AlarmClockCheckIcon className='h-5 w-5 text-violet-500' />
+							<AlarmClockCheckIcon className='size-5 text-violet-500' />
 							<CardTitle className='text-lg font-semibold'>Мої завдання</CardTitle>
 						</div>
 					</CardHeader>

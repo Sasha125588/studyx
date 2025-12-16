@@ -43,7 +43,7 @@ export const UserProfile = ({ user }: UserProfileProps) => {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
-				<Avatar className='h-8 w-8 cursor-pointer rounded-full transition-colors'>
+				<Avatar className='size-8 cursor-pointer rounded-full transition-colors duration-300 ease-in-out'>
 					<AvatarImage
 						src={SIDEBAR_DATA.user.avatar}
 						alt={SIDEBAR_DATA.user.name}

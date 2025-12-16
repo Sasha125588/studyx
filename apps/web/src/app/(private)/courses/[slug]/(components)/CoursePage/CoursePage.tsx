@@ -26,7 +26,7 @@ export const CoursePageMain = ({ course }: CoursePageMainProps) => (
 					<h3 className='text-3xl font-semibold'>{course.title}</h3>
 				</CardTitle>
 				<Tooltip>
-					<TooltipTrigger className='border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex h-10 w-10 items-center justify-center rounded-md border'>
+					<TooltipTrigger className='border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex h-10 w-10 items-center justify-center rounded-xl border'>
 						<MessageCircleQuestionIcon className='h-4 w-4' />
 					</TooltipTrigger>
 					<TooltipPanel

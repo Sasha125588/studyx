@@ -14,7 +14,7 @@ interface HeaderProps {
 
 export const Header = ({ courses, user }: HeaderProps) => {
 	return (
-		<header className='bg-background sticky top-0 z-10 flex h-14 shrink-0 items-center justify-between gap-2 border-b px-4 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12'>
+		<header className='bg-sidebar sticky top-0 z-10 flex h-14 shrink-0 items-center justify-between gap-2 border-b px-4 transition-all duration-300 ease-in-out group-has-data-[collapsible=icon]/sidebar-wrapper:h-12'>
 			<div className='flex items-center gap-2'>
 				<SidebarBreadcrumb courses={courses} />
 			</div>

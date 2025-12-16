@@ -107,13 +107,13 @@ export const CourseFilters = ({
 							placeholder='Пошук курсу...'
 							value={search}
 							onChange={e => setSearch(e.target.value || null)}
-							className='h-9 rounded-full border-slate-200 bg-white pr-9 pl-9 focus-visible:border-violet-300 focus-visible:ring-violet-100'
+							className='h-9 rounded-full pr-9 pl-9'
 						/>
 						{search && (
 							<button
 								type='button'
 								onClick={handleClearSearch}
-								className='text-muted-foreground hover:text-foreground absolute inset-y-0 right-0 flex items-center pr-3 transition-colors'
+								className='text-muted-foreground hover:text-foreground absolute inset-y-0 right-0 flex items-center pr-3 transition-colors duration-300 ease-in-out'
 							>
 								<X className='size-4' />
 							</button>
@@ -125,12 +125,12 @@ export const CourseFilters = ({
 						variant='outline'
 						size='sm'
 						onClick={() => setShowFilters(!showFilters)}
-						className={`rounded-full border-slate-200 ${showFilters ? 'border-violet-200 bg-violet-50 text-violet-700' : ''}`}
+						className={` ${showFilters ? 'border-indigo-500/70 bg-indigo-500/25 text-indigo-200 dark:border-indigo-700 dark:bg-indigo-900 dark:text-indigo-200' : ''}`}
 					>
 						<SlidersHorizontal className='mr-2 size-4' />
 						Фільтри
 						{hasActiveFilters && (
-							<span className='ml-1.5 flex size-5 items-center justify-center rounded-full bg-violet-600 text-[10px] font-bold text-white'>
+							<span className='ml-1.5 flex size-5 items-center justify-center rounded-full bg-indigo-600 text-[10px] font-bold'>
 								!
 							</span>
 						)}
@@ -140,12 +140,12 @@ export const CourseFilters = ({
 
 			{/* Панель фільтрів */}
 			{showFilters && (
-				<div className='animate-in slide-in-from-top-2 fade-in rounded-xl border border-slate-200 bg-white p-4 shadow-sm duration-200'>
+				<div className='animate-in slide-in-from-top-2 fade-in rounded-xl border p-4 shadow-sm duration-200'>
 					<div className='flex flex-wrap items-end gap-4'>
 						{/* Підфільтр для "Мої курси" */}
 						{filters.tab === TAB_VALUES.MY && (
 							<div className='space-y-1.5'>
-								<label className='text-xs font-medium text-slate-500'>Статус</label>
+								<label className='text-xs font-medium'>Статус</label>
 								<Select
 									value={filters.myCoursesStatus}
 									onValueChange={value => setMyCoursesStatus(value as MyCoursesStatus)}
@@ -170,7 +170,7 @@ export const CourseFilters = ({
 						{/* Фільтр за автором */}
 						{authors.length > 0 && (
 							<div className='space-y-1.5'>
-								<label className='text-xs font-medium text-slate-500'>Автор</label>
+								<label className='text-xs font-medium'>Автор</label>
 								<Select
 									value={filters.author || 'all'}
 									onValueChange={value => setAuthor(value === 'all' ? null : value)}
@@ -196,7 +196,7 @@ export const CourseFilters = ({
 						{/* Фільтр за навичкою */}
 						{skills.length > 0 && (
 							<div className='space-y-1.5'>
-								<label className='text-xs font-medium text-slate-500'>Навичка</label>
+								<label className='text-xs font-medium'>Навичка</label>
 								<Select
 									value={filters.skill || 'all'}
 									onValueChange={value => setSkill(value === 'all' ? null : value)}
@@ -221,7 +221,7 @@ export const CourseFilters = ({
 
 						{/* Сортування */}
 						<div className='space-y-1.5'>
-							<label className='text-xs font-medium text-slate-500'>Сортування</label>
+							<label className='text-xs font-medium'>Сортування</label>
 							<Select
 								value={filters.sortBy}
 								onValueChange={value => setSortBy(value as SortOption)}
@@ -248,7 +248,7 @@ export const CourseFilters = ({
 								variant='ghost'
 								size='sm'
 								onClick={resetFilters}
-								className='text-slate-500 hover:text-slate-700'
+								className='text-muted-foreground hover:text-foreground'
 							>
 								<RotateCcw className='mr-1.5 size-4' />
 								Скинути
@@ -256,8 +256,8 @@ export const CourseFilters = ({
 						)}
 
 						{/* Кількість результатів */}
-						<div className='ml-auto text-sm text-slate-500'>
-							Знайдено: <span className='font-semibold text-slate-700'>{coursesCount}</span>{' '}
+						<div className='ml-auto text-sm'>
+							Знайдено: <span className='font-semibold'>{coursesCount}</span>{' '}
 							{coursesCount === 1 ? 'курс' : coursesCount < 5 ? 'курси' : 'курсів'}
 						</div>
 					</div>

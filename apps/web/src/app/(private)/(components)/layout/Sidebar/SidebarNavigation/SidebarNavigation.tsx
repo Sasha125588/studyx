@@ -41,7 +41,7 @@ export const SidebarNavigation = () => {
 											href={item.url}
 											className='items-center justify-center'
 										>
-											<item.icon className='!size-5' />
+											<item.icon className='size-5!' />
 										</Link>
 									</SidebarMenuButton>
 								</TooltipTrigger>

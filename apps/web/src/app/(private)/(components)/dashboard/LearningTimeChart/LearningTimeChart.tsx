@@ -38,7 +38,7 @@ const chartConfig = {
 
 export const LearningTimeChart = () => {
 	return (
-		<Card className='rounded-[20px] shadow-xs'>
+		<Card>
 			<CardContent className='flex gap-4'>
 				<div className='h-full w-full min-w-0'>
 					<div className='flex items-center justify-between'>
@@ -50,7 +50,7 @@ export const LearningTimeChart = () => {
 								// onValueChange={setTimeRange}
 							>
 								<SelectTrigger
-									className='hidden w-[130px] font-medium sm:ml-auto sm:flex'
+									className='hidden font-medium sm:ml-auto sm:flex'
 									aria-label='Select a value'
 								>
 									<SelectValue placeholder='Last 3 months' />

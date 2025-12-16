@@ -53,7 +53,7 @@ export const CourseContent = ({ modules }: CourseContentProps) => {
 						<AccordionItem
 							key={module.id}
 							value={module.id.toString()}
-							className='overflow-hidden rounded-[20px] border transition-all duration-300 ease-in-out hover:translate-y-[-2px] hover:border-blue-500'
+							className='overflow-hidden rounded-xl border transition-all duration-300 ease-in-out hover:translate-y-[-2px] hover:border-blue-500'
 						>
 							<AccordionTrigger className='w-full p-4'>
 								<div className='flex w-full items-center justify-between'>

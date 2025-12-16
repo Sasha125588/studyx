@@ -10,7 +10,8 @@ const app = new Elysia()
 			origin: [
 				'http://localhost:3000',
 				'http://localhost:3001',
-				process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : ''
+				process.env.FRONTEND_VERCEL_URL!,
+				process.env.FRONTEND_RAILWAY_URL!
 			].filter(Boolean),
 			credentials: true
 		})

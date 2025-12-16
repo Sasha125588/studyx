@@ -3,7 +3,8 @@ import { Pool } from 'pg'
 
 export const auth = betterAuth({
 	secret: process.env.BETTER_AUTH_SECRET!,
-	baseURL: process.env.API_URL ?? 'http://localhost:4000',
+	baseURL:
+		process.env.NODE_ENV === 'production' ? process.env.API_RAILWAY_URL : 'http://localhost:4000',
 	database: new Pool({
 		connectionString: process.env.SUPABASE_URL
 	}),
@@ -27,6 +28,7 @@ export const auth = betterAuth({
 	trustedOrigins: [
 		'http://localhost:3000', // web app
 		'http://localhost:3001', // admin (future)
-		process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : undefined
+		process.env.FRONTEND_VERCEL_URL,
+		process.env.FRONTEND_RAILWAY_URL
 	].filter(Boolean) as string[]
 })

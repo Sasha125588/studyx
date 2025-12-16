@@ -15,13 +15,13 @@ export const AppSidebar = () => {
 		<Sidebar
 			variant='sidebar'
 			collapsible='none'
-			className='sticky top-0 h-screen gap-4 border-r'
+			className='bg-sidebar sticky top-0 h-screen gap-4 border-r transition-all duration-300 ease-in-out'
 		>
 			<SidebarHeader>
 				<SidebarMenu>
 					<SidebarMenuItem>
 						<SidebarMenuButton size='lg'>
-							<div className='bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-10 items-center justify-center rounded-lg'>
+							<div className='bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-10 items-center justify-center rounded-sm'>
 								<SIDEBAR_DATA.site.logo className='size-5' />
 							</div>
 						</SidebarMenuButton>

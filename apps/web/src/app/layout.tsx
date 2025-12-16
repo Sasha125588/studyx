@@ -5,9 +5,12 @@ import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import { Suspense } from 'react'
 import { Toaster } from 'sonner'
 
+import { ThemeSwitcher } from '@/components/common/ThemeSwitcher/ThemeSwitcher'
+
 import './globals.css'
 import { getMessagesByLocale } from '@/shared/helpers/i18n/getMessagesByLocale'
 import { I18nProvider } from '@/shared/providers'
+import { ThemeProvider } from '@/shared/providers/theme/ThemeProvider'
 
 const manrope = Manrope({
 	variable: '--font-manrope',
@@ -39,7 +42,14 @@ const LocaleProvider = async ({ children }: { children: React.ReactNode }) => {
 						locale={locale}
 						messages={messages}
 					>
-						{children}
+						<ThemeProvider
+							attribute='class'
+							defaultTheme='dark'
+							enableSystem
+						>
+							{children}
+							<ThemeSwitcher />
+						</ThemeProvider>
 						<Toaster
 							richColors
 							duration={1500}
@@ -59,7 +69,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
 					lang='en'
 					suppressHydrationWarning
 				>
-					<body className={`${manrope.variable} antialiased`}>
+					<body className={`${manrope.variable} dark antialiased`}>
 						<div className='flex h-screen items-center justify-center'>
 							<div className='h-8 w-8 animate-spin rounded-full border-4 border-violet-500 border-t-transparent' />
 						</div>

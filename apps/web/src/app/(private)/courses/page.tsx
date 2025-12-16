@@ -44,7 +44,7 @@ const CoursesPage = async () => {
 		<div className='space-y-8'>
 			<div className='flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between'>
 				<div className='space-y-1'>
-					<H2 className='text-slate-900'>Курси</H2>
+					<H2>Курси</H2>
 					<p className='text-muted-foreground text-sm'>
 						Оберіть курс, щоб перейти до модулів та матеріалів.
 					</p>
@@ -52,7 +52,7 @@ const CoursesPage = async () => {
 				<Button
 					asChild
 					variant='outline'
-					className='rounded-full border-slate-200 px-5 text-slate-800'
+					className='px-5'
 				>
 					<Link href='/'>Повернутися на дашборд</Link>
 				</Button>

@@ -73,11 +73,11 @@ export const CourseList = ({ courses, enrollments = [], userId }: CourseListProp
 }
 
 const EmptyState = ({ title, text }: { title: string; text: string }) => (
-	<Card className='border-dashed border-slate-200 bg-white'>
+	<Card className='border-dashed'>
 		<CardContent className='flex flex-col items-center justify-center gap-3 py-12 text-center'>
-			<BookOpen className='size-9 text-slate-300' />
+			<BookOpen className='size-9' />
 			<div className='space-y-1'>
-				<p className='text-base font-semibold text-slate-900'>{title}</p>
+				<p className='text-lg font-semibold'>{title}</p>
 				<p className='text-muted-foreground text-sm'>{text}</p>
 			</div>
 		</CardContent>
