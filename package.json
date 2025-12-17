@@ -13,11 +13,6 @@
 		"build": "turbo run build",
 		"build:web": "turbo run build --filter=web",
 		"build:api": "turbo run build --filter=api",
-		"build:full": "bun run build:api && bun run build:with-api",
-		"build:with-api": "(cd apps/api && bun run start &) && sleep 2 && bun run build:web; pkill -f 'dist/index.js' || true",
-		"start": "(lsof -ti:3000,4000 | xargs kill -9 2>/dev/null || true) && bun run start:api & sleep 1 && bun run start:web",
-		"start:web": "cd apps/web && bun run start",
-		"start:api": "cd apps/api && bun run start",
 		"lint": "turbo run lint",
 		"type-check": "turbo run type-check",
 		"clean": "turbo run clean && rm -rf node_modules",
@@ -46,11 +41,6 @@
 		"turbo": "^2.6.1",
 		"tw-animate-css": "^1.3.6",
 		"typescript": "^5.7.2"
-	},
-	"overrides": {
-		"@types/react": "19.2.7",
-		"@types/react-dom": "19.2.3",
-		"baseline-browser-mapping": "^2.9.0"
 	},
 	"packageManager": "bun@1.2.13"
 }

@@ -23,8 +23,8 @@
 # misc
 .DS_Store
 *.pem
-.vscode
 .vscode/*
+.vscode
 
 # debug
 npm-debug.log*
@@ -40,8 +40,8 @@ yarn-error.log*
 
 .turbo
 
-.cursor
 .cursor/*
+.cursor
 
 # typescript
 *.tsbuildinfo

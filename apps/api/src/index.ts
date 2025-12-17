@@ -1,7 +1,6 @@
 import { cors } from '@elysiajs/cors'
-import { Elysia, t } from 'elysia'
+import { Elysia } from 'elysia'
 
-import { auth } from './modules/auth'
 import { coursesRoutes } from './modules/courses'
 
 const app = new Elysia()
@@ -16,29 +15,17 @@ const app = new Elysia()
 			credentials: true
 		})
 	)
-	// Better Auth routes - /auth/*
-	.all('/auth/*', ({ request }) => auth.handler(request))
 	.use(coursesRoutes)
-	// Health check
 	.get('/health', () => ({
 		status: 'ok',
 		timestamp: new Date().toISOString(),
 		version: '1.0.0'
 	}))
-	// Echo endpoint for testing
-	.post('/echo', ({ body }) => body, {
-		body: t.Object({
-			name: t.String()
-		})
-	})
-	// API info
 	.get('/', () => ({
 		name: 'StudyX API',
 		version: '1.0.0',
 		endpoints: {
-			health: '/health',
-			auth: '/auth/*',
-			echo: '/echo'
+			health: '/health'
 		}
 	}))
 
