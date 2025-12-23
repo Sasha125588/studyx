@@ -1,4 +1,5 @@
 import type { Database } from './db'
+import { Constants } from './db'
 
 export type User = Database['public']['Tables']['user']['Row']
 
@@ -14,6 +15,14 @@ export type CourseAuthor = Database['public']['Tables']['course_authors']['Row']
 
 export type CourseEnrollment = Database['public']['Tables']['course_enrollments']['Row']
 export type EnrollmentStatus = Database['public']['Enums']['enrollment_status']
+
+export const EnrollmentStatuses = {
+	ENROLLED: 'enrolled',
+	IN_PROGRESS: 'in_progress',
+	COMPLETED: 'completed'
+} as const satisfies Record<string, EnrollmentStatus>
+
+export const ENROLLMENT_STATUS_VALUES = Constants.public.Enums.enrollment_status
 
 export type CourseSkill = Database['public']['Tables']['course_skills']['Row']
 
@@ -84,16 +93,3 @@ export type UserWithEnrollments = User & {
 		course: Course
 	})[]
 }
-
-// export const LessonTypes = {
-// 	LECTURE: 'lecture' as const,
-// 	PRACTICAL: 'practical' as const
-// } as const
-
-// export const EnrollmentStatuses = {
-// 	ENROLLED: 'enrolled' as const,
-// 	IN_PROGRESS: 'in_progress' as const,
-// 	COMPLETED: 'completed' as const
-// } as const
-
-// export type EnrollmentStatus = (typeof EnrollmentStatuses)[keyof typeof EnrollmentStatuses]

@@ -1,65 +1,117 @@
-import type { CourseWithDetails, RoadmapPosition } from '@studyx/database'
-import { MessageCircleQuestionIcon } from 'lucide-react'
-import Link from 'next/link'
+import { type CourseWithDetails, EnrollmentStatuses, type RoadmapPosition } from '@studyx/database'
+import { LayoutListIcon, MapIcon, MessageSquareIcon } from 'lucide-react'
 
 import {
-	Tooltip,
-	TooltipPanel,
-	TooltipTrigger
-} from '@/components/animate-ui/components/base/tooltip'
-import { I18nText } from '@/components/common/I18nText/I18nText'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+	Tabs,
+	TabsContent,
+	TabsContents,
+	TabsHighlight,
+	TabsHighlightItem,
+	TabsList,
+	TabsTrigger
+} from '@/components/animate-ui/primitives/radix/tabs'
+import { Badge } from '@/components/ui/badge'
 
 import { CourseContent } from './components/CourseContent/CourseContent'
+import { CourseHero } from './components/CourseHero/CourseHero'
 import { CourseRoadmap } from './components/CourseRoadmap/CourseRoadmap'
-import { CourseStats } from './components/CourseStats/CourseStats'
-import { getCourseAuthors } from '@/shared/helpers'
+import { CourseSidebar } from './components/CourseSidebar/CourseSidebar'
+import { getEnrollmentStatus } from '@/shared/api'
 
 interface CoursePageMainProps {
 	course: CourseWithDetails
 	savedPositions: RoadmapPosition[]
+	userId: string
 }
 
-export const CoursePageMain = ({ course, savedPositions }: CoursePageMainProps) => (
-	<div className='space-y-8'>
-		<Card>
-			<CardHeader className='flex items-center justify-between'>
-				<CardTitle>
-					<h3 className='text-3xl font-semibold'>{course.title}</h3>
-				</CardTitle>
-				<Tooltip>
-					<TooltipTrigger className='border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex h-10 w-10 items-center justify-center rounded-xl border'>
-						<MessageCircleQuestionIcon size={16} />
-					</TooltipTrigger>
-					<TooltipPanel
-						side='left'
-						className='px-2 py-1 text-[13px]'
-					>
-						<Link
-							href={course.edu_program ?? ''}
-							target='_blank'
-						>
-							<p className='hover:underline'>Освітня програма</p>
-						</Link>
-					</TooltipPanel>
-				</Tooltip>
-			</CardHeader>
-			<CardContent className='space-y-4'>
-				<div>{course.description}</div>
-				<div>
-					<p className='text-muted-foreground text-sm'>
-						<I18nText path='authors' />
-					</p>
-					<p className='font-semibold text-blue-600'>{getCourseAuthors(course.authors)}</p>
+export const CoursePageMain = async ({ course, savedPositions, userId }: CoursePageMainProps) => {
+	const modules = course.modules ?? []
+
+	const enrollment = await getEnrollmentStatus(course.id, userId)
+	const isEnrolled = enrollment.data?.status === EnrollmentStatuses.ENROLLED
+
+	const completedLessons = 0
+
+	return (
+		<div className='grid grid-cols-12 gap-8 space-y-6'>
+			<div className='col-span-9'>
+				<CourseHero
+					course={course}
+					isEnrolled={isEnrolled}
+					progress={0}
+				/>
+				<div className='min-w-0 flex-1'>
+					<Tabs defaultValue='content'>
+						<TabsList className='bg-muted/50 mb-6 inline-flex h-auto gap-1 rounded-xl p-1'>
+							<TabsHighlight className='bg-background rounded-lg shadow-sm'>
+								<TabsHighlightItem value='content'>
+									<TabsTrigger
+										value='content'
+										className='text-muted-foreground data-[state=active]:text-foreground inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors'
+									>
+										<LayoutListIcon className='h-4 w-4' />
+										Зміст
+										<Badge
+											variant='secondary'
+											className='ml-1'
+										>
+											{modules.length}
+										</Badge>
+									</TabsTrigger>
+								</TabsHighlightItem>
+
+								<TabsHighlightItem value='roadmap'>
+									<TabsTrigger
+										value='roadmap'
+										className='text-muted-foreground data-[state=active]:text-foreground inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors'
+									>
+										<MapIcon className='h-4 w-4' />
+										Roadmap
+									</TabsTrigger>
+								</TabsHighlightItem>
+
+								<TabsHighlightItem value='reviews'>
+									<TabsTrigger
+										value='reviews'
+										className='text-muted-foreground data-[state=active]:text-foreground inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors'
+									>
+										<MessageSquareIcon className='h-4 w-4' />
+										Відгуки
+									</TabsTrigger>
+								</TabsHighlightItem>
+							</TabsHighlight>
+						</TabsList>
+
+						<TabsContents>
+							<TabsContent value='content'>
+								<CourseContent modules={modules} />
+							</TabsContent>
+
+							<TabsContent value='roadmap'>
+								<CourseRoadmap
+									courseId={course.id}
+									modules={modules}
+									savedPositions={savedPositions}
+								/>
+							</TabsContent>
+
+							<TabsContent value='reviews'>
+								<div className='text-muted-foreground flex h-64 items-center justify-center rounded-xl border border-dashed'>
+									<p>Відгуки поки що відсутні</p>
+								</div>
+							</TabsContent>
+						</TabsContents>
+					</Tabs>
 				</div>
-			</CardContent>
-		</Card>
-		<CourseStats modules={course.modules ?? []} />
-		<CourseRoadmap
-			courseId={course.id}
-			modules={course.modules ?? []}
-			savedPositions={savedPositions}
-		/>
-		<CourseContent modules={course.modules ?? []} />
-	</div>
-)
+			</div>
+
+			<div className='col-span-3 hidden shrink-0 lg:block'>
+				<CourseSidebar
+					course={course}
+					isEnrolled={isEnrolled}
+					completedLessons={completedLessons}
+				/>
+			</div>
+		</div>
+	)
+}

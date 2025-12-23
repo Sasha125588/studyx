@@ -38,7 +38,7 @@ export const CourseRoadmap = ({
 	const key = `${courseId}-${modules.map(m => m.id).join('-')}`
 
 	return (
-		<div className='border-input bg-background h-[600px] w-full overflow-hidden rounded-2xl border'>
+		<div className='bg-muted/30 h-[600px] w-full overflow-hidden rounded-2xl border dark:border-zinc-800 dark:bg-zinc-950'>
 			<CourseRoadmapInner
 				key={key}
 				courseId={courseId}
@@ -119,14 +119,14 @@ const CourseRoadmapInner = ({
 			selectNodesOnDrag={false}
 		>
 			<Background
-				color='#3f3f46'
+				color='currentColor'
 				gap={24}
 				size={1}
-				style={{ opacity: 0.4 }}
+				className='text-border opacity-60'
 			/>
 			<Controls
 				showInteractive={false}
-				className='rounded-xl! border-zinc-700! bg-zinc-900/90! [&>button]:border-zinc-700! [&>button]:bg-transparent! [&>button]:text-zinc-400! [&>button:hover]:bg-zinc-800!'
+				className='bg-card! [&>button]:border-border! [&>button]:text-muted-foreground! [&>button:hover]:bg-muted! rounded-xl! border! [&>button]:bg-transparent!'
 			/>
 		</ReactFlow>
 	)

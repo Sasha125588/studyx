@@ -1,11 +1,6 @@
 import type { ModuleWithLessons } from '@studyx/database'
-import 'katex/dist/katex.min.css'
-import { BookOpenIcon, CircleQuestionMarkIcon, FileIcon } from 'lucide-react'
+import { ArrowRightIcon, BookOpenIcon, FileTextIcon, FlaskConicalIcon } from 'lucide-react'
 import Link from 'next/link'
-import ReactMarkdown from 'react-markdown'
-import rehypeKatex from 'rehype-katex'
-import remarkGfm from 'remark-gfm'
-import remarkMath from 'remark-math'
 
 import {
 	Accordion,
@@ -13,122 +8,127 @@ import {
 	AccordionItem,
 	AccordionTrigger
 } from '@/components/animate-ui/radix/accordion'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 
 export interface CourseContentProps {
 	modules: ModuleWithLessons[]
 }
 
 export const CourseContent = ({ modules }: CourseContentProps) => {
-	return (
-		<Card>
-			<CardHeader>
-				<CardTitle className='space-y-3'>
-					<p className='text-lg font-semibold'>Контент курсу</p>
-					<div className='flex items-center gap-3'>
-						<div className='flex items-center gap-2'>
-							<BookOpenIcon
-								className='text-muted-foreground'
-								size={18}
-							/>
-							<p className='text-muted-foreground text-sm font-semibold'>
-								{modules.length} модулів
-							</p>
-						</div>
-						{/* <div className='h-4 w-px bg-gray-200' />
-                <div className='flex items-center gap-2'>
-                    <CircleQuestionMarkIcon
-                        className='text-gray-500'
-                        size={18}
-                    />
-                    <p className='text-sm text-gray-500'>{totalPractical} завдань</p>
-                </div> */}
-					</div>
-				</CardTitle>
-			</CardHeader>
-			<CardContent>
-				<Accordion
-					type='multiple'
-					className='space-y-4'
-				>
-					{modules?.map((module, index) => (
-						<AccordionItem
-							key={module.id}
-							value={module.id.toString()}
-							className='overflow-hidden rounded-xl border transition-all duration-300 ease-in-out hover:translate-y-[-2px] hover:border-violet-500/60'
-						>
-							<AccordionTrigger className='w-full p-4'>
-								<div className='flex w-full items-center justify-between'>
-									<div className='flex items-center gap-2 text-lg font-semibold'>
-										<p className='text-muted-foreground'>Модуль {index + 1}</p>
-										<span>-</span>
-										<h3>{module.name}</h3>
-									</div>
-									{module.description && (
-										<p className='text-muted-foreground text-sm'>{module.description}</p>
-									)}
-								</div>
-							</AccordionTrigger>
+	// TODO: отримати реальний прогрес з API
+	const getLessonStatus = () => {
+		const random = crypto.getRandomValues(new Uint8Array(1))[0] % 100
+		console.log(random)
+		return random > 50
+	}
 
-							<AccordionContent className='divide-muted-foreground/10 divide-y'>
-								{module.lessons?.map((lesson, lessonIndex) => (
-									<div
+	const getModuleProgress = (module: ModuleWithLessons) => {
+		// TODO: обчислити реальний прогрес
+		const completedCount = 0
+		const totalCount = module.lessons?.length ?? 0
+		return totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0
+	}
+
+	return (
+		<Accordion
+			type='multiple'
+			className='space-y-4'
+		>
+			{modules?.map((module, idx) => {
+				const progress = getModuleProgress(module)
+
+				return (
+					<AccordionItem
+						key={module.id}
+						value={module.id.toString()}
+						className='bg-card overflow-hidden rounded-xl border px-0'
+					>
+						<AccordionTrigger className='px-6 py-4 hover:no-underline [&[data-state=open]>svg]:rotate-180'>
+							<div className='flex w-full items-center justify-between pr-2'>
+								<div className='text-left'>
+									<h3 className='font-semibold'>
+										Модуль {idx + 1}. {module.name}
+									</h3>
+									<p className='text-muted-foreground mt-1 flex items-center gap-2 text-sm'>
+										<BookOpenIcon className='h-4 w-4' />
+										{module.lessons?.length ?? 0} занять
+									</p>
+								</div>
+								{/* Прогрес модуля */}
+								{progress > 0 && (
+									<span className='mr-2 text-sm font-medium text-emerald-600'>{progress}%</span>
+								)}
+							</div>
+						</AccordionTrigger>
+
+						<AccordionContent className='px-0 pb-0'>
+							{module.lessons?.map((lesson, lessonIdx) => {
+								const isLessonCompleted = getLessonStatus()
+								const isPractical = lesson.type === 'practical'
+
+								return (
+									<Link
+										href={`/lessons/${lesson.id}`}
 										key={lesson.id}
-										className='group hover:bg-muted-foreground/10 flex items-center justify-between p-4 transition-colors'
 									>
-										<div className='flex items-center gap-3'>
-											<div
-												className={`flex h-8 w-8 items-center justify-center rounded-lg ${
-													lesson.type === 'practical'
-														? 'bg-purple-100 text-purple-600'
-														: 'bg-blue-100 text-blue-600'
-												}`}
-											>
-												{lesson.type === 'practical' ? (
-													<CircleQuestionMarkIcon size={16} />
-												) : (
-													<FileIcon size={16} />
-												)}
-											</div>
-											<div className='flex gap-1 font-medium'>
-												<p
-													className={`text-muted-foreground group-hover:${
-														lesson.type === 'practical' ? 'text-purple-600' : 'text-blue-600'
+										<div className='group hover:bg-muted/50 flex items-center justify-between border-t px-6 py-4 transition-colors'>
+											{/* Ліва частина - іконка та назва */}
+											<div className='flex items-center gap-4'>
+												{/* Іконка типу */}
+												<div
+													className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${
+														isLessonCompleted
+															? 'bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30'
+															: isPractical
+																? 'bg-violet-100 text-violet-600 dark:bg-violet-900/30'
+																: 'bg-blue-100 text-blue-600 dark:bg-blue-900/30'
 													}`}
 												>
-													{lesson.type === 'practical' ? 'Практична' : 'Лекція'} {lessonIndex + 1}
-													.{' '}
-												</p>
-												<p> {lesson.title}</p>
+													{isPractical ? (
+														<FlaskConicalIcon className='h-5 w-5' />
+													) : (
+														<FileTextIcon className='h-5 w-5' />
+													)}
+												</div>
+
+												{/* Текст */}
+												<div>
+													<div className='flex items-center gap-2'>
+														<p className='font-medium'>
+															Заняття {lessonIdx + 1}. {lesson.title}
+														</p>
+														{isLessonCompleted && (
+															<Badge
+																variant='success'
+																className='text-[10px]'
+															>
+																Пройдено
+															</Badge>
+														)}
+													</div>
+													<p className='text-muted-foreground mt-0.5 text-xs'>
+														{isPractical ? 'Практична робота' : 'Лекція'}
+													</p>
+												</div>
 											</div>
-										</div>
-										<div className='prose prose-neutral dark:prose-invert prose-headings:font-semibold prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg prose-p:text-foreground prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-strong:font-bold prose-ol:list-decimal prose-ul:list-disc prose-li:marker:text-muted-foreground max-w-none'>
-											<ReactMarkdown
-												remarkPlugins={[remarkGfm, remarkMath]}
-												rehypePlugins={[rehypeKatex]}
+
+											{/* Права частина - кнопка */}
+											<Button
+												variant='link'
+												className='text-primary flex items-center gap-1 text-sm opacity-0 transition-opacity group-hover:opacity-100'
 											>
-												{lesson.content}
-											</ReactMarkdown>
+												Перейти
+												<ArrowRightIcon className='h-4 w-4' />
+											</Button>
 										</div>
-										{lesson.content && (
-											<Link
-												href={`#lesson-${lesson.id}`}
-												className={`rounded-lg px-3 py-1 text-sm transition-colors ${
-													lesson.type === 'practical'
-														? 'bg-purple-50 text-purple-600 hover:bg-purple-100'
-														: 'bg-blue-50 text-blue-600 hover:bg-blue-100'
-												}`}
-											>
-												Переглянути
-											</Link>
-										)}
-									</div>
-								))}
-							</AccordionContent>
-						</AccordionItem>
-					))}
-				</Accordion>
-			</CardContent>
-		</Card>
+									</Link>
+								)
+							})}
+						</AccordionContent>
+					</AccordionItem>
+				)
+			})}
+		</Accordion>
 	)
 }

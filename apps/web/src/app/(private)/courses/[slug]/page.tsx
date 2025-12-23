@@ -1,7 +1,7 @@
 import { Card, CardContent } from '@/components/ui/card'
 
 import { CoursePageMain } from './(components)/CoursePage/CoursePage'
-import { getCourse, getRoadmapPositions } from '@/shared/api'
+import { getCourse, getRoadmapPositions, getUserId } from '@/shared/api'
 
 interface CoursePageProps {
 	params: Promise<{ slug: string }>
@@ -10,6 +10,8 @@ interface CoursePageProps {
 const CoursePage = async ({ params }: CoursePageProps) => {
 	const { slug } = await params
 	const decodedSlug = decodeURIComponent(slug)
+
+	const userId = (await getUserId())!
 
 	const { data, error } = await getCourse(decodedSlug)
 
@@ -37,6 +39,7 @@ const CoursePage = async ({ params }: CoursePageProps) => {
 		<CoursePageMain
 			course={data}
 			savedPositions={savedPositions}
+			userId={userId}
 		/>
 	)
 }
