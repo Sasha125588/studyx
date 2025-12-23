@@ -19,7 +19,8 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import { LearningTimeChart } from './(components)/dashboard/LearningTimeChart/LearningTimeChart'
 import { RecentCoursesList } from './(components)/dashboard/RecentCoursesList/RecentCoursesList'
 import { StatsCards } from './(components)/dashboard/Stats/StatsCards'
-import { getCoursesWithDetails } from '@/shared/api/requests/courses/getCoursesWithDetails'
+import { getUserId } from '@/shared/api/requests/auth/getUserId'
+import { getContinueLearningCourses } from '@/shared/api/requests/courses/getContinueLearningCourses'
 
 const upcomingEvents = [
 	{
@@ -92,7 +93,9 @@ const goalProgress = Math.min(
 )
 
 const DashboardPage = async () => {
-	const { data: continueCourses } = await getCoursesWithDetails()
+	const userId = await getUserId()
+
+	const { data: continueCourses } = await getContinueLearningCourses(userId!)
 	const safeContinueCourses = Array.isArray(continueCourses) ? continueCourses : []
 
 	return (

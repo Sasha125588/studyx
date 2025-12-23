@@ -1,9 +1,9 @@
-import type { CourseWithModules } from '@studyx/database'
+import type { ContinueLearningCourse } from '@studyx/database'
 
 import { RecentCoursesItem } from './components/CoursesItem/RecentCoursesItem'
 
 interface RecentCoursesListProps {
-	recentCourses: CourseWithModules[]
+	recentCourses: ContinueLearningCourse[]
 }
 
 export const RecentCoursesList = ({ recentCourses }: RecentCoursesListProps) => {

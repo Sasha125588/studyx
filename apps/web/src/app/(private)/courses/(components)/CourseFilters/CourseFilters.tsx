@@ -15,7 +15,6 @@ import {
 	SelectValue
 } from '@/components/ui/select'
 
-import type { UseCourseFiltersReturn } from '../CourseList/hooks/useCourseFilters'
 import {
 	MY_COURSES_STATUS,
 	MY_COURSES_STATUS_LABELS,
@@ -27,6 +26,7 @@ import {
 	TAB_VALUES,
 	type TabValue
 } from '../constants/filters'
+import type { UseCourseFiltersReturn } from '../hooks/useCourseFilters'
 
 const SEARCH_DEBOUNCE_MS = 300
 
@@ -125,12 +125,12 @@ export const CourseFilters = ({
 						variant='outline'
 						size='sm'
 						onClick={() => setShowFilters(!showFilters)}
-						className={` ${showFilters ? 'border-indigo-500/70 bg-indigo-500/25 text-indigo-200 dark:border-indigo-700 dark:bg-indigo-900 dark:text-indigo-200' : ''}`}
+						className={` ${showFilters && 'cursor-pointer border-indigo-500/50 bg-indigo-500/25 hover:bg-indigo-500/35 dark:border-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-200 hover:dark:bg-indigo-900/60'}`}
 					>
 						<SlidersHorizontal className='mr-2 size-4' />
 						Фільтри
 						{hasActiveFilters && (
-							<span className='ml-1.5 flex size-5 items-center justify-center rounded-full bg-indigo-600 text-[10px] font-bold'>
+							<span className='ml-1.5 flex size-5 items-center justify-center rounded-full bg-indigo-600 text-[10px] font-bold text-white'>
 								!
 							</span>
 						)}

@@ -1,4 +1,4 @@
-import type { CourseWithModules } from '@studyx/database'
+import type { ContinueLearningCourse } from '@studyx/database'
 import { PlayIcon } from 'lucide-react'
 import Link from 'next/link'
 
@@ -13,33 +13,10 @@ import {
 } from '@/components/ui/card'
 
 interface RecentCoursesItemProps {
-	course: CourseWithModules
-}
-
-const getNextLesson = (course: CourseWithModules) => {
-	if (!course.modules || course.modules.length === 0) return null
-
-	for (let moduleIndex = 0; moduleIndex < course.modules.length; moduleIndex++) {
-		const CourseModule = course.modules[moduleIndex]
-		if (CourseModule.lessons && CourseModule.lessons.length > 0) {
-			const firstLesson = CourseModule.lessons[0]
-			return {
-				type: firstLesson.type || 'lesson',
-				title: firstLesson.title,
-				moduleName: CourseModule.name,
-				moduleNumber: moduleIndex + 1,
-				lessonNumber: 1,
-				totalLessons: CourseModule.lessons.length
-			}
-		}
-	}
-
-	return null
+	course: ContinueLearningCourse
 }
 
 export const RecentCoursesItem = ({ course }: RecentCoursesItemProps) => {
-	const nextLesson = getNextLesson(course)
-
 	return (
 		<Card className='group flex h-full flex-col justify-between border shadow-xs hover:-translate-y-0.5 hover:border-emerald-500 hover:shadow-md'>
 			<CardHeader>
@@ -48,8 +25,8 @@ export const RecentCoursesItem = ({ course }: RecentCoursesItemProps) => {
 					{course.title?.length && course.title?.length > 64 && '...'}
 				</CardDescription>
 				<CardTitle className='text-lg leading-tight font-semibold'>
-					{nextLesson?.title?.slice(0, 48) ?? 'Продовжити модуль'}
-					{nextLesson?.title && nextLesson.title.length > 48 && '...'}
+					{course.nextLesson?.title?.slice(0, 48) ?? 'Продовжити модуль'}
+					{course.nextLesson?.title && course.nextLesson.title.length > 48 && '...'}
 				</CardTitle>
 			</CardHeader>
 			<CardFooter>
@@ -68,8 +45,8 @@ export const RecentCoursesItem = ({ course }: RecentCoursesItemProps) => {
 						</Link>
 					</Button>
 					<p className='text-muted-foreground text-[13px] font-medium'>
-						{nextLesson
-							? `${nextLesson.moduleName ?? 'Модуль'} • Заняття ${nextLesson.lessonNumber} з ${nextLesson.totalLessons}`
+						{course.nextLesson
+							? `${course.nextLesson.moduleName ?? 'Модуль'} • Заняття ${course.nextLesson.number} з ${course.nextLesson.totalLessons}`
 							: 'Модуль — • Заняття —'}
 					</p>
 				</CardAction>

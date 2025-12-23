@@ -28,10 +28,12 @@ export const CourseContent = ({ modules }: CourseContentProps) => {
 					<div className='flex items-center gap-3'>
 						<div className='flex items-center gap-2'>
 							<BookOpenIcon
-								className='text-gray-500'
+								className='text-muted-foreground'
 								size={18}
 							/>
-							<p className='text-sm font-semibold text-gray-500'>{modules.length} модулів</p>
+							<p className='text-muted-foreground text-sm font-semibold'>
+								{modules.length} модулів
+							</p>
 						</div>
 						{/* <div className='h-4 w-px bg-gray-200' />
                 <div className='flex items-center gap-2'>
@@ -53,26 +55,26 @@ export const CourseContent = ({ modules }: CourseContentProps) => {
 						<AccordionItem
 							key={module.id}
 							value={module.id.toString()}
-							className='overflow-hidden rounded-xl border transition-all duration-300 ease-in-out hover:translate-y-[-2px] hover:border-blue-500'
+							className='overflow-hidden rounded-xl border transition-all duration-300 ease-in-out hover:translate-y-[-2px] hover:border-violet-500/60'
 						>
 							<AccordionTrigger className='w-full p-4'>
 								<div className='flex w-full items-center justify-between'>
 									<div className='flex items-center gap-2 text-lg font-semibold'>
-										<p>Модуль {index + 1}</p>
+										<p className='text-muted-foreground'>Модуль {index + 1}</p>
 										<span>-</span>
-										<h3 className='text-gray-900'>{module.name}</h3>
+										<h3>{module.name}</h3>
 									</div>
 									{module.description && (
-										<p className='text-sm text-gray-500'>{module.description}</p>
+										<p className='text-muted-foreground text-sm'>{module.description}</p>
 									)}
 								</div>
 							</AccordionTrigger>
 
-							<AccordionContent className='divide-y divide-gray-100'>
+							<AccordionContent className='divide-muted-foreground/10 divide-y'>
 								{module.lessons?.map((lesson, lessonIndex) => (
 									<div
 										key={lesson.id}
-										className='group flex items-center justify-between p-4 transition-colors hover:bg-gray-50'
+										className='group hover:bg-muted-foreground/10 flex items-center justify-between p-4 transition-colors'
 									>
 										<div className='flex items-center gap-3'>
 											<div
@@ -88,18 +90,19 @@ export const CourseContent = ({ modules }: CourseContentProps) => {
 													<FileIcon size={16} />
 												)}
 											</div>
-											<div>
+											<div className='flex gap-1 font-medium'>
 												<p
-													className={`font-medium text-gray-900 group-hover:${
+													className={`text-muted-foreground group-hover:${
 														lesson.type === 'practical' ? 'text-purple-600' : 'text-blue-600'
 													}`}
 												>
-													{lesson.type === 'practical' ? 'Практична' : 'Лекція'} {lessonIndex + 1}.{' '}
-													{lesson.title}
+													{lesson.type === 'practical' ? 'Практична' : 'Лекція'} {lessonIndex + 1}
+													.{' '}
 												</p>
+												<p> {lesson.title}</p>
 											</div>
 										</div>
-										<div className='prose prose-slate prose-headings:font-semibold prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg prose-p:text-gray-700 prose-a:text-blue-600 prose-strong:font-bold prose-ol:list-decimal prose-ul:list-disc prose-li:marker:text-gray-500 max-w-none'>
+										<div className='prose prose-neutral dark:prose-invert prose-headings:font-semibold prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg prose-p:text-foreground prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-strong:font-bold prose-ol:list-decimal prose-ul:list-disc prose-li:marker:text-muted-foreground max-w-none'>
 											<ReactMarkdown
 												remarkPlugins={[remarkGfm, remarkMath]}
 												rehypePlugins={[rehypeKatex]}

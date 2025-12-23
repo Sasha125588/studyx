@@ -2,6 +2,14 @@ import { cors } from '@elysiajs/cors'
 import { Elysia } from 'elysia'
 
 import { coursesRoutes } from './modules/courses'
+import { enrollmentsRoutes } from './modules/enrollments'
+import { lessonProgressRoutes } from './modules/lesson-progress'
+import { lessonsRoutes } from './modules/lessons'
+import { modulesRoutes } from './modules/modules'
+import { roadmapPositions } from './modules/roadmap-positions'
+import { skillsRoutes } from './modules/skills'
+
+const publicPaths = ['/', '/health']
 
 const app = new Elysia()
 	.use(
@@ -15,7 +23,16 @@ const app = new Elysia()
 			credentials: true
 		})
 	)
-	.use(coursesRoutes)
+	.onBeforeHandle(({ headers, status, path }) => {
+		if (publicPaths.includes(path)) return
+
+		if (!headers['x-user-id']) {
+			return status(401)
+		}
+	})
+	.derive(({ headers }) => ({
+		userId: headers['x-user-id'] as string
+	}))
 	.get('/health', () => ({
 		status: 'ok',
 		timestamp: new Date().toISOString(),
@@ -28,6 +45,13 @@ const app = new Elysia()
 			health: '/health'
 		}
 	}))
+	.use(coursesRoutes)
+	.use(enrollmentsRoutes)
+	.use(lessonProgressRoutes)
+	.use(lessonsRoutes)
+	.use(modulesRoutes)
+	.use(roadmapPositions)
+	.use(skillsRoutes)
 
 const port = process.env.API_PORT ?? 4000
 

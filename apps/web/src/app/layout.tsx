@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { Manrope } from 'next/font/google'
-import { headers } from 'next/headers'
+import { cookies } from 'next/headers'
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import { Suspense } from 'react'
 import { Toaster } from 'sonner'
@@ -22,13 +22,15 @@ export const metadata: Metadata = {
 	description: 'Education platform'
 }
 
+const TOASTER_DURATION = 1500
+
 interface RootLayoutProps {
 	children: React.ReactNode
 }
 
 const LocaleProvider = async ({ children }: { children: React.ReactNode }) => {
-	const headersList = await headers()
-	const locale = headersList.get('x-locale') ?? 'en'
+	const cookieStore = await cookies()
+	const locale = cookieStore.get('locale')?.value ?? 'en'
 	const messages = getMessagesByLocale(locale)
 
 	return (
@@ -50,12 +52,12 @@ const LocaleProvider = async ({ children }: { children: React.ReactNode }) => {
 							{children}
 							<ThemeSwitcher />
 						</ThemeProvider>
-						<Toaster
-							richColors
-							duration={1500}
-						/>
 					</I18nProvider>
 				</NuqsAdapter>
+				<Toaster
+					richColors
+					duration={TOASTER_DURATION}
+				/>
 			</body>
 		</html>
 	)

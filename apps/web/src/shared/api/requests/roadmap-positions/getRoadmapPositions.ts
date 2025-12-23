@@ -1,0 +1,15 @@
+'use server'
+
+import { api } from '@/lib/elysia/client'
+
+export const getRoadmapPositions = async (courseId: number) => {
+	const response = await api['roadmap-positions']({ courseId }).get()
+
+	if (response.error) {
+		console.error('Failed to get roadmap positions:', response.error)
+		throw new Error(response.error.value.message)
+		return []
+	}
+
+	return response.data ?? []
+}

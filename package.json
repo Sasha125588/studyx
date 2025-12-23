@@ -17,7 +17,7 @@
 		"type-check": "turbo run type-check",
 		"clean": "turbo run clean && rm -rf node_modules",
 		"format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
-		"generate-db-types": "bunx supabase gen types typescript --project-id hiumfpqtebwwjepqojsd --schema public > packages/database/src/types.ts",
+		"generate-db-types": "bunx supabase gen types typescript --project-id hiumfpqtebwwjepqojsd --schema public > packages/database/src/db.ts",
 		"prepare": "husky"
 	},
 	"devDependencies": {
@@ -29,7 +29,7 @@
 		"lint-staged": "^16.2.7",
 		"prettier": "^3.4.2",
 		"prettier-plugin-tailwindcss": "^0.6.14",
-		"turbo": "^2.6.1"
+		"turbo": "^2.6.3"
 	},
 	"packageManager": "bun@1.2.13"
 }

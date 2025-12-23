@@ -1,5 +1,3 @@
-export * from './types'
+export * from './db'
 
 export * from './entities'
-
-export type { Database, Tables, TablesInsert, TablesUpdate, Enums, Json } from './types'

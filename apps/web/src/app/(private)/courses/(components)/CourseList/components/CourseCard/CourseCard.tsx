@@ -1,4 +1,4 @@
-import type { CourseEnrollment, CourseWithModules } from '@studyx/database'
+import type { CourseEnrollment, CourseWithDetails } from '@studyx/database'
 import { ArrowRight, BookOpen, CalendarDays, CheckCircle2, Clock, PlayCircle } from 'lucide-react'
 import Link from 'next/link'
 
@@ -8,11 +8,11 @@ import { Card, CardDescription, CardFooter, CardTitle } from '@/components/ui/ca
 import { getCourseAuthors } from '@/shared/helpers'
 
 interface CourseCardProps {
-	course: CourseWithModules
+	course: CourseWithDetails
 	enrollment?: CourseEnrollment | null
 }
 
-const countLessons = (course: CourseWithModules) =>
+const countLessons = (course: CourseWithDetails) =>
 	course.modules?.reduce((total, module) => total + (module.lessons?.length ?? 0), 0) ?? 0
 
 const formatDate = (value?: string | null) => {
@@ -25,11 +25,7 @@ const formatDate = (value?: string | null) => {
 		: date.toLocaleDateString('uk-UA', { day: '2-digit', month: 'short', year: 'numeric' })
 }
 
-const getSkills = (course: CourseWithModules) =>
-	(course.modules ?? [])
-		.map(module => module.name)
-		.filter(Boolean)
-		.slice(0, 3) || []
+const getSkills = (course: CourseWithDetails) => course.skills.map(skill => skill.name).slice(0, 4)
 
 const getProgressStatus = (enrollment?: CourseEnrollment | null) => {
 	if (!enrollment) return null
@@ -53,7 +49,7 @@ export const CourseCard = ({ course, enrollment }: CourseCardProps) => {
 	const courseHref = course.slug ? `/courses/${course.slug}` : ''
 	const updatedAt = formatDate(course.created_at)
 	const skills = getSkills(course)
-	const authors = getCourseAuthors(course.course_authors)
+	const authors = getCourseAuthors(course.authors)
 	const progressStatus = getProgressStatus(enrollment)
 
 	return (
@@ -85,8 +81,8 @@ export const CourseCard = ({ course, enrollment }: CourseCardProps) => {
 									key={skill}
 									className='text-muted-foreground rounded-xs border px-2 py-1 text-xs font-semibold'
 								>
-									{skill?.slice(0, 20)}
-									{skill && skill.length > 10 && '...'}
+									{skill?.slice(0, 30)}
+									{skill && skill.length > 30 && '...'}
 								</span>
 							))
 						) : (

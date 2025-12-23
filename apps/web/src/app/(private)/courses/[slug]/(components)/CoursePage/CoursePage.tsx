@@ -1,4 +1,4 @@
-import type { CourseWithModules } from '@studyx/database'
+import type { CourseWithDetails, RoadmapPosition } from '@studyx/database'
 import { MessageCircleQuestionIcon } from 'lucide-react'
 import Link from 'next/link'
 
@@ -11,14 +11,16 @@ import { I18nText } from '@/components/common/I18nText/I18nText'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 import { CourseContent } from './components/CourseContent/CourseContent'
+import { CourseRoadmap } from './components/CourseRoadmap/CourseRoadmap'
 import { CourseStats } from './components/CourseStats/CourseStats'
 import { getCourseAuthors } from '@/shared/helpers'
 
 interface CoursePageMainProps {
-	course: CourseWithModules
+	course: CourseWithDetails
+	savedPositions: RoadmapPosition[]
 }
 
-export const CoursePageMain = ({ course }: CoursePageMainProps) => (
+export const CoursePageMain = ({ course, savedPositions }: CoursePageMainProps) => (
 	<div className='space-y-8'>
 		<Card>
 			<CardHeader className='flex items-center justify-between'>
@@ -27,7 +29,7 @@ export const CoursePageMain = ({ course }: CoursePageMainProps) => (
 				</CardTitle>
 				<Tooltip>
 					<TooltipTrigger className='border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex h-10 w-10 items-center justify-center rounded-xl border'>
-						<MessageCircleQuestionIcon className='h-4 w-4' />
+						<MessageCircleQuestionIcon size={16} />
 					</TooltipTrigger>
 					<TooltipPanel
 						side='left'
@@ -48,11 +50,16 @@ export const CoursePageMain = ({ course }: CoursePageMainProps) => (
 					<p className='text-muted-foreground text-sm'>
 						<I18nText path='authors' />
 					</p>
-					<p className='font-semibold text-blue-600'>{getCourseAuthors(course.course_authors)}</p>
+					<p className='font-semibold text-blue-600'>{getCourseAuthors(course.authors)}</p>
 				</div>
 			</CardContent>
 		</Card>
 		<CourseStats modules={course.modules ?? []} />
+		<CourseRoadmap
+			courseId={course.id}
+			modules={course.modules ?? []}
+			savedPositions={savedPositions}
+		/>
 		<CourseContent modules={course.modules ?? []} />
 	</div>
 )

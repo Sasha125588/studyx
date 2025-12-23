@@ -16,8 +16,8 @@ export const CourseStats = ({ modules }: CourseStatsProps) => {
 
 	return (
 		<div className='mb-8 grid grid-cols-4 gap-4'>
-			<div className='flex items-center gap-3 rounded-xl border border-gray-200 bg-white p-4 shadow-sm'>
-				<div className='rounded-lg bg-blue-100 p-2 text-blue-600'>
+			<div className='flex items-center gap-3 rounded-xl border p-4 shadow-xs'>
+				<div className='rounded-lg bg-blue-100 p-2 text-blue-600 dark:bg-blue-800/60 dark:text-blue-600'>
 					<svg
 						className='h-6 w-6'
 						fill='none'
@@ -33,13 +33,13 @@ export const CourseStats = ({ modules }: CourseStatsProps) => {
 					</svg>
 				</div>
 				<div>
-					<div className='text-sm text-gray-500'>Лекції</div>
-					<div className='text-lg font-semibold text-gray-900'>{totalLectures} уроків</div>
+					<div className='text-muted-foreground text-sm'>Лекції</div>
+					<div className='text-lg font-semibold'>{totalLectures} уроків</div>
 				</div>
 			</div>
 
-			<div className='flex items-center gap-3 rounded-xl border border-gray-200 bg-white p-4 shadow-sm'>
-				<div className='rounded-lg bg-purple-100 p-2 text-purple-600'>
+			<div className='flex items-center gap-3 rounded-xl border p-4 shadow-xs'>
+				<div className='rounded-lg bg-purple-100 p-2 text-purple-600 dark:bg-purple-800/60 dark:text-purple-600'>
 					<svg
 						className='h-6 w-6'
 						fill='none'
@@ -55,13 +55,13 @@ export const CourseStats = ({ modules }: CourseStatsProps) => {
 					</svg>
 				</div>
 				<div>
-					<div className='text-sm text-gray-500'>Практичні</div>
-					<div className='text-lg font-semibold text-gray-900'>{totalPractical} завдань</div>
+					<div className='text-muted-foreground text-sm'>Практичні</div>
+					<div className='text-lg font-semibold'>{totalPractical} завдань</div>
 				</div>
 			</div>
 
-			<div className='flex items-center gap-3 rounded-xl border border-gray-200 bg-white p-4 shadow-sm'>
-				<div className='rounded-lg bg-green-100 p-2 text-green-600'>
+			<div className='flex items-center gap-3 rounded-xl border p-4 shadow-xs'>
+				<div className='rounded-lg bg-green-100 p-2 text-green-600 dark:bg-green-800/60 dark:text-green-600'>
 					<svg
 						className='h-6 w-6'
 						fill='none'
@@ -77,13 +77,13 @@ export const CourseStats = ({ modules }: CourseStatsProps) => {
 					</svg>
 				</div>
 				<div>
-					<div className='text-sm text-gray-500'>Прогрес</div>
-					<div className='text-lg font-semibold text-gray-900'>0%</div>
+					<div className='text-muted-foreground text-sm'>Прогрес</div>
+					<div className='text-lg font-semibold'>0%</div>
 				</div>
 			</div>
 
-			<div className='flex items-center gap-3 rounded-xl border border-gray-200 bg-white p-4 shadow-sm'>
-				<div className='rounded-lg bg-yellow-100 p-2 text-yellow-600'>
+			<div className='flex items-center gap-3 rounded-xl border p-4 shadow-xs'>
+				<div className='rounded-lg bg-yellow-100 p-2 text-yellow-600 dark:bg-yellow-800/60 dark:text-yellow-600'>
 					<svg
 						className='h-6 w-6'
 						fill='none'
@@ -99,8 +99,8 @@ export const CourseStats = ({ modules }: CourseStatsProps) => {
 					</svg>
 				</div>
 				<div>
-					<div className='text-sm text-gray-500'>Тривалість</div>
-					<div className='text-lg font-semibold text-gray-900'>8 годин</div>
+					<div className='text-muted-foreground text-sm'>Тривалість</div>
+					<div className='text-lg font-semibold'>8 годин</div>
 				</div>
 			</div>
 		</div>

@@ -1,7 +1,7 @@
 import { Card, CardContent } from '@/components/ui/card'
 
 import { CoursePageMain } from './(components)/CoursePage/CoursePage'
-import { getCourse } from '@/shared/api'
+import { getCourse, getRoadmapPositions } from '@/shared/api'
 
 interface CoursePageProps {
 	params: Promise<{ slug: string }>
@@ -31,7 +31,14 @@ const CoursePage = async ({ params }: CoursePageProps) => {
 		)
 	}
 
-	return <CoursePageMain course={data} />
+	const savedPositions = await getRoadmapPositions(data.id)
+
+	return (
+		<CoursePageMain
+			course={data}
+			savedPositions={savedPositions}
+		/>
+	)
 }
 
 export default CoursePage

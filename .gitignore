@@ -40,7 +40,7 @@ yarn-error.log*
 
 .turbo
 
-.cursor/*
+.cursor*
 .cursor
 
 # typescript

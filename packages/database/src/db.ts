@@ -66,25 +66,25 @@ export type Database = {
 			}
 			course_authors: {
 				Row: {
-					author_name: string | null
-					course_id: number | null
+					course_id: number
 					created_at: string
 					id: number
-					user_id: string | null
+					order_index: number
+					user_id: string
 				}
 				Insert: {
-					author_name?: string | null
-					course_id?: number | null
+					course_id: number
 					created_at?: string
 					id?: number
-					user_id?: string | null
+					order_index?: number
+					user_id: string
 				}
 				Update: {
-					author_name?: string | null
-					course_id?: number | null
+					course_id?: number
 					created_at?: string
 					id?: number
-					user_id?: string | null
+					order_index?: number
+					user_id?: string
 				}
 				Relationships: [
 					{
@@ -106,30 +106,30 @@ export type Database = {
 			course_enrollments: {
 				Row: {
 					completed_at: string | null
-					course_id: number | null
-					enrolled_at: string | null
+					course_id: number
+					enrolled_at: string
 					id: number
-					progress: number | null
-					status: string | null
-					user_id: string | null
+					progress: number
+					status: Database['public']['Enums']['enrollment_status']
+					user_id: string
 				}
 				Insert: {
 					completed_at?: string | null
-					course_id?: number | null
-					enrolled_at?: string | null
+					course_id: number
+					enrolled_at?: string
 					id?: number
-					progress?: number | null
-					status?: string | null
-					user_id?: string | null
+					progress?: number
+					status?: Database['public']['Enums']['enrollment_status']
+					user_id: string
 				}
 				Update: {
 					completed_at?: string | null
-					course_id?: number | null
-					enrolled_at?: string | null
+					course_id?: number
+					enrolled_at?: string
 					id?: number
-					progress?: number | null
-					status?: string | null
-					user_id?: string | null
+					progress?: number
+					status?: Database['public']['Enums']['enrollment_status']
+					user_id?: string
 				}
 				Relationships: [
 					{
@@ -148,51 +148,90 @@ export type Database = {
 					}
 				]
 			}
+			course_skills: {
+				Row: {
+					course_id: number
+					created_at: string
+					id: number
+					order_index: number
+					skill_id: number
+				}
+				Insert: {
+					course_id: number
+					created_at?: string
+					id?: number
+					order_index?: number
+					skill_id: number
+				}
+				Update: {
+					course_id?: number
+					created_at?: string
+					id?: number
+					order_index?: number
+					skill_id?: number
+				}
+				Relationships: [
+					{
+						foreignKeyName: 'course_skills_course_id_fkey'
+						columns: ['course_id']
+						isOneToOne: false
+						referencedRelation: 'courses'
+						referencedColumns: ['id']
+					},
+					{
+						foreignKeyName: 'course_skills_skill_id_fkey'
+						columns: ['skill_id']
+						isOneToOne: false
+						referencedRelation: 'skills'
+						referencedColumns: ['id']
+					}
+				]
+			}
 			courses: {
 				Row: {
-					created_at: string | null
+					created_at: string
 					description: string | null
 					edu_program: string | null
 					id: number
-					slug: string | null
+					slug: string
 					title: string | null
 				}
 				Insert: {
-					created_at?: string | null
+					created_at: string
 					description?: string | null
 					edu_program?: string | null
 					id?: number
-					slug?: string | null
+					slug: string
 					title?: string | null
 				}
 				Update: {
-					created_at?: string | null
+					created_at?: string
 					description?: string | null
 					edu_program?: string | null
 					id?: number
-					slug?: string | null
+					slug?: string
 					title?: string | null
 				}
 				Relationships: []
 			}
 			group_members: {
 				Row: {
-					group_id: number | null
+					group_id: number
 					id: number
-					role: string | null
-					user_id: string | null
+					role: string
+					user_id: string
 				}
 				Insert: {
-					group_id?: number | null
+					group_id: number
 					id?: number
-					role?: string | null
-					user_id?: string | null
+					role?: string
+					user_id: string
 				}
 				Update: {
-					group_id?: number | null
+					group_id?: number
 					id?: number
-					role?: string | null
-					user_id?: string | null
+					role?: string
+					user_id?: string
 				}
 				Relationships: [
 					{
@@ -237,7 +276,7 @@ export type Database = {
 					created_at: string
 					id: number
 					lesson_id: number | null
-					order_index: number | null
+					order_index: number
 					title: string | null
 					type: string | null
 					url: string | null
@@ -246,7 +285,7 @@ export type Database = {
 					created_at?: string
 					id?: number
 					lesson_id?: number | null
-					order_index?: number | null
+					order_index?: number
 					title?: string | null
 					type?: string | null
 					url?: string | null
@@ -255,7 +294,7 @@ export type Database = {
 					created_at?: string
 					id?: number
 					lesson_id?: number | null
-					order_index?: number | null
+					order_index?: number
 					title?: string | null
 					type?: string | null
 					url?: string | null
@@ -317,7 +356,7 @@ export type Database = {
 					content: string | null
 					created_at: string
 					id: number
-					module_id: number | null
+					module_id: number
 					order_index: number | null
 					title: string | null
 					type: Database['public']['Enums']['lesson'] | null
@@ -327,7 +366,7 @@ export type Database = {
 					content?: string | null
 					created_at?: string
 					id?: number
-					module_id?: number | null
+					module_id: number
 					order_index?: number | null
 					title?: string | null
 					type?: Database['public']['Enums']['lesson'] | null
@@ -337,7 +376,7 @@ export type Database = {
 					content?: string | null
 					created_at?: string
 					id?: number
-					module_id?: number | null
+					module_id?: number
 					order_index?: number | null
 					title?: string | null
 					type?: Database['public']['Enums']['lesson'] | null
@@ -385,6 +424,57 @@ export type Database = {
 					}
 				]
 			}
+			roadmap_positions: {
+				Row: {
+					id: number
+					user_id: string
+					course_id: number
+					node_type: 'module' | 'lesson'
+					node_id: number
+					position_x: number
+					position_y: number
+					created_at: string
+					updated_at: string
+				}
+				Insert: {
+					id?: number
+					user_id: string
+					course_id: number
+					node_type: 'module' | 'lesson'
+					node_id: number
+					position_x?: number
+					position_y?: number
+					created_at?: string
+					updated_at?: string
+				}
+				Update: {
+					id?: number
+					user_id?: string
+					course_id?: number
+					node_type?: 'module' | 'lesson'
+					node_id?: number
+					position_x?: number
+					position_y?: number
+					created_at?: string
+					updated_at?: string
+				}
+				Relationships: [
+					{
+						foreignKeyName: 'roadmap_positions_user_id_fkey'
+						columns: ['user_id']
+						isOneToOne: false
+						referencedRelation: 'user'
+						referencedColumns: ['id']
+					},
+					{
+						foreignKeyName: 'roadmap_positions_course_id_fkey'
+						columns: ['course_id']
+						isOneToOne: false
+						referencedRelation: 'courses'
+						referencedColumns: ['id']
+					}
+				]
+			}
 			session: {
 				Row: {
 					createdAt: string
@@ -425,6 +515,27 @@ export type Database = {
 						referencedColumns: ['id']
 					}
 				]
+			}
+			skills: {
+				Row: {
+					created_at: string
+					id: number
+					name: string
+					slug: string
+				}
+				Insert: {
+					created_at?: string
+					id?: number
+					name: string
+					slug: string
+				}
+				Update: {
+					created_at?: string
+					id?: number
+					name?: string
+					slug?: string
+				}
+				Relationships: []
 			}
 			user: {
 				Row: {
@@ -491,6 +602,7 @@ export type Database = {
 			[_ in never]: never
 		}
 		Enums: {
+			enrollment_status: 'enrolled' | 'in_progress' | 'completed'
 			lesson: 'lecture' | 'practical'
 		}
 		CompositeTypes: {
@@ -617,6 +729,7 @@ export type CompositeTypes<
 export const Constants = {
 	public: {
 		Enums: {
+			enrollment_status: ['enrolled', 'in_progress', 'completed'],
 			lesson: ['lecture', 'practical']
 		}
 	}

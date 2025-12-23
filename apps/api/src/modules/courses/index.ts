@@ -1,76 +1,46 @@
-import { Elysia, t } from 'elysia'
+import { Elysia } from 'elysia'
 
-import { supabase } from '../../lib/supabase'
+import { CourseModel } from './model'
+import { CourseService } from './service'
 
 export const coursesRoutes = new Elysia({ prefix: '/courses' })
-	.get('/', async () => {
-		const { data, error } = await supabase
-			.from('courses')
-			.select('*')
-			.order('id', { ascending: true })
+	.use(CourseModel)
 
-		if (error) throw new Error(error.message)
-		return data
-	})
-
-	.get('/with-details', async () => {
-		const { data, error } = await supabase
-			.from('courses')
-			.select(
-				`
-        *,
-        course_authors (
-          *,
-          user:user (*)
-        ),
-        modules (
-          *,
-          lessons (*)
-        )
-      `
-			)
-			.order('id', { ascending: true })
-			.order('order_index', { referencedTable: 'modules.lessons', ascending: true })
-
-		if (error) throw new Error(error.message)
-		return data
-	})
+	// Get all courses (basic)
+	.get('/', () => CourseService.getAll())
 
 	.get(
-		'/:slug',
-		async ({ params: { slug } }) => {
-			const { data, error } = await supabase
-				.from('courses')
-				.select(
-					`
-        *,
-        course_authors (
-          *,
-          user:user (*)
-        ),
-        modules (
-          *,
-          lessons (
-            *,
-            lesson_attachments (*)
-          )
-        )
-      `
-				)
-				.eq('slug', slug)
-				.order('order_index', { referencedTable: 'modules.lessons', ascending: true })
-				.order('order_index', {
-					referencedTable: 'modules.lessons.lesson_attachments',
-					ascending: true
-				})
-				.single()
-
-			if (error) throw new Error(error.message)
-			return data
-		},
+		'/continue-learning/:userId',
+		({ params }) => CourseService.getContinueLearningCourses(params.userId),
 		{
-			params: t.Object({
-				slug: t.String()
-			})
+			params: 'course.params.userId'
 		}
 	)
+
+	// Get all courses with details
+	.get('/with-details', () => CourseService.getAllWithDetails())
+
+	// Search courses
+	.get('/search', ({ query }) => CourseService.search(query.search ?? '', query.edu_program), {
+		query: 'course.query.search'
+	})
+
+	// Get course by id
+	.get('/id/:id', ({ params }) => CourseService.getById(params.id), {
+		params: 'course.params.id'
+	})
+
+	// Get course skills
+	.get('/id/:id/skills', ({ params }) => CourseService.getCourseSkills(params.id), {
+		params: 'course.params.id'
+	})
+
+	// Get course modules
+	.get('/id/:id/modules', ({ params }) => CourseService.getCourseModules(params.id), {
+		params: 'course.params.id'
+	})
+
+	// Get course by slug
+	.get('/slug/:slug', ({ params }) => CourseService.getBySlug(params.slug), {
+		params: 'course.params.slug'
+	})

@@ -21,7 +21,7 @@ const PrivateLayout = async ({ children }: PrivateLayoutProps) => {
 			<SidebarInset>
 				{/* #f8f8f8 */}
 				<Header
-					courses={data}
+					courses={data ?? []}
 					user={user}
 				/>
 				<div className='p-4'>{children}</div>

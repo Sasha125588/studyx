@@ -1,17 +1,17 @@
 'use client'
 
-import type { CourseEnrollment, CourseWithModules } from '@studyx/database'
+import type { CourseEnrollment, CourseWithDetails } from '@studyx/database'
 import { BookOpen } from 'lucide-react'
 
 import { Card, CardContent } from '@/components/ui/card'
 
-import { CourseCard } from '../CourseCard/CourseCard'
 import { CourseFilters } from '../CourseFilters/CourseFilters'
+import { useCourseFilters } from '../hooks/useCourseFilters'
 
-import { useCourseFilters } from './hooks/useCourseFilters'
+import { CourseCard } from './components/CourseCard/CourseCard'
 
 interface CourseListProps {
-	courses: CourseWithModules[]
+	courses: CourseWithDetails[]
 	enrollments?: CourseEnrollment[]
 	userId?: string
 }

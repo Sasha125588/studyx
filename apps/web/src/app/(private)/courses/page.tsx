@@ -1,4 +1,3 @@
-import type { CourseEnrollment } from '@studyx/database'
 import Link from 'next/link'
 import { Suspense } from 'react'
 
@@ -8,29 +7,19 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 
 import { CourseList } from './(components)/CourseList/CourseList'
+import { getUserEnrollments } from '@/shared/api'
+import { getUserId } from '@/shared/api/requests/auth/getUserId'
 import { getCoursesWithDetails } from '@/shared/api/requests/courses/getCoursesWithDetails'
 
-// TODO: Замініть на реальний запит до бекенду
-const getEnrollments = async (): Promise<CourseEnrollment[]> => {
-	// Тимчасові моковані дані для демонстрації
-	// Коли бекенд буде готовий, замініть на реальний запит
-	return []
-}
-
-// TODO: Замініть на реальне отримання userId з сесії
-const getCurrentUserId = async (): Promise<string | undefined> => {
-	// Поки повертаємо undefined
-	return undefined
-}
-
 const CoursesPage = async () => {
-	const [{ data: courses, error }, enrollments, userId] = await Promise.all([
+	const userId = (await getUserId())!
+
+	const [{ data: courses, error }, enrollments] = await Promise.all([
 		getCoursesWithDetails(),
-		getEnrollments(),
-		getCurrentUserId()
+		getUserEnrollments(userId)
 	])
 
-	if (error) {
+	if (error || !enrollments.data) {
 		return (
 			<Card className='border-destructive/30 bg-destructive/5'>
 				<CardContent className='text-destructive py-6'>
@@ -61,7 +50,7 @@ const CoursesPage = async () => {
 			<Suspense fallback={<CoursesListSkeleton />}>
 				<CourseList
 					courses={courses}
-					enrollments={enrollments}
+					enrollments={enrollments.data}
 					userId={userId}
 				/>
 			</Suspense>

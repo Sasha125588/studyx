@@ -1,7 +1,7 @@
-import type { CourseAuthorWithUser } from '@studyx/database'
+import type { User } from '@studyx/database'
 
-export const getCourseAuthors = (authors?: CourseAuthorWithUser[]) => {
+export const getCourseAuthors = (authors: User[]) => {
 	if (!authors || authors.length === 0) return 'Unknown'
 
-	return authors.map(author => author.author_name || author.user?.name || 'Unknown').join(', ')
+	return authors.map(author => author.name ?? author.email ?? 'Unknown').join(', ')
 }

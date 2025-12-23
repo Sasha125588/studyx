@@ -1,6 +1,6 @@
 'use client'
 
-import type { CourseEnrollment, CourseWithModules } from '@studyx/database'
+import type { CourseEnrollment, CourseWithDetails } from '@studyx/database'
 import { parseAsString, parseAsStringLiteral, useQueryStates } from 'nuqs'
 import { useCallback, useMemo } from 'react'
 
@@ -12,7 +12,7 @@ import {
 	type SortOption,
 	TAB_VALUES,
 	type TabValue
-} from '../../constants/filters'
+} from '../constants/filters'
 
 /* eslint-disable react-hooks/exhaustive-deps */
 
@@ -28,7 +28,7 @@ const courseFiltersParsers = {
 }
 
 interface UseCourseFiltersProps {
-	courses: CourseWithModules[]
+	courses: CourseWithDetails[]
 	enrollments?: CourseEnrollment[]
 	userId?: string
 }
@@ -52,9 +52,9 @@ export const useCourseFilters = ({ courses, enrollments = [], userId }: UseCours
 		const authorMap = new Map<string, string>()
 
 		courses.forEach(course => {
-			course.course_authors?.forEach(author => {
-				const name = author.user?.name || author.author_name
-				const id = author.user_id || author.id.toString()
+			course.authors?.forEach(author => {
+				const name = author.name ?? author.email
+				const id = author.id
 
 				if (name && !authorMap.has(id)) {
 					authorMap.set(id, name)
@@ -69,9 +69,9 @@ export const useCourseFilters = ({ courses, enrollments = [], userId }: UseCours
 		const skillSet = new Set<string>()
 
 		courses.forEach(course => {
-			course.modules?.forEach(module => {
-				if (module.name) {
-					skillSet.add(module.name)
+			course.skills.forEach(skill => {
+				if (skill.name) {
+					skillSet.add(skill.name)
 				}
 			})
 		})
@@ -82,7 +82,7 @@ export const useCourseFilters = ({ courses, enrollments = [], userId }: UseCours
 	const getEnrollment = (courseId: number) => enrollments.find(e => e.course_id === courseId)
 
 	const filterByMyCoursesStatus = useCallback(
-		(coursesList: CourseWithModules[]) => {
+		(coursesList: CourseWithDetails[]) => {
 			if (filters.myCoursesStatus === MY_COURSES_STATUS.ALL) return coursesList
 
 			return coursesList.filter(course => {
@@ -143,17 +143,11 @@ export const useCourseFilters = ({ courses, enrollments = [], userId }: UseCours
 		}
 
 		if (filters.author) {
-			result = result.filter(course =>
-				course.course_authors?.some(
-					author => author.user_id === filters.author || author.id.toString() === filters.author
-				)
-			)
+			result = result.filter(course => course.authors?.some(author => author.id === filters.author))
 		}
 
 		if (filters.skill) {
-			result = result.filter(course =>
-				course.modules?.some(module => module.name === filters.skill)
-			)
+			result = result.filter(course => course.skills.some(skill => skill.name === filters.skill))
 		}
 
 		result.sort((a, b) => {

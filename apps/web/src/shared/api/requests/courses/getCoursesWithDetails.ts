@@ -1,23 +1,5 @@
-'use cache'
-
-import { cacheLife } from 'next/cache'
+'use server'
 
 import { api } from '@/lib/elysia/client'
 
-export const getCoursesWithDetails = async () => {
-	cacheLife('minutes')
-
-	try {
-		const { data, error } = await api.courses['with-details'].get()
-
-		return {
-			data: data ?? [],
-			error: error ? String(error.value) : null
-		}
-	} catch {
-		return {
-			data: [],
-			error: 'API unavailable'
-		}
-	}
-}
+export const getCoursesWithDetails = async () => await api.courses['with-details'].get()
