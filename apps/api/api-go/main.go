@@ -12,6 +12,7 @@ import (
 
 	"github.com/studyx-api/internal/api"
 	"github.com/studyx-api/internal/api/endpoints/course/handlers"
+	"github.com/studyx-api/internal/api/endpoints/course/repository"
 	"github.com/studyx-api/internal/api/endpoints/course/services"
 	"github.com/studyx-api/internal/api/endpoints/health"
 	"github.com/studyx-api/internal/lib/supabase"
@@ -19,15 +20,22 @@ import (
 
 	zfg "github.com/chaindead/zerocfg"
 	"github.com/chaindead/zerocfg/env"
+	"github.com/joho/godotenv"
 )
 
 var (
-	supabaseURL = zfg.Str("supabase.url", "https://hiumfpqtebwwjepqojsd.supabase.co", "Supabase URL")
-	supabaseKey = zfg.Str("supabase.api.key", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhpdW1mcHF0ZWJ3d2plcHFvanNkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ2Nzg2NzUsImV4cCI6MjA3MDI1NDY3NX0.r8X2qOOomWYICpr7xmSEcKNY5eoM9JGlcdOSUpglu6A", "Supabase API Key")
+	supabaseURL = zfg.Str("supabase.url", "", "Supabase URL")
+	supabaseKey = zfg.Str("supabase.api.key", "", "Supabase API Key")
 )
 
 func main() {
-	err := zfg.Parse(
+	err := godotenv.Load()
+	if err != nil {
+		slog.Warn("Failed to load .env file", "error", err.Error())
+		panic(err)
+	}
+
+	err = zfg.Parse(
 		env.New(),
 	)
 	if err != nil {
@@ -36,14 +44,16 @@ func main() {
 
 	supabaseClient := supabase.NewClient(*supabaseURL, *supabaseKey)
 
-	courseService := services.NewCourseService(supabaseClient)
+	courseRepository := repository.NewRepository(supabaseClient)
+	courseService := services.NewCourseService(courseRepository)
 
 	r := router.New()
 
 	r.Add(router.GET("/health", health.Handle))
 
-	r.Add(router.NewGroup("/api/v1", 
-		router.GET("/courses", handlers.GetAllCourses(courseService)),
+	// API v1 routes
+	r.Add(router.NewGroup("/api/v1",
+		handlers.RegisterCourseRoutes(courseService),
 	).SetErrHandler(api.ErrHandler))
 
 	httpSrv := &http.Server{

@@ -28,12 +28,24 @@ func (d *Decoder) Decode(dest any) error {
 
 	structValue := reflect.ValueOf(dest).Elem()
 
+	return d.decodeStruct(typ, structValue, lastQuery)
+}
+
+func (d *Decoder) decodeStruct(typ reflect.Type, structValue reflect.Value, query map[string]string) error {
 	for i := 0; i < typ.NumField(); i++ {
 		field := typ.Field(i)
 		value := structValue.Field(i)
-		tag := field.Tag.Get("query")
 
-		queryValue, ok := lastQuery[tag]
+		// Рекурсивно обробляємо embedded structs
+		if field.Anonymous && value.Kind() == reflect.Struct {
+			if err := d.decodeStruct(field.Type, value, query); err != nil {
+				return err
+			}
+			continue
+		}
+
+		tag := field.Tag.Get("query")
+		queryValue, ok := query[tag]
 		if !ok || tag == "" || !value.CanSet() {
 			continue
 		}

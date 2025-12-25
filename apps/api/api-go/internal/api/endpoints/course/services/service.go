@@ -1,34 +1,41 @@
 package services
 
 import (
-	"encoding/json"
+	"context"
 
 	"github.com/studyx-api/internal/api/endpoints/course/model"
-	"github.com/studyx-api/internal/lib/supabase"
+	"github.com/studyx-api/internal/api/endpoints/course/repository"
 )
 
+type CourseService interface {
+    GetAll(ctx context.Context, filters model.GetAllCoursesFilters) ([]model.Course, int64, error)
+	GetAllWithDetails(ctx context.Context, filters model.GetAllCoursesFilters) ([]model.FormattedCourseWithDetails, int64, error)
+}
 
 type courseService struct {
-	supabase *supabase.Client
+	repo repository.Repository
 }
 
-func NewCourseService(supabase *supabase.Client) *courseService {
+func NewCourseService(repo repository.Repository) CourseService {
 	return &courseService{
-		supabase: supabase,
+		repo,
 	}
 }
 
-func (s *courseService) GetAll(author, skill, sort string) ([]model.Course, error) {
-	data, _, err := s.supabase.Client.From("courses").Select("*", "", false).Execute()
-	if err != nil {
-		return nil, err
+func (s *courseService) GetAll(ctx context.Context, filters model.GetAllCoursesFilters) ([]model.Course, int64, error) {
+	courses, count, err := s.repo.GetAll(ctx, filters)
+	if err != nil {		
+		return nil, 0, err
 	}
 
-	var courses []model.Course
-	err = json.Unmarshal(data, &courses)
+	return courses, count, nil
+}
+
+func (s *courseService) GetAllWithDetails(ctx context.Context, filters model.GetAllCoursesFilters) ([]model.FormattedCourseWithDetails, int64, error) {
+	courses, count, err := s.repo.GetAllWithDetails(ctx, filters)
 	if err != nil {
-		return nil, err
+		return nil, 0, err
 	}
 
-	return courses, nil
+	return courses, count, nil
 }
