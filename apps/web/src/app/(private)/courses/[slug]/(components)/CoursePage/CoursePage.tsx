@@ -84,7 +84,10 @@ export const CoursePageMain = async ({ course, savedPositions, userId }: CourseP
 
 						<TabsContents>
 							<TabsContent value='content'>
-								<CourseContent modules={modules} />
+								<CourseContent
+									modules={modules}
+									courseSlug={course.slug}
+								/>
 							</TabsContent>
 
 							<TabsContent value='roadmap'>

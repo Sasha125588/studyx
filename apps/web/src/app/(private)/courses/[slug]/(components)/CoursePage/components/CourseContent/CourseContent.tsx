@@ -13,13 +13,13 @@ import { Button } from '@/components/ui/button'
 
 export interface CourseContentProps {
 	modules: ModuleWithLessons[]
+	courseSlug: string
 }
 
-export const CourseContent = ({ modules }: CourseContentProps) => {
+export const CourseContent = ({ modules, courseSlug }: CourseContentProps) => {
 	// TODO: отримати реальний прогрес з API
 	const getLessonStatus = () => {
 		const random = crypto.getRandomValues(new Uint8Array(1))[0] % 100
-		console.log(random)
 		return random > 50
 	}
 
@@ -55,7 +55,6 @@ export const CourseContent = ({ modules }: CourseContentProps) => {
 										{module.lessons?.length ?? 0} занять
 									</p>
 								</div>
-								{/* Прогрес модуля */}
 								{progress > 0 && (
 									<span className='mr-2 text-sm font-medium text-emerald-600'>{progress}%</span>
 								)}
@@ -69,7 +68,7 @@ export const CourseContent = ({ modules }: CourseContentProps) => {
 
 								return (
 									<Link
-										href={`/lessons/${lesson.id}`}
+										href={`${courseSlug}/${lesson.slug}`}
 										key={lesson.id}
 									>
 										<div className='group hover:bg-muted/50 flex items-center justify-between border-t px-6 py-4 transition-colors'>

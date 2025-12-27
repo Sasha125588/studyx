@@ -6,7 +6,6 @@ import { CourseService } from './service'
 export const coursesRoutes = new Elysia({ prefix: '/courses' })
 	.use(CourseModel)
 
-	// Get all courses (basic)
 	.get('/', () => CourseService.getAll())
 
 	.get(
@@ -17,17 +16,11 @@ export const coursesRoutes = new Elysia({ prefix: '/courses' })
 		}
 	)
 
-	// Get all courses with details
 	.get('/with-details', () => CourseService.getAllWithDetails())
 
 	// Search courses
 	.get('/search', ({ query }) => CourseService.search(query.search ?? '', query.edu_program), {
 		query: 'course.query.search'
-	})
-
-	// Get course by id
-	.get('/id/:id', ({ params }) => CourseService.getById(params.id), {
-		params: 'course.params.id'
 	})
 
 	// Get course skills

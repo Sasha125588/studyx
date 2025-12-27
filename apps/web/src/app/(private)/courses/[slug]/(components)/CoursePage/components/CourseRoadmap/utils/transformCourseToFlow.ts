@@ -22,20 +22,6 @@ export interface TransformOptions {
 
 export type FlowBounds = [[number, number], [number, number]]
 
-// Хелпер для пошуку збереженої позиції
-const findSavedPosition = (
-	savedPositions: RoadmapPosition[],
-	nodeType: 'module' | 'lesson',
-	nodeId: number
-) => {
-	const saved = savedPositions.find(p => p.node_type === nodeType && p.node_id === nodeId)
-	if (!saved) {
-		return null
-	}
-
-	return { x: saved.position_x, y: saved.position_y }
-}
-
 export const transformCourseToFlow = (
 	modules: ModuleWithLessons[],
 	options: TransformOptions = {}
@@ -52,7 +38,6 @@ export const transformCourseToFlow = (
 		const lessons = module.lessons || []
 		const rows = Math.ceil(lessons.length / LESSONS_PER_ROW)
 
-		// Обчислюємо розмір модуля
 		const moduleWidth =
 			LESSONS_PER_ROW * LESSON_NODE_WIDTH +
 			(LESSONS_PER_ROW - 1) * HORIZONTAL_GAP +
@@ -63,17 +48,14 @@ export const transformCourseToFlow = (
 			(rows - 1) * VERTICAL_GAP +
 			MODULE_PADDING * 2
 
-		// Підрахунок завершених уроків
 		const completedCount = lessons.filter(lesson =>
 			lessonsProgress.some(p => p.lesson_id === lesson.id && p.completed)
 		).length
 
-		// Позиція модуля: збережена або дефолтна
 		const defaultModulePosition = { x: 0, y: currentY }
 		const modulePosition =
 			findSavedPosition(savedPositions, 'module', module.id) ?? defaultModulePosition
 
-		// Створюємо вузол модуля (група)
 		const moduleNode: ModuleNode = {
 			id: `module-${module.id}`,
 			type: 'module',
@@ -98,7 +80,6 @@ export const transformCourseToFlow = (
 			const row = Math.floor(lessonIndex / LESSONS_PER_ROW)
 			const col = lessonIndex % LESSONS_PER_ROW
 
-			// Дефолтна позиція уроку (відносно модуля)
 			const defaultLessonPosition = {
 				x: MODULE_PADDING + col * (LESSON_NODE_WIDTH + HORIZONTAL_GAP),
 				y: MODULE_HEADER_HEIGHT + row * (LESSON_NODE_HEIGHT + VERTICAL_GAP)
@@ -117,6 +98,7 @@ export const transformCourseToFlow = (
 				extent: 'parent',
 				data: {
 					title: lesson.title || `Урок ${lessonIndex + 1}`,
+					slug: lesson.slug!,
 					type: lesson.type === 'practical' ? 'practical' : 'lecture',
 					isCompleted,
 					lessonNumber: lessonIndex + 1
@@ -125,7 +107,7 @@ export const transformCourseToFlow = (
 
 			nodes.push(lessonNode)
 
-			// Створюємо зв'язок з попереднім уроком (строга послідовність)
+			// Створюємо зв'язок з попереднім уроком
 			if (lessonIndex > 0) {
 				const prevLesson = lessons[lessonIndex - 1]
 				edges.push({
@@ -178,4 +160,17 @@ export const transformCourseToFlow = (
 	]
 
 	return { nodes, edges, bounds }
+}
+
+const findSavedPosition = (
+	savedPositions: RoadmapPosition[],
+	nodeType: 'module' | 'lesson',
+	nodeId: number
+) => {
+	const saved = savedPositions.find(p => p.node_type === nodeType && p.node_id === nodeId)
+	if (!saved) {
+		return null
+	}
+
+	return { x: saved.position_x, y: saved.position_y }
 }

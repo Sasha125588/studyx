@@ -7,36 +7,35 @@ interface BreadcrumbItem {
 	isActive?: boolean
 }
 
-interface BreadcrumbConfig {
+interface GetBreadcrumbsProps {
+	pathname: string
+	i18n: IntlShape
 	courses?: Course[]
 }
 
-export const getBreadcrumbs = (
-	pathname: string,
-	i18n: IntlShape,
-	config?: BreadcrumbConfig
-): BreadcrumbItem[] => {
+export const getBreadcrumbs = ({ pathname, i18n, courses }: GetBreadcrumbsProps) => {
 	const paths = pathname.split('/').filter(Boolean)
+
 	const breadcrumbs: BreadcrumbItem[] = []
 
-	// Always add home
 	breadcrumbs.push({
 		label: i18n.formatMessage({ id: 'home' }),
 		href: '/'
 	})
 
-	paths.forEach((path, index) => {
+	paths.forEach(path => {
 		if (path === 'courses') {
 			breadcrumbs.push({
 				label: i18n.formatMessage({ id: 'courses' }),
 				href: '/courses',
 				isActive: paths.length === 1
 			})
-		} else if (config?.courses && index === 1 && paths[0] === 'courses') {
-			const course = config.courses.find(c => c.slug === decodeURIComponent(path))
+		} else if (courses) {
+			const course = courses.find(c => c.slug === decodeURIComponent(path))
 			if (course) {
 				breadcrumbs.push({
-					label: course.title ?? course.slug ?? '',
+					label: course.title!,
+					href: `/courses/${course.slug}`,
 					isActive: true
 				})
 			}

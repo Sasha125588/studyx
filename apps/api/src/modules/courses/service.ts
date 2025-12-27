@@ -1,19 +1,13 @@
 import { supabase } from '../../lib/supabase'
 
 export abstract class CourseService {
-	/**
-	 * Get all courses (basic info only)
-	 */
 	static async getAll() {
-		const { data, error } = await supabase
-			.from('courses')
-			.select('*')
-			.order('id', { ascending: true })
+		const { data, error } = await supabase.from('courses').select('*')
 
 		if (error) throw new Error(error.message)
+
 		return data
 	}
-
 	/**
 	 * Get all courses with full details (authors, modules, lessons)
 	 */
@@ -24,7 +18,7 @@ export abstract class CourseService {
 				`
 				*,
 				course_authors (
-					author:user_id (*)
+					user (*)
 				),
 				modules (
 					*,
@@ -35,7 +29,7 @@ export abstract class CourseService {
 				)
 			`
 			)
-			.order('id', { ascending: true })
+			.order('order_index', { referencedTable: 'modules', ascending: true })
 			.order('order_index', { referencedTable: 'modules.lessons', ascending: true })
 			.order('order_index', { referencedTable: 'course_skills', ascending: true })
 
@@ -43,7 +37,7 @@ export abstract class CourseService {
 
 		const formattedData = data.map(course => ({
 			...course,
-			authors: course.course_authors.map(cs => cs.author),
+			authors: course.course_authors.map(cs => cs.user),
 			skills: course.course_skills.map(cs => cs.skills)
 		}))
 
@@ -79,6 +73,7 @@ export abstract class CourseService {
 			)
 			.eq('user_id', userId)
 			.in('status', ['enrolled', 'in_progress'])
+			.order('order_index', { referencedTable: 'courses.modules', ascending: true })
 			.order('enrolled_at', { ascending: false })
 
 		if (error) throw new Error(error.message)
@@ -136,19 +131,18 @@ export abstract class CourseService {
 				*,
 				modules (
 					*,
-					lessons (
-						*
-					)
+					lessons (*)
 				),
-				authors:course_authors (
+				course_authors (
 					user (*)
 				),
-				skills:course_skills (
+				course_skills (
 					skills (*)
 				)
 			`
 			)
 			.eq('slug', slug)
+			.order('order_index', { referencedTable: 'modules', ascending: true })
 			.order('order_index', { referencedTable: 'modules.lessons', ascending: true })
 			.order('order_index', { referencedTable: 'course_skills', ascending: true })
 			.single()
@@ -157,43 +151,9 @@ export abstract class CourseService {
 
 		return {
 			...data,
-			authors: data.authors.map(ca => ca.user),
-			skills: data.skills.map(cs => cs.skills)
+			authors: data.course_authors.map(ca => ca.user),
+			skills: data.course_skills.map(cs => cs.skills)
 		}
-	}
-
-	/**
-	 * Get a single course by id
-	 */
-	static async getById(id: number) {
-		const { data, error } = await supabase
-			.from('courses')
-			.select(
-				`
-				*,
-				course_authors (
-					*,
-					user:user (*)
-				),
-				modules (
-					*,
-					lessons (
-						*,
-						lesson_attachments (*)
-					)
-				)
-			`
-			)
-			.eq('id', id)
-			.order('order_index', { referencedTable: 'modules.lessons', ascending: true })
-			.order('order_index', {
-				referencedTable: 'modules.lessons.lesson_attachments',
-				ascending: true
-			})
-			.single()
-
-		if (error) throw new Error(error.message)
-		return data
 	}
 
 	/**

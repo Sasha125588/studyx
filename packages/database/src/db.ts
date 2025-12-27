@@ -195,6 +195,7 @@ export type Database = {
 					id: number
 					slug: string
 					title: string | null
+					updated_at: string | null
 				}
 				Insert: {
 					created_at: string
@@ -203,6 +204,7 @@ export type Database = {
 					id?: number
 					slug: string
 					title?: string | null
+					updated_at?: string | null
 				}
 				Update: {
 					created_at?: string
@@ -211,6 +213,7 @@ export type Database = {
 					id?: number
 					slug?: string
 					title?: string | null
+					updated_at?: string | null
 				}
 				Relationships: []
 			}
@@ -357,7 +360,8 @@ export type Database = {
 					created_at: string
 					id: number
 					module_id: number
-					order_index: number | null
+					order_index: number
+					slug: string | null
 					title: string | null
 					type: Database['public']['Enums']['lesson'] | null
 					updated_at: string | null
@@ -367,7 +371,8 @@ export type Database = {
 					created_at?: string
 					id?: number
 					module_id: number
-					order_index?: number | null
+					order_index?: number
+					slug?: string | null
 					title?: string | null
 					type?: Database['public']['Enums']['lesson'] | null
 					updated_at?: string | null
@@ -377,7 +382,8 @@ export type Database = {
 					created_at?: string
 					id?: number
 					module_id?: number
-					order_index?: number | null
+					order_index?: number
+					slug?: string | null
 					title?: string | null
 					type?: Database['public']['Enums']['lesson'] | null
 					updated_at?: string | null
@@ -399,6 +405,7 @@ export type Database = {
 					description: string | null
 					id: number
 					name: string | null
+					order_index: number
 				}
 				Insert: {
 					course_id?: number | null
@@ -406,6 +413,7 @@ export type Database = {
 					description?: string | null
 					id?: number
 					name?: string | null
+					order_index?: number
 				}
 				Update: {
 					course_id?: number | null
@@ -413,6 +421,7 @@ export type Database = {
 					description?: string | null
 					id?: number
 					name?: string | null
+					order_index?: number
 				}
 				Relationships: [
 					{
@@ -426,51 +435,51 @@ export type Database = {
 			}
 			roadmap_positions: {
 				Row: {
-					id: number
-					user_id: string
 					course_id: number
-					node_type: 'module' | 'lesson'
+					created_at: string | null
+					id: number
 					node_id: number
+					node_type: string
 					position_x: number
 					position_y: number
-					created_at: string
-					updated_at: string
+					updated_at: string | null
+					user_id: string
 				}
 				Insert: {
-					id?: number
-					user_id: string
 					course_id: number
-					node_type: 'module' | 'lesson'
+					created_at?: string | null
+					id?: number
 					node_id: number
+					node_type: string
 					position_x?: number
 					position_y?: number
-					created_at?: string
-					updated_at?: string
+					updated_at?: string | null
+					user_id: string
 				}
 				Update: {
-					id?: number
-					user_id?: string
 					course_id?: number
-					node_type?: 'module' | 'lesson'
+					created_at?: string | null
+					id?: number
 					node_id?: number
+					node_type?: string
 					position_x?: number
 					position_y?: number
-					created_at?: string
-					updated_at?: string
+					updated_at?: string | null
+					user_id?: string
 				}
 				Relationships: [
-					{
-						foreignKeyName: 'roadmap_positions_user_id_fkey'
-						columns: ['user_id']
-						isOneToOne: false
-						referencedRelation: 'user'
-						referencedColumns: ['id']
-					},
 					{
 						foreignKeyName: 'roadmap_positions_course_id_fkey'
 						columns: ['course_id']
 						isOneToOne: false
 						referencedRelation: 'courses'
+						referencedColumns: ['id']
+					},
+					{
+						foreignKeyName: 'roadmap_positions_user_id_fkey'
+						columns: ['user_id']
+						isOneToOne: false
+						referencedRelation: 'user'
 						referencedColumns: ['id']
 					}
 				]

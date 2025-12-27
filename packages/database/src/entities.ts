@@ -80,6 +80,45 @@ export type LessonWithProgress = Lesson & {
 	progress: LessonProgress | null
 }
 
+export type LessonNavItem = {
+	id: number
+	title: string | null
+	slug: string | null
+	type: LessonType | null
+	order_index: number
+}
+
+export type ModuleNav = {
+	id: number
+	name: string | null
+	order_index: number
+	lessons: LessonNavItem[]
+}
+
+export type LessonFullContext = {
+	lesson: LessonWithAttachments
+	module: {
+		id: number
+		name: string | null
+		description: string | null
+		order_index: number
+		course_id: number | null
+	}
+	course: {
+		id: number
+		title: string | null
+		slug: string
+	}
+	moduleLessons: LessonNavItem[]
+	allModules: ModuleNav[]
+	navigation: {
+		previous: LessonNavItem | null
+		next: LessonNavItem | null
+		currentIndex: number
+		totalLessons: number
+	}
+}
+
 export type CourseEnrollmentWithCourse = CourseEnrollment & {
 	course: Course
 }

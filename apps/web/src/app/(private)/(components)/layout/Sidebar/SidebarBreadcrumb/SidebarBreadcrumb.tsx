@@ -21,12 +21,14 @@ interface SidebarBreadcrumbProps {
 
 export const SidebarBreadcrumb = ({ courses }: SidebarBreadcrumbProps) => {
 	const i18n = useI18n()
-	const pathname = usePathname() // /courses/%D0%9C%D0%9B%D0%A2%D0%90
+	const pathname = usePathname()
+
+	const breadcrumbs = getBreadcrumbs({ pathname, i18n, courses })
 
 	return (
 		<Breadcrumb>
 			<BreadcrumbList>
-				{getBreadcrumbs(pathname, i18n, { courses }).map((item, index) => (
+				{breadcrumbs.map((item, index) => (
 					<div
 						className='flex items-center gap-2'
 						key={item.label}
