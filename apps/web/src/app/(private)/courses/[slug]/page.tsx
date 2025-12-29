@@ -1,3 +1,5 @@
+import type { CourseWithDetails } from '@studyx/types'
+
 import { Card, CardContent } from '@/components/ui/card'
 
 import { CoursePageMain } from './(components)/CoursePage/CoursePage'
@@ -13,9 +15,9 @@ const CoursePage = async ({ params }: CoursePageProps) => {
 
 	const userId = (await getUserId())!
 
-	const { data, error } = await getCourse(decodedSlug)
+	const getCourseResponse = await getCourse(decodedSlug)
 
-	if (error) {
+	if (getCourseResponse.error) {
 		return (
 			<Card className='border-destructive/30 bg-destructive/5'>
 				<CardContent className='text-destructive py-6'>
@@ -25,7 +27,7 @@ const CoursePage = async ({ params }: CoursePageProps) => {
 		)
 	}
 
-	if (!data) {
+	if (!getCourseResponse.data) {
 		return (
 			<Card className='border-amber-200 bg-amber-50'>
 				<CardContent className='py-6 text-amber-800'>Курс не знайдено</CardContent>
@@ -33,11 +35,13 @@ const CoursePage = async ({ params }: CoursePageProps) => {
 		)
 	}
 
-	const savedPositions = await getRoadmapPositions(data.id)
+	const course = getCourseResponse.data as unknown as CourseWithDetails
+
+	const savedPositions = await getRoadmapPositions(getCourseResponse.data.id)
 
 	return (
 		<CoursePageMain
-			course={data}
+			course={course}
 			savedPositions={savedPositions}
 			userId={userId}
 		/>

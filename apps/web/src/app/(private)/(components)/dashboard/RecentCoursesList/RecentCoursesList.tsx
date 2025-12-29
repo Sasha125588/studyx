@@ -1,4 +1,4 @@
-import type { ContinueLearningCourse } from '@studyx/database'
+import type { ContinueLearningCourse } from '@studyx/types'
 
 import { RecentCoursesItem } from './components/CoursesItem/RecentCoursesItem'
 

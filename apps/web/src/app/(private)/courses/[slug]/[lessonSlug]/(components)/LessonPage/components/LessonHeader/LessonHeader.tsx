@@ -1,7 +1,7 @@
-import type { LessonFullContext } from '@studyx/database'
+import { type LessonFullContext, LessonTypes } from '@studyx/types'
 import {
 	ArrowLeftIcon,
-	BookOpenIcon,
+	// BookOpenIcon,
 	ClockIcon,
 	FileTextIcon,
 	FlaskConicalIcon
@@ -18,12 +18,12 @@ interface LessonHeaderProps {
 }
 
 export const LessonHeader = ({ lesson, module, course, navigation }: LessonHeaderProps) => {
-	const isLecture = lesson.type === 'lecture'
-	const isPractical = lesson.type === 'practical'
+	const isLecture = lesson.type === LessonTypes.LECTURE
+	// const isPractical = lesson.type === LessonTypes.PRACTICAL
 
 	// Приблизний час читання (150 слів на хвилину)
-	const wordCount = lesson.content?.split(/\s+/).length ?? 0
-	const readingTime = Math.max(1, Math.ceil(wordCount / 150))
+	// const wordCount = lesson.content?.split(/\s+/).length ?? 0
+	// const readingTime = Math.max(1, Math.ceil(wordCount / 150))
 
 	return (
 		<div className='space-y-4'>
@@ -85,16 +85,16 @@ export const LessonHeader = ({ lesson, module, course, navigation }: LessonHeade
 						{isLecture && (
 							<div className='flex items-center gap-1.5'>
 								<ClockIcon className='h-4 w-4' />
-								<span>~{readingTime} хв читання</span>
+								<span>~{lesson.estimated_time_minutes} хв читання</span>
 							</div>
 						)}
 
-						{isPractical && lesson.content && (
+						{/* {isPractical && lesson.content && (
 							<div className='flex items-center gap-1.5'>
 								<BookOpenIcon className='h-4 w-4' />
 								<span>{lesson.content.match(/^\d+\./gm)?.length ?? 0} завдань</span>
 							</div>
-						)}
+						)} */}
 
 						{lesson.attachments && lesson.attachments.length > 0 && (
 							<div className='flex items-center gap-1.5'>

@@ -1,3 +1,5 @@
+'use server'
+
 import type { App } from '@api'
 import { treaty } from '@elysiajs/eden'
 import { headers } from 'next/headers'

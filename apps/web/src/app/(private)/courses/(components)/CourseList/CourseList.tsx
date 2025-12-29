@@ -1,7 +1,7 @@
 'use client'
 
-import type { CourseEnrollment, CourseWithDetails } from '@studyx/database'
-import { BookOpen } from 'lucide-react'
+import type { CourseEnrollment, CourseWithDetails } from '@studyx/types'
+import { BookOpenIcon } from 'lucide-react'
 
 import { Card, CardContent } from '@/components/ui/card'
 
@@ -75,7 +75,7 @@ export const CourseList = ({ courses, enrollments = [], userId }: CourseListProp
 const EmptyState = ({ title, text }: { title: string; text: string }) => (
 	<Card className='border-dashed'>
 		<CardContent className='flex flex-col items-center justify-center gap-3 py-12 text-center'>
-			<BookOpen className='size-9' />
+			<BookOpenIcon className='size-9' />
 			<div className='space-y-1'>
 				<p className='text-lg font-semibold'>{title}</p>
 				<p className='text-muted-foreground text-sm'>{text}</p>

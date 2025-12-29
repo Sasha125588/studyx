@@ -1,6 +1,6 @@
 'use client'
 
-import type { LessonProgress, ModuleWithLessons, RoadmapPosition } from '@studyx/database'
+import type { LessonProgress, ModuleWithLessons, RoadmapPosition } from '@studyx/types'
 import {
 	Background,
 	Controls,

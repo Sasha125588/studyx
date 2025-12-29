@@ -1,4 +1,4 @@
-import type { CourseWithDetails } from '@studyx/database'
+import type { CourseWithDetails } from '@studyx/types'
 import { ExternalLinkIcon } from 'lucide-react'
 import Link from 'next/link'
 

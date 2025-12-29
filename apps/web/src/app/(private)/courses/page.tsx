@@ -1,3 +1,4 @@
+import type { CourseWithDetails } from '@studyx/types'
 import Link from 'next/link'
 import { Suspense } from 'react'
 
@@ -14,12 +15,12 @@ import { getCoursesWithDetails } from '@/shared/api/requests/courses/getCoursesW
 const CoursesPage = async () => {
 	const userId = (await getUserId())!
 
-	const [{ data: courses, error }, enrollments] = await Promise.all([
+	const [getCoursesResponse, getUserEnrollmentsResponse] = await Promise.all([
 		getCoursesWithDetails(),
 		getUserEnrollments(userId)
 	])
 
-	if (error || !enrollments.data) {
+	if (getCoursesResponse.error || !getUserEnrollmentsResponse.data) {
 		return (
 			<Card className='border-destructive/30 bg-destructive/5'>
 				<CardContent className='text-destructive py-6'>
@@ -28,6 +29,8 @@ const CoursesPage = async () => {
 			</Card>
 		)
 	}
+
+	const courses = getCoursesResponse.data as unknown as CourseWithDetails[]
 
 	return (
 		<div className='space-y-8'>
@@ -50,7 +53,7 @@ const CoursesPage = async () => {
 			<Suspense fallback={<CoursesListSkeleton />}>
 				<CourseList
 					courses={courses}
-					enrollments={enrollments.data}
+					enrollments={getUserEnrollmentsResponse.data}
 					userId={userId}
 				/>
 			</Suspense>

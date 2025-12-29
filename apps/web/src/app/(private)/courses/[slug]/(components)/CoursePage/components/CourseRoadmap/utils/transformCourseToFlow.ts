@@ -1,4 +1,4 @@
-import type { LessonProgress, ModuleWithLessons, RoadmapPosition } from '@studyx/database'
+import type { LessonProgress, ModuleWithLessons, RoadmapPosition } from '@studyx/types'
 import type { Edge, Node } from '@xyflow/react'
 
 import type { LessonNodeData, ModuleNodeData } from '../nodes'

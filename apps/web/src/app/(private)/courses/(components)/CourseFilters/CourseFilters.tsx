@@ -1,6 +1,6 @@
 'use client'
 
-import { RotateCcw, SearchIcon, SlidersHorizontal, X } from 'lucide-react'
+import { RotateCcwIcon, SearchIcon, SlidersHorizontalIcon, XIcon } from 'lucide-react'
 import { parseAsString, useQueryState } from 'nuqs'
 import { useState } from 'react'
 
@@ -115,7 +115,7 @@ export const CourseFilters = ({
 								onClick={handleClearSearch}
 								className='text-muted-foreground hover:text-foreground absolute inset-y-0 right-0 flex items-center pr-3 transition-colors duration-300 ease-in-out'
 							>
-								<X className='size-4' />
+								<XIcon className='size-4' />
 							</button>
 						)}
 					</div>
@@ -127,7 +127,7 @@ export const CourseFilters = ({
 						onClick={() => setShowFilters(!showFilters)}
 						className={` ${showFilters && 'cursor-pointer border-indigo-500/50 bg-indigo-500/25 hover:bg-indigo-500/35 dark:border-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-200 hover:dark:bg-indigo-900/60'}`}
 					>
-						<SlidersHorizontal className='mr-2 size-4' />
+						<SlidersHorizontalIcon className='mr-2 size-4' />
 						Фільтри
 						{hasActiveFilters && (
 							<span className='ml-1.5 flex size-5 items-center justify-center rounded-full bg-indigo-600 text-[10px] font-bold text-white'>
@@ -250,7 +250,7 @@ export const CourseFilters = ({
 								onClick={resetFilters}
 								className='text-muted-foreground hover:text-foreground'
 							>
-								<RotateCcw className='mr-1.5 size-4' />
+								<RotateCcwIcon className='mr-1.5 size-4' />
 								Скинути
 							</Button>
 						)}

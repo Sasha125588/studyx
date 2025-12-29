@@ -1,4 +1,4 @@
-import type { Course } from '@studyx/database'
+import type { Course } from '@studyx/types'
 import type { IntlShape } from 'react-intl'
 
 interface BreadcrumbItem {

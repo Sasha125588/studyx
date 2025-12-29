@@ -1,6 +1,6 @@
 'use client'
 
-import { AlarmClockCheck, BookOpenCheck, Gauge, Trophy } from 'lucide-react'
+import { AlarmClockCheckIcon, BookOpenCheckIcon, GaugeIcon, TrophyIcon } from 'lucide-react'
 import { useState } from 'react'
 
 import { Card, CardContent } from '@/components/ui/card'
@@ -12,14 +12,14 @@ const statsCards = [
 		delta: '+8.5%',
 		trend: 'up' as const,
 		subtext: 'За тиждень',
-		Icon: AlarmClockCheck
+		Icon: AlarmClockCheckIcon
 	},
 	{
 		title: 'Курсів завершено',
 		value: '12',
 		delta: '+3.1%',
 		subtext: 'За весь час',
-		Icon: BookOpenCheck
+		Icon: BookOpenCheckIcon
 	},
 	{
 		title: 'Середня оцінка за тест',
@@ -27,14 +27,14 @@ const statsCards = [
 		delta: '+0.6',
 		trend: 'up' as const,
 		subtext: 'За тиждень',
-		Icon: Gauge
+		Icon: GaugeIcon
 	},
 	{
 		title: 'Досягнень отримано',
 		value: '18',
 		delta: '+1',
 		subtext: 'За весь час',
-		Icon: Trophy
+		Icon: TrophyIcon
 	}
 ]
 

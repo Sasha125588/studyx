@@ -19,7 +19,7 @@ export const coursesRoutes = new Elysia({ prefix: '/courses' })
 	.get('/with-details', () => CourseService.getAllWithDetails())
 
 	// Search courses
-	.get('/search', ({ query }) => CourseService.search(query.search ?? '', query.edu_program), {
+	.get('/search', ({ query }) => CourseService.search(query.search ?? ''), {
 		query: 'course.query.search'
 	})
 
@@ -36,4 +36,8 @@ export const coursesRoutes = new Elysia({ prefix: '/courses' })
 	// Get course by slug
 	.get('/slug/:slug', ({ params }) => CourseService.getBySlug(params.slug), {
 		params: 'course.params.slug'
+	})
+
+	.get('/author/:userId', ({ params }) => CourseService.getCoursesByUserId(params.userId), {
+		params: 'course.params.userId'
 	})

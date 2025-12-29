@@ -1,6 +1,7 @@
 import { cors } from '@elysiajs/cors'
 import { Elysia } from 'elysia'
 
+import { blockSubmissionsRoutes } from './modules/block-submissions'
 import { coursesRoutes } from './modules/courses'
 import { enrollmentsRoutes } from './modules/enrollments'
 import { lessonProgressRoutes } from './modules/lesson-progress'
@@ -45,6 +46,7 @@ const app = new Elysia()
 			health: '/health'
 		}
 	}))
+	.use(blockSubmissionsRoutes)
 	.use(coursesRoutes)
 	.use(enrollmentsRoutes)
 	.use(lessonProgressRoutes)

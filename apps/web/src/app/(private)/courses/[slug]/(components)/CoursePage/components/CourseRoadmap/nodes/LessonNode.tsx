@@ -1,5 +1,6 @@
 'use client'
 
+import type { LessonType } from '@studyx/types'
 import type { Node, NodeProps } from '@xyflow/react'
 import { Handle, Position } from '@xyflow/react'
 import { CheckCircle2Icon, FileTextIcon, FlaskConicalIcon } from 'lucide-react'
@@ -10,7 +11,7 @@ import { memo } from 'react'
 export type LessonNodeData = {
 	title: string
 	slug: string
-	type: 'lecture' | 'practical'
+	type: LessonType
 	isCompleted: boolean
 	lessonNumber: number
 }

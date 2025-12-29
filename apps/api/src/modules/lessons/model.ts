@@ -10,13 +10,25 @@ const LessonAttachment = t.Object({
 	created_at: t.String()
 })
 
+// Схема блока (упрощённая для валидации)
+const LessonBlockSchema = t.Object(
+	{
+		id: t.String(),
+		type: t.String()
+		// Остальные поля зависят от типа блока, поэтому используем additionalProperties
+	},
+	{ additionalProperties: true }
+)
+
 const Lesson = t.Object({
 	id: t.Number(),
 	module_id: t.Nullable(t.Number()),
 	title: t.Nullable(t.String()),
 	slug: t.Nullable(t.String()),
-	content: t.Nullable(t.String()),
-	type: t.Nullable(t.Union([t.Literal('lecture'), t.Literal('practical')])),
+	content: t.Nullable(t.String()), // TODO: deprecated
+	blocks: t.Array(LessonBlockSchema),
+	estimated_time_minutes: t.Nullable(t.Number()),
+	type: t.Nullable(t.Union([t.Literal('lecture'), t.Literal('practical'), t.Literal('test')])),
 	order_index: t.Nullable(t.Number()),
 	created_at: t.String(),
 	updated_at: t.Nullable(t.String())

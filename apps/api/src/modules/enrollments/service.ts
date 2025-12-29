@@ -1,4 +1,4 @@
-import type { EnrollmentStatus } from '@studyx/database'
+import type { EnrollmentStatus } from '@studyx/types'
 
 import { supabase } from '../../lib/supabase'
 

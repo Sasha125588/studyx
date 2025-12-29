@@ -1,3 +1,5 @@
+import type { Json } from '@studyx/types'
+
 import { supabase } from '../../lib/supabase'
 
 export abstract class LessonService {
@@ -134,5 +136,115 @@ export abstract class LessonService {
 
 		if (error) throw new Error(error.message)
 		return data
+	}
+
+	/**
+	 * Get all lessons (for admin)
+	 */
+	static async getAll() {
+		const { data, error } = await supabase
+			.from('lessons')
+			.select(
+				`
+				*,
+				modules (
+					id,
+					name,
+					course_id,
+					courses (
+						id,
+						title,
+						slug
+					)
+				)
+			`
+			)
+			.order('created_at', { ascending: false })
+
+		if (error) throw new Error(error.message)
+		return data
+	}
+
+	/**
+	 * Create a new lesson
+	 */
+	static async create(data: {
+		title: string
+		slug: string
+		type: 'lecture' | 'practical' | 'test'
+		moduleId: number
+		blocks: Json
+		orderIndex?: number
+	}) {
+		// Get the max order_index for the module
+		const { data: existingLessons } = await supabase
+			.from('lessons')
+			.select('order_index')
+			.eq('module_id', data.moduleId)
+			.order('order_index', { ascending: false })
+			.limit(1)
+
+		const maxOrderIndex = existingLessons?.[0]?.order_index ?? -1
+		const orderIndex = data.orderIndex ?? maxOrderIndex + 1
+
+		const { data: lesson, error } = await supabase
+			.from('lessons')
+			.insert({
+				title: data.title,
+				slug: data.slug,
+				type: data.type,
+				module_id: data.moduleId,
+				blocks: data.blocks,
+				order_index: orderIndex
+			})
+			.select()
+			.single()
+
+		if (error) throw new Error(error.message)
+		return lesson
+	}
+
+	/**
+	 * Update a lesson
+	 */
+	static async update(
+		lessonId: number,
+		data: {
+			title?: string
+			slug?: string
+			type?: 'lecture' | 'practical' | 'test'
+			moduleId?: number
+			blocks?: Json
+			orderIndex?: number
+		}
+	) {
+		const updateData: Record<string, unknown> = {}
+
+		if (data.title !== undefined) updateData.title = data.title
+		if (data.slug !== undefined) updateData.slug = data.slug
+		if (data.type !== undefined) updateData.type = data.type
+		if (data.moduleId !== undefined) updateData.module_id = data.moduleId
+		if (data.blocks !== undefined) updateData.blocks = data.blocks
+		if (data.orderIndex !== undefined) updateData.order_index = data.orderIndex
+
+		const { data: lesson, error } = await supabase
+			.from('lessons')
+			.update(updateData)
+			.eq('id', lessonId)
+			.select()
+			.single()
+
+		if (error) throw new Error(error.message)
+		return lesson
+	}
+
+	/**
+	 * Delete a lesson
+	 */
+	static async delete(lessonId: number) {
+		const { error } = await supabase.from('lessons').delete().eq('id', lessonId)
+
+		if (error) throw new Error(error.message)
+		return { success: true }
 	}
 }

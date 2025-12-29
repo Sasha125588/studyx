@@ -1,4 +1,4 @@
-import type { ModuleWithLessons } from '@studyx/database'
+import type { ModuleWithLessons } from '@studyx/types'
 import { ArrowRightIcon, BookOpenIcon, FileTextIcon, FlaskConicalIcon } from 'lucide-react'
 import Link from 'next/link'
 

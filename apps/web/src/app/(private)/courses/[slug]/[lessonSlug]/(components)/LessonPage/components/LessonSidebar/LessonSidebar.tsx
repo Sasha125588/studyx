@@ -1,4 +1,4 @@
-import type { ModuleNav } from '@studyx/database'
+import { LessonTypes, type ModuleNav } from '@studyx/types'
 import { CheckCircle2Icon, FileTextIcon, FlaskConicalIcon } from 'lucide-react'
 import Link from 'next/link'
 
@@ -15,7 +15,7 @@ interface LessonSidebarProps {
 	modules: ModuleNav[]
 	currentLessonId: number
 	courseSlug: string
-	courseName: string | null
+	courseName: string
 }
 
 export const LessonSidebar = ({ modules, currentLessonId, courseSlug }: LessonSidebarProps) => {
@@ -44,7 +44,7 @@ export const LessonSidebar = ({ modules, currentLessonId, courseSlug }: LessonSi
 							<div className='space-y-0.5 px-2 pb-2'>
 								{module.lessons.map(lesson => {
 									const isCurrent = lesson.id === currentLessonId
-									const isLecture = lesson.type === 'lecture'
+									const isLecture = lesson.type === LessonTypes.LECTURE
 									// TODO: отримати реальний статус завершення
 									const isCompleted = false
 
@@ -61,7 +61,7 @@ export const LessonSidebar = ({ modules, currentLessonId, courseSlug }: LessonSi
 										>
 											<span
 												className={cn(
-													'flex h-5 w-5 shrink-0 items-center justify-center rounded',
+													'flex size-5 shrink-0 items-center justify-center rounded',
 													isCompleted
 														? 'text-emerald-500'
 														: isCurrent
@@ -70,11 +70,11 @@ export const LessonSidebar = ({ modules, currentLessonId, courseSlug }: LessonSi
 												)}
 											>
 												{isCompleted ? (
-													<CheckCircle2Icon className='h-4 w-4' />
+													<CheckCircle2Icon size={16} />
 												) : isLecture ? (
-													<FileTextIcon className='h-3.5 w-3.5' />
+													<FileTextIcon size={16} />
 												) : (
-													<FlaskConicalIcon className='h-3.5 w-3.5' />
+													<FlaskConicalIcon size={16} />
 												)}
 											</span>
 

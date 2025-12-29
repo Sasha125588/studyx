@@ -1,13 +1,13 @@
 'use client'
 
-import type { LessonAttachment, LessonNavItem } from '@studyx/database'
+import type { LessonAttachment, LessonNavItem } from '@studyx/types'
 import {
 	ArrowRightIcon,
 	ExternalLinkIcon,
 	FileIcon,
 	FileTextIcon,
 	LinkIcon,
-	ListIcon,
+	// ListIcon,
 	SparklesIcon
 } from 'lucide-react'
 import { AnimatePresence, motion, useScroll, useSpring, useTransform } from 'motion/react'
@@ -20,28 +20,26 @@ import { Button } from '@/components/ui/button'
 import { cn } from '@/shared/helpers'
 
 interface LessonRightPanelProps {
-	content: string | null
 	attachments: LessonAttachment[]
 	nextLesson: LessonNavItem | null
 	courseSlug: string
 }
 
-interface TocItem {
-	id: string
-	text: string
-	level: number
-}
+// interface TocItem {
+// 	id: string
+// 	text: string
+// 	level: number
+// }
 
 export const LessonRightPanel = ({
-	content,
 	attachments,
 	nextLesson,
 	courseSlug
 }: LessonRightPanelProps) => {
-	const [activeId, setActiveId] = useState<string>('')
+	// const [activeId, setActiveId] = useState<string>('')
 	const [isCompleted, setIsCompleted] = useState(false)
 	const [showCompletionModal, setShowCompletionModal] = useState(false)
-	const tocItems = extractTocFromMarkdown(content)
+	// const tocItems = extractTocFromMarkdown(content)
 
 	const { scrollYProgress } = useScroll()
 	const scaleY = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 })
@@ -59,41 +57,41 @@ export const LessonRightPanel = ({
 		return () => unsubscribe()
 	}, [progressPercent, isCompleted])
 
-	useEffect(() => {
-		const observer = new IntersectionObserver(
-			entries => {
-				entries.forEach(entry => {
-					if (entry.isIntersecting) {
-						setActiveId(entry.target.id)
-					}
-				})
-			},
-			{
-				rootMargin: '-80px 0px -80% 0px',
-				threshold: 0
-			}
-		)
+	// useEffect(() => {
+	// 	const observer = new IntersectionObserver(
+	// 		entries => {
+	// 			entries.forEach(entry => {
+	// 				if (entry.isIntersecting) {
+	// 					setActiveId(entry.target.id)
+	// 				}
+	// 			})
+	// 		},
+	// 		{
+	// 			rootMargin: '-80px 0px -80% 0px',
+	// 			threshold: 0
+	// 		}
+	// 	)
 
-		tocItems.forEach(item => {
-			const element = document.getElementById(item.id)
-			if (element) observer.observe(element)
-		})
+	// 	tocItems.forEach(item => {
+	// 		const element = document.getElementById(item.id)
+	// 		if (element) observer.observe(element)
+	// 	})
 
-		return () => observer.disconnect()
-	}, [tocItems])
+	// 	return () => observer.disconnect()
+	// }, [tocItems])
 
-	const scrollToSection = (id: string) => {
-		const element = document.getElementById(id)
-		if (element) {
-			element.scrollIntoView({ behavior: 'smooth', block: 'start' })
-		}
-	}
+	// const scrollToSection = (id: string) => {
+	// 	const element = document.getElementById(id)
+	// 	if (element) {
+	// 		element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+	// 	}
+	// }
 
-	const activeIndex = tocItems.findIndex(item => item.id === activeId)
+	// const activeIndex = tocItems.findIndex(item => item.id === activeId)
 
 	return (
 		<div className='space-y-4'>
-			{tocItems.length > 0 && (
+			{/* {tocItems.length > 0 && (
 				<div className='bg-card rounded-xl border p-4'>
 					<div className='mb-3 flex items-center justify-between'>
 						<div className='flex items-center gap-2 text-sm font-semibold'>
@@ -102,7 +100,6 @@ export const LessonRightPanel = ({
 						</div>
 					</div>
 
-					{/* TOC */}
 					<div className='relative'>
 						<nav className='relative space-y-0.5'>
 							{tocItems.map((item, index) => {
@@ -141,7 +138,7 @@ export const LessonRightPanel = ({
 						</nav>
 					</div>
 				</div>
-			)}
+			)} */}
 
 			<motion.div
 				initial={{ opacity: 0, y: 10 }}
@@ -216,6 +213,7 @@ export const LessonRightPanel = ({
 
 			<AnimatePresence>
 				{showCompletionModal && (
+					// Header має position: sticky(перекриває весь контент), тому використовується портал щоб модалка та блюр коректно відображалися
 					<>
 						{/* Backdrop */}
 						{createPortal(
@@ -337,46 +335,46 @@ const AttachmentIcon = ({ type }: { type: string | null }) => {
 	}
 }
 
-const extractTocFromMarkdown = (content: string | null): TocItem[] => {
-	if (!content) return []
+// const extractTocFromMarkdown = (content: string | null): TocItem[] => {
+// 	if (!content) return []
 
-	const items: TocItem[] = []
+// 	const items: TocItem[] = []
 
-	// Парсимо стандартні markdown заголовки (# Заголовок)
-	const headingRegex = /^(#{1,3})\s+(.+)$/gm
-	let match
+// 	// Парсимо стандартні markdown заголовки (# Заголовок)
+// 	const headingRegex = /^(#{1,3})\s+(.+)$/gm
+// 	let match
 
-	while ((match = headingRegex.exec(content)) !== null) {
-		const level = match[1].length
-		const text = match[2].trim()
-		const id = generateTocId(text)
-		items.push({ id, text, level })
-	}
+// 	while ((match = headingRegex.exec(content)) !== null) {
+// 		const level = match[1].length
+// 		const text = match[2].trim()
+// 		const id = generateTocId(text)
+// 		items.push({ id, text, level })
+// 	}
 
-	// Якщо не знайшли markdown заголовки, парсимо **bold** заголовки
-	if (items.length === 0) {
-		// Шукаємо рядки що починаються з **текст** (жирний текст на початку рядка)
-		const boldHeadingRegex = /^\*\*([^*]+)\*\*\s*$/gm
+// 	// Якщо не знайшли markdown заголовки, парсимо **bold** заголовки
+// 	if (items.length === 0) {
+// 		// Шукаємо рядки що починаються з **текст** (жирний текст на початку рядка)
+// 		const boldHeadingRegex = /^\*\*([^*]+)\*\*\s*$/gm
 
-		while ((match = boldHeadingRegex.exec(content)) !== null) {
-			const text = match[1].trim()
-			// Пропускаємо дуже короткі "заголовки" (менше 3 символів)
-			if (text.length < 3) continue
+// 		while ((match = boldHeadingRegex.exec(content)) !== null) {
+// 			const text = match[1].trim()
+// 			// Пропускаємо дуже короткі "заголовки" (менше 3 символів)
+// 			if (text.length < 3) continue
 
-			const id = generateTocId(text)
-			// Визначаємо рівень за контекстом
-			const level = text.includes('Завдання') ? 2 : 1
-			items.push({ id, text, level })
-		}
-	}
+// 			const id = generateTocId(text)
+// 			// Визначаємо рівень за контекстом
+// 			const level = text.includes('Завдання') ? 2 : 1
+// 			items.push({ id, text, level })
+// 		}
+// 	}
 
-	return items
-}
+// 	return items
+// }
 
-const generateTocId = (text: string): string => {
-	return text
-		.toLowerCase()
-		.replace(/[^a-zа-яіїєґ0-9\s]/g, '')
-		.replace(/\s+/g, '-')
-		.slice(0, 50)
-}
+// const generateTocId = (text: string): string => {
+// 	return text
+// 		.toLowerCase()
+// 		.replace(/[^a-zа-яіїєґ0-9\s]/g, '')
+// 		.replace(/\s+/g, '-')
+// 		.slice(0, 50)
+// }

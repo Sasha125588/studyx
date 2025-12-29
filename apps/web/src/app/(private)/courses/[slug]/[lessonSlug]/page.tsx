@@ -1,7 +1,10 @@
+import type { BlockSubmission, LessonFullContext } from '@studyx/types'
+
 import { Card, CardContent } from '@/components/ui/card'
 
 import { LessonPageMain } from './(components)/LessonPage/LessonPage'
 import { getLessonBySlug } from '@/shared/api'
+import { getMySubmissions } from '@/shared/api/requests/block-submissions/{userId}/{my}/getUserSubmissions'
 
 interface LessonPageProps {
 	params: Promise<{ slug: string; lessonSlug: string }>
@@ -25,17 +28,27 @@ const LessonPage = async ({ params }: LessonPageProps) => {
 	const decodedCourseSlug = decodeURIComponent(slug)
 	const decodedLessonSlug = decodeURIComponent(lessonSlug)
 
-	const { data, error } = await getLessonBySlug(decodedCourseSlug, decodedLessonSlug)
+	const getLessonResponse = await getLessonBySlug(decodedCourseSlug, decodedLessonSlug)
 
-	if (error) {
+	if (getLessonResponse.error) {
 		return <ErrorCard message='Не вдалося завантажити заняття. Спробуйте оновити сторінку.' />
 	}
 
-	if (!data) {
+	if (!getLessonResponse.data) {
 		return <NotFoundCard />
 	}
 
-	return <LessonPageMain data={data} />
+	const submissionsResponse = await getMySubmissions(getLessonResponse.data.lesson.id)
+
+	const fullLessonData = getLessonResponse.data as unknown as LessonFullContext
+	const submissions = submissionsResponse.data as unknown as BlockSubmission[]
+
+	return (
+		<LessonPageMain
+			data={fullLessonData}
+			submissions={submissions}
+		/>
+	)
 }
 
 export default LessonPage

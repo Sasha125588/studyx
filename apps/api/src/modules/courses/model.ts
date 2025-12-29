@@ -31,6 +31,9 @@ export const CourseModel = new Elysia({ name: 'Model.Course' }).model({
 	'course.params.slug': t.Object({
 		slug: t.String()
 	}),
+	'course.params.author': t.Object({
+		author: t.String()
+	}),
 	'course.params.id': t.Object({
 		id: t.Numeric()
 	}),

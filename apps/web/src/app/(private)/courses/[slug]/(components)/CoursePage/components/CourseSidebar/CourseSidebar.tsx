@@ -1,4 +1,4 @@
-import type { CourseWithDetails } from '@studyx/database'
+import type { CourseWithDetails } from '@studyx/types'
 import { BookOpenIcon, FlaskConicalIcon } from 'lucide-react'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'

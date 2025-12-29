@@ -1,6 +1,6 @@
 'use client'
 
-import type { CourseEnrollment, CourseWithDetails } from '@studyx/database'
+import type { CourseEnrollment, CourseWithDetails } from '@studyx/types'
 import { parseAsString, parseAsStringLiteral, useQueryStates } from 'nuqs'
 import { useCallback, useMemo } from 'react'
 

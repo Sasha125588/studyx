@@ -7,7 +7,7 @@ import {
 	SidebarRail
 } from '@/components/animate-ui/radix/sidebar'
 
-import { SidebarNavigation } from './SidebarNavigation/SidebarNavigation'
+import { SidebarNavigation } from './components/SidebarNavigation/SidebarNavigation'
 import { SIDEBAR_DATA } from './constants/data'
 
 export const AppSidebar = () => {

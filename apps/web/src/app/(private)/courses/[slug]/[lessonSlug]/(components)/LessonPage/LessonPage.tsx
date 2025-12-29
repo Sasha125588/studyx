@@ -1,4 +1,4 @@
-import type { LessonFullContext } from '@studyx/database'
+import { type BlockSubmission, type LessonFullContext } from '@studyx/types'
 
 import { LessonContent } from './components/LessonContent/LessonContent'
 import { LessonHeader } from './components/LessonHeader/LessonHeader'
@@ -7,11 +7,11 @@ import { LessonSidebar } from './components/LessonSidebar/LessonSidebar'
 
 interface LessonPageMainProps {
 	data: LessonFullContext
+	submissions?: BlockSubmission[]
 }
 
-export const LessonPageMain = ({ data }: LessonPageMainProps) => {
+export const LessonPageMain = ({ data, submissions = [] }: LessonPageMainProps) => {
 	const { lesson, module, course, allModules, navigation } = data
-	const isLecture = lesson.type === 'lecture'
 
 	return (
 		<div className='relative flex min-h-[calc(100vh-8rem)]'>
@@ -34,24 +34,22 @@ export const LessonPageMain = ({ data }: LessonPageMainProps) => {
 
 				<div className='mt-6'>
 					<LessonContent
-						content={lesson.content}
-						isLecture={isLecture}
+						lessonId={lesson.id}
+						blocks={lesson.blocks}
+						submissions={submissions}
 					/>
 				</div>
 
-				{isLecture && (
-					<div className='mt-12'>
-						<div className='bg-card rounded-xl border p-6'>
-							<h3 className='text-lg font-semibold'>💬 Коментарі</h3>
-							<p className='text-muted-foreground mt-2 text-sm'>Коментарі поки що недоступні</p>
-						</div>
+				<div className='mt-12'>
+					<div className='bg-card rounded-xl border p-6'>
+						<h3 className='text-lg font-semibold'>💬 Коментарі</h3>
+						<p className='text-muted-foreground mt-2 text-sm'>Коментарі поки що недоступні</p>
 					</div>
-				)}
+				</div>
 			</main>
 
 			<aside className='sticky top-4 h-fit w-72 shrink-0 pt-14 pl-6'>
 				<LessonRightPanel
-					content={lesson.content}
 					attachments={lesson.attachments}
 					nextLesson={navigation.next}
 					courseSlug={course.slug}

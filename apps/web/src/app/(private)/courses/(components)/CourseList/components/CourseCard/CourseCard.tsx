@@ -1,5 +1,12 @@
-import type { CourseEnrollment, CourseWithDetails } from '@studyx/database'
-import { ArrowRight, BookOpen, CalendarDays, CheckCircle2, Clock, PlayCircle } from 'lucide-react'
+import type { CourseEnrollment, CourseWithDetails } from '@studyx/types'
+import {
+	ArrowRightIcon,
+	BookOpenIcon,
+	CalendarDaysIcon,
+	CheckCircle2Icon,
+	ClockIcon,
+	PlayCircleIcon
+} from 'lucide-react'
 import Link from 'next/link'
 
 import { Button } from '@/components/ui/button'
@@ -33,14 +40,14 @@ const getProgressStatus = (enrollment?: CourseEnrollment | null) => {
 	const progress = enrollment.progress ?? 0
 
 	if (enrollment.status === 'completed' || progress === 100) {
-		return { label: 'Завершено', icon: CheckCircle2, color: 'text-emerald-600 bg-emerald-50' }
+		return { label: 'Завершено', icon: CheckCircle2Icon, color: 'text-emerald-600 bg-emerald-50' }
 	}
 
 	if (progress > 0) {
-		return { label: `${progress}%`, icon: PlayCircle, color: 'text-violet-600 bg-violet-50' }
+		return { label: `${progress}%`, icon: PlayCircleIcon, color: 'text-violet-600 bg-violet-50' }
 	}
 
-	return { label: 'Не розпочато', icon: Clock, color: 'text-slate-500 bg-slate-50' }
+	return { label: 'Не розпочато', icon: ClockIcon, color: 'text-slate-500 bg-slate-50' }
 }
 
 export const CourseCard = ({ course, enrollment }: CourseCardProps) => {
@@ -97,7 +104,7 @@ export const CourseCard = ({ course, enrollment }: CourseCardProps) => {
 			<CardFooter className='flex items-center justify-between gap-3 px-0'>
 				<div className='text-muted-foreground space-y-1 text-xs'>
 					<div className='flex items-center gap-2'>
-						<BookOpen className='size-4' />
+						<BookOpenIcon className='size-4' />
 						<span>
 							{moduleCount} модулів • {lessonsCount} уроків
 						</span>
@@ -105,7 +112,7 @@ export const CourseCard = ({ course, enrollment }: CourseCardProps) => {
 					{authors && <div className='text-muted-foreground font-medium'>Автори: {authors}</div>}
 					{updatedAt && (
 						<div className='flex items-center gap-1.5'>
-							<CalendarDays className='size-4' />
+							<CalendarDaysIcon className='size-4' />
 							<span>Оновлено {updatedAt}</span>
 						</div>
 					)}
@@ -120,7 +127,7 @@ export const CourseCard = ({ course, enrollment }: CourseCardProps) => {
 							{enrollment && enrollment.progress && enrollment.progress > 0
 								? 'Продовжити'
 								: 'Перейти'}
-							<ArrowRight className='size-4' />
+							<ArrowRightIcon className='size-4' />
 						</Link>
 					</Button>
 				) : (

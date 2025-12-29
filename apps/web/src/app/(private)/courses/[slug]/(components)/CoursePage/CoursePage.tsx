@@ -1,4 +1,4 @@
-import { type CourseWithDetails, EnrollmentStatuses, type RoadmapPosition } from '@studyx/database'
+import { type CourseWithDetails, EnrollmentStatuses, type RoadmapPosition } from '@studyx/types'
 import { LayoutListIcon, MapIcon, MessageSquareIcon } from 'lucide-react'
 
 import {

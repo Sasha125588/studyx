@@ -1,12 +1,12 @@
-import type { Course } from '@studyx/database'
+import type { Course } from '@studyx/types'
 import { BellIcon } from 'lucide-react'
 
 import { LanguageSwitcher } from '@/components/common/LanguageSwitcher/LanguageSwitcher'
 import InputSearch from '@/components/ui/input-search'
 
-import { SidebarBreadcrumb } from '../Sidebar/SidebarBreadcrumb/SidebarBreadcrumb'
+import { SidebarBreadcrumb } from '../Sidebar/components/SidebarBreadcrumb/SidebarBreadcrumb'
 
-import { type User, UserProfile } from './UserProfile/UserProfile'
+import { type User, UserProfile } from './components/UserProfile/UserProfile'
 
 interface HeaderProps {
 	courses: Course[]

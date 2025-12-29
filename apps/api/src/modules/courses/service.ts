@@ -156,19 +156,31 @@ export abstract class CourseService {
 		}
 	}
 
+	static async getCoursesByUserId(userId: string) {
+		const { data, error } = await supabase
+			.from('course_authors')
+			.select(
+				`
+			*,
+			courses(*)
+			`
+			)
+			.eq('user_id', userId)
+
+		if (error) throw new Error(error.message)
+
+		return data
+	}
+
 	/**
 	 * Search courses by title or description
 	 */
-	static async search(query: string, eduProgram?: string) {
+	static async search(query: string) {
 		let request = supabase
 			.from('courses')
 			.select('*')
 			.or(`title.ilike.%${query}%,description.ilike.%${query}%`)
 			.order('id', { ascending: true })
-
-		if (eduProgram) {
-			request = request.eq('edu_program', eduProgram)
-		}
 
 		const { data, error } = await request
 

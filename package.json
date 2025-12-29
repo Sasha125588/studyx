@@ -1,11 +1,19 @@
 {
 	"name": "studyx",
 	"version": "0.1.0",
+	"devDependencies": {
+		"@trivago/prettier-plugin-sort-imports": "^5.2.2",
+		"eslint": "^9.39.2",
+		"eslint-config-next": "^16.0.10",
+		"eslint-config-prettier": "^10.1.8",
+		"husky": "^9.1.7",
+		"lint-staged": "^16.2.7",
+		"prettier": "^3.4.2",
+		"prettier-plugin-tailwindcss": "^0.6.14",
+		"turbo": "^2.6.3"
+	},
+	"packageManager": "bun@1.2.13",
 	"private": true,
-	"workspaces": [
-		"apps/*",
-		"packages/*"
-	],
 	"scripts": {
 		"dev": "turbo run dev",
 		"dev:web": "turbo run dev --filter=web",
@@ -20,16 +28,8 @@
 		"generate-db-types": "bunx supabase gen types typescript --project-id hiumfpqtebwwjepqojsd --schema public > packages/database/src/db.ts",
 		"prepare": "husky"
 	},
-	"devDependencies": {
-		"@trivago/prettier-plugin-sort-imports": "^5.2.2",
-		"eslint": "^9.39.2",
-		"eslint-config-next": "^16.0.10",
-		"eslint-config-prettier": "^10.1.8",
-		"husky": "^9.1.7",
-		"lint-staged": "^16.2.7",
-		"prettier": "^3.4.2",
-		"prettier-plugin-tailwindcss": "^0.6.14",
-		"turbo": "^2.6.3"
-	},
-	"packageManager": "bun@1.2.13"
+	"workspaces": [
+		"apps/*",
+		"packages/*"
+	]
 }
