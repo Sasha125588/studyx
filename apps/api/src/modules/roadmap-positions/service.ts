@@ -1,16 +1,8 @@
+import type { RoadmapNodeType } from '@studyx/types'
+
 import { supabase } from '../../lib/supabase'
 
-export type NodePosition = {
-	nodeType: 'module' | 'lesson'
-	nodeId: number
-	positionX: number
-	positionY: number
-}
-
 export abstract class RoadmapPositionsService {
-	/**
-	 * Get all roadmap positions for a user and course
-	 */
 	static async getPositions(userId: string, courseId: number) {
 		const { data, error } = await supabase
 			.from('roadmap_positions')
@@ -22,37 +14,10 @@ export abstract class RoadmapPositionsService {
 		return data
 	}
 
-	/**
-	 * Save or update multiple positions at once (upsert)
-	 */
-	static async savePositions(userId: string, courseId: number, positions: NodePosition[]) {
-		const records = positions.map(pos => ({
-			user_id: userId,
-			course_id: courseId,
-			node_type: pos.nodeType,
-			node_id: pos.nodeId,
-			position_x: pos.positionX,
-			position_y: pos.positionY
-		}))
-
-		const { data, error } = await supabase
-			.from('roadmap_positions')
-			.upsert(records, {
-				onConflict: 'user_id,course_id,node_type,node_id'
-			})
-			.select()
-
-		if (error) throw new Error(error.message)
-		return data
-	}
-
-	/**
-	 * Save or update a single position
-	 */
 	static async savePosition(
 		userId: string,
 		courseId: number,
-		nodeType: 'module' | 'lesson',
+		nodeType: RoadmapNodeType,
 		nodeId: number,
 		positionX: number,
 		positionY: number
@@ -80,9 +45,6 @@ export abstract class RoadmapPositionsService {
 		return data
 	}
 
-	/**
-	 * Delete all positions for a user and course (reset to default)
-	 */
 	static async resetPositions(userId: string, courseId: number) {
 		const { error } = await supabase
 			.from('roadmap_positions')

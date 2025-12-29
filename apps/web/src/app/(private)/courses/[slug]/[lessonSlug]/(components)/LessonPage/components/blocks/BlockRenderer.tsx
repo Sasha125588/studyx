@@ -2,6 +2,8 @@
 
 import type { BlockSubmission, LessonBlock } from '@studyx/types'
 
+import { EmptyCard } from '@/components/common/EmptyCard/EmptyCard'
+
 import { CalloutBlock } from './CalloutBlock'
 import { CodeBlock } from './CodeBlock'
 import { CodeExerciseBlock } from './CodeExerciseBlock'
@@ -28,11 +30,12 @@ export const BlockRenderer = ({
 }: BlockRendererProps) => {
 	const submissionsMap = new Map(submissions.map(s => [s.blockId, s]))
 
-	if (blocks.length === 0) {
+	if (!blocks || blocks.length === 0) {
 		return (
-			<div className='flex h-64 items-center justify-center rounded-xl border border-dashed'>
-				<p className='text-muted-foreground'>Контент ще не додано</p>
-			</div>
+			<EmptyCard
+				title='Контент ще не додано'
+				description='Наразі для цього заняття немає доступного контенту.'
+			/>
 		)
 	}
 

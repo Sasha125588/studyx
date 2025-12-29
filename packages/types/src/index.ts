@@ -1,3 +1,3 @@
 export * from './entities'
-export * from './blocks'
+export * from './entities/blocks'
 export * from './db'

@@ -1,4 +1,2 @@
 export * from './getAllSkills'
-export * from './getSkillById'
-export * from './getSkillBySlug'
-export * from './getCoursesBySkill'
+export * from './{skill_Id}/getCoursesBySkill'

@@ -1,5 +1,6 @@
-import type { LessonBlock } from '../blocks'
 import type { Database } from '../db'
+
+import type { LessonBlock } from './blocks'
 
 export type User = Database['public']['Tables']['user']['Row']
 
@@ -36,6 +37,12 @@ export type LessonProgress = Database['public']['Tables']['lesson_progress']['Ro
 
 export type RoadmapPosition = Database['public']['Tables']['roadmap_positions']['Row']
 export type RoadmapNodeType = 'module' | 'lesson'
+export type NodePosition = {
+	nodeType: RoadmapNodeType
+	nodeId: number
+	positionX: number
+	positionY: number
+}
 
 export type UploadedFile = Database['public']['Tables']['uploaded_files']['Row']
 

@@ -27,7 +27,7 @@ const errorMessages: Partial<Record<ErrorCodes, string>> = {
 	FAILED_TO_UNLINK_LAST_ACCOUNT: 'Cannot unlink the last account',
 	ACCOUNT_NOT_FOUND: 'Account not found',
 	USER_ALREADY_HAS_PASSWORD: 'User already has password'
-}
+} as const
 
 export const getErrorMessage = (code: string) => {
 	const message = code.replaceAll(' ', '_').toUpperCase() // Invalid email or password -> INVALID_EMAIL_OR_PASSWORD

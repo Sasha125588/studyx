@@ -2,9 +2,9 @@ import type { CourseWithDetails } from '@studyx/types'
 import Link from 'next/link'
 import { Suspense } from 'react'
 
+import { ErrorCard } from '@/components/common/ErrorCard/ErrorCard'
 import { H2 } from '@/components/common/Typography/H2'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 
 import { CourseList } from './(components)/CourseList/CourseList'
@@ -22,11 +22,10 @@ const CoursesPage = async () => {
 
 	if (getCoursesResponse.error || !getUserEnrollmentsResponse.data) {
 		return (
-			<Card className='border-destructive/30 bg-destructive/5'>
-				<CardContent className='text-destructive py-6'>
-					Не вдалося завантажити курси. Спробуйте оновити сторінку.
-				</CardContent>
-			</Card>
+			<ErrorCard
+				title='Не вдалося завантажити курси'
+				description='Спробуйте оновити сторінку.'
+			/>
 		)
 	}
 

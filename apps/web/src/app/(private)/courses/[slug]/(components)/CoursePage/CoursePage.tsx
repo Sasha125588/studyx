@@ -1,5 +1,5 @@
 import { type CourseWithDetails, EnrollmentStatuses, type RoadmapPosition } from '@studyx/types'
-import { LayoutListIcon, MapIcon, MessageSquareIcon } from 'lucide-react'
+import { LayoutListIcon, MapIcon, MessageCircleIcon, MessageSquareIcon } from 'lucide-react'
 
 import {
 	Tabs,
@@ -10,6 +10,7 @@ import {
 	TabsList,
 	TabsTrigger
 } from '@/components/animate-ui/primitives/radix/tabs'
+import { EmptyCard } from '@/components/common/EmptyCard/EmptyCard'
 import { Badge } from '@/components/ui/badge'
 
 import { CourseContent } from './components/CourseContent/CourseContent'
@@ -99,9 +100,11 @@ export const CoursePageMain = async ({ course, savedPositions, userId }: CourseP
 							</TabsContent>
 
 							<TabsContent value='reviews'>
-								<div className='text-muted-foreground flex h-64 items-center justify-center rounded-xl border border-dashed'>
-									<p>Відгуки поки що відсутні</p>
-								</div>
+								<EmptyCard
+									icon={<MessageCircleIcon size={16} />}
+									title='Відгуки поки що відсутні'
+									description='Будьте першим, хто поділиться своєю думкою про цей курс.'
+								/>
 							</TabsContent>
 						</TabsContents>
 					</Tabs>

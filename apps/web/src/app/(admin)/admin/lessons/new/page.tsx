@@ -1,9 +1,7 @@
-'use server'
-
 import { LessonEditor } from '../(components)/LessonEditor/LessonEditor'
 
 import { getUserId } from '@/shared/api'
-import { getCoursesByAuthor } from '@/shared/api/requests/courses/getCoursesByAuthor'
+import { getCoursesByAuthor } from '@/shared/api/requests/courses/{userId}/getCoursesByAuthor'
 
 const NewLessonPage = async () => {
 	const userId = await getUserId()

@@ -1,6 +1,4 @@
 export * from './getCourses'
 export * from './getCoursesWithDetails'
-export * from './getCourseModules'
-export * from './getCourseSkills'
 export * from './searchCourses'
-export * from './{slug}'
+export * from './{slug}/getCourse'

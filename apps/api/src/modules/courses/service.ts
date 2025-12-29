@@ -1,16 +1,18 @@
+import { status } from 'elysia'
+
 import { supabase } from '../../lib/supabase'
 
 export abstract class CourseService {
 	static async getAll() {
 		const { data, error } = await supabase.from('courses').select('*')
 
+		if (error?.code === '404') throw status('Not Found')
+
 		if (error) throw new Error(error.message)
 
 		return data
 	}
-	/**
-	 * Get all courses with full details (authors, modules, lessons)
-	 */
+
 	static async getAllWithDetails() {
 		const { data, error } = await supabase
 			.from('courses')
@@ -32,6 +34,7 @@ export abstract class CourseService {
 			.order('order_index', { referencedTable: 'modules', ascending: true })
 			.order('order_index', { referencedTable: 'modules.lessons', ascending: true })
 			.order('order_index', { referencedTable: 'course_skills', ascending: true })
+			.order('created_at', { ascending: false })
 
 		if (error) throw new Error(error.message)
 
@@ -49,27 +52,27 @@ export abstract class CourseService {
 			.from('course_enrollments')
 			.select(
 				`
-      progress,
-      status,
-      courses (
-        id,
-        title,
-        slug,
-        description,
-        modules (
-          id,
-          name,
-          lessons (
-            id,
-            title,
-            order_index,
-            lesson_progress (
-              completed
-            )
-          )
-        )
-      )
-    `
+				progress,
+				status,
+				courses (
+					id,
+					title,
+					slug,
+					description,
+					modules (
+					id,
+					name,
+					lessons (
+						id,
+						title,
+						order_index,
+						lesson_progress (
+						completed
+						)
+					)
+					)
+				)
+				`
 			)
 			.eq('user_id', userId)
 			.in('status', ['enrolled', 'in_progress'])
@@ -119,9 +122,6 @@ export abstract class CourseService {
 		})
 	}
 
-	/**
-	 * Get a single course by slug with full details
-	 */
 	static async getBySlug(slug: string) {
 		// TODO: додати lesson_attachments (*)
 		const { data, error } = await supabase
@@ -147,6 +147,10 @@ export abstract class CourseService {
 			.order('order_index', { referencedTable: 'course_skills', ascending: true })
 			.single()
 
+		console.log(error)
+
+		if (error?.details === 'The result contains 0 rows') return status('Not Found', error)
+
 		if (error) throw new Error(error.message)
 
 		return {
@@ -156,14 +160,14 @@ export abstract class CourseService {
 		}
 	}
 
-	static async getCoursesByUserId(userId: string) {
+	static async getCoursesByAuthor(userId: string) {
 		const { data, error } = await supabase
 			.from('course_authors')
 			.select(
 				`
-			*,
-			courses(*)
-			`
+				*,
+				courses(*)
+				`
 			)
 			.eq('user_id', userId)
 
@@ -172,59 +176,14 @@ export abstract class CourseService {
 		return data
 	}
 
-	/**
-	 * Search courses by title or description
-	 */
 	static async search(query: string) {
 		let request = supabase
 			.from('courses')
 			.select('*')
 			.or(`title.ilike.%${query}%,description.ilike.%${query}%`)
-			.order('id', { ascending: true })
+			.order('created_at', { ascending: false })
 
 		const { data, error } = await request
-
-		if (error) throw new Error(error.message)
-		return data
-	}
-
-	/**
-	 * Get skills for a course
-	 */
-	static async getCourseSkills(courseId: number) {
-		const { data, error } = await supabase
-			.from('course_skills')
-			.select(
-				`
-				*,
-				skills (*)
-			`
-			)
-			.eq('course_id', courseId)
-			.order('order_index', { ascending: true })
-
-		if (error) throw new Error(error.message)
-		return data
-	}
-
-	/**
-	 * Get course modules
-	 */
-	static async getCourseModules(courseId: number) {
-		const { data, error } = await supabase
-			.from('modules')
-			.select(
-				`
-				*,
-				lessons (
-					*,
-					lesson_attachments (*)
-				)
-			`
-			)
-			.eq('course_id', courseId)
-			.order('id', { ascending: true })
-			.order('order_index', { referencedTable: 'lessons', ascending: true })
 
 		if (error) throw new Error(error.message)
 		return data

@@ -1,5 +1,3 @@
-'use server'
-
 import { api } from '@/lib/elysia/client'
 
 export const getCoursesByAuthor = async (userId: string) =>

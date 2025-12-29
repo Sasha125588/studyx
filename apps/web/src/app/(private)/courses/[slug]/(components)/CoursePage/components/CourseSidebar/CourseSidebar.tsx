@@ -7,15 +7,7 @@ import { Card } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 
 import { CourseProgress } from './CourseProgress'
-
-const getInitials = (name: string) => {
-	return name
-		.split(' ')
-		.map(n => n[0])
-		.join('')
-		.toUpperCase()
-		.slice(0, 2)
-}
+import { getInitials } from '@/shared/helpers/user'
 
 export interface CourseSidebarProps {
 	course: CourseWithDetails

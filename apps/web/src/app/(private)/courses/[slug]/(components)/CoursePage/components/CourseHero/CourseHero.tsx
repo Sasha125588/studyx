@@ -6,6 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 
 import { getCourseAuthors } from '@/shared/helpers'
+import { getInitials } from '@/shared/helpers/user'
 
 export interface CourseHeroProps {
 	course: CourseWithDetails
@@ -14,18 +15,9 @@ export interface CourseHeroProps {
 }
 
 export const CourseHero = ({ course, isEnrolled = false, progress = 0 }: CourseHeroProps) => {
-	const authors = course.authors ?? []
+	const authors = course.authors
 	const totalLessons = course.modules?.reduce((acc, m) => acc + (m.lessons?.length || 0), 0) ?? 0
 	const totalModules = course.modules?.length ?? 0
-
-	const getInitials = (name: string) => {
-		return name
-			.split(' ')
-			.map(n => n[0])
-			.join('')
-			.toUpperCase()
-			.slice(0, 2)
-	}
 
 	return (
 		<section className='relative mb-8'>

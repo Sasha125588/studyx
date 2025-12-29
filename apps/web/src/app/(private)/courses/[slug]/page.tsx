@@ -1,37 +1,36 @@
 import type { CourseWithDetails } from '@studyx/types'
+import { XIcon } from 'lucide-react'
 
-import { Card, CardContent } from '@/components/ui/card'
+import { ErrorCard } from '@/components/common/ErrorCard/ErrorCard'
+import { NotFoundCard } from '@/components/common/NotFoundCard/NotFoundCard'
 
 import { CoursePageMain } from './(components)/CoursePage/CoursePage'
 import { getCourse, getRoadmapPositions, getUserId } from '@/shared/api'
 
-interface CoursePageProps {
-	params: Promise<{ slug: string }>
-}
-
-const CoursePage = async ({ params }: CoursePageProps) => {
-	const { slug } = await params
+const CoursePage = async (props: PageProps<'/courses/[slug]'>) => {
+	const { slug } = await props.params
 	const decodedSlug = decodeURIComponent(slug)
 
 	const userId = (await getUserId())!
 
 	const getCourseResponse = await getCourse(decodedSlug)
 
-	if (getCourseResponse.error) {
+	if (getCourseResponse.status === 404) {
 		return (
-			<Card className='border-destructive/30 bg-destructive/5'>
-				<CardContent className='text-destructive py-6'>
-					Не вдалося завантажити курс. Спробуйте оновити сторінку.
-				</CardContent>
-			</Card>
+			<NotFoundCard
+				title='404 - Курс не знайдено'
+				description='Ми шукали всюди, але такого курсу не існує.'
+			/>
 		)
 	}
 
-	if (!getCourseResponse.data) {
+	if (getCourseResponse.error) {
 		return (
-			<Card className='border-amber-200 bg-amber-50'>
-				<CardContent className='py-6 text-amber-800'>Курс не знайдено</CardContent>
-			</Card>
+			<ErrorCard
+				icon={<XIcon size={16} />}
+				title='Не вдалося завантажити курс'
+				description={getCourseResponse.error?.value?.message ?? 'Спробуйте оновити сторінку.'}
+			/>
 		)
 	}
 

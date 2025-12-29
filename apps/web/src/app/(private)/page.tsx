@@ -20,7 +20,7 @@ import { LearningTimeChart } from './(components)/dashboard/LearningTimeChart/Le
 import { RecentCoursesList } from './(components)/dashboard/RecentCoursesList/RecentCoursesList'
 import { StatsCards } from './(components)/dashboard/Stats/StatsCards'
 import { getUserId } from '@/shared/api/requests/auth/getUserId'
-import { getContinueLearningCourses } from '@/shared/api/requests/courses/getContinueLearningCourses'
+import { getContinueLearningCourses } from '@/shared/api/requests/courses/{userId}/getContinueLearningCourses'
 
 const upcomingEvents = [
 	{
@@ -95,8 +95,8 @@ const goalProgress = Math.min(
 const DashboardPage = async () => {
 	const userId = await getUserId()
 
-	const { data: continueCourses } = await getContinueLearningCourses(userId!)
-	const safeContinueCourses = Array.isArray(continueCourses) ? continueCourses : []
+	const { data } = await getContinueLearningCourses(userId!)
+	const continueCourses = data ?? []
 
 	return (
 		<div className='space-y-8'>
@@ -108,8 +108,8 @@ const DashboardPage = async () => {
 						</H2>
 						<p className='text-muted-foreground max-w-xl text-sm'>
 							Продовжуйте навчання:{' '}
-							{safeContinueCourses.length
-								? `ще ${safeContinueCourses.length} курс(и/ів) чекають на вас.`
+							{continueCourses.length
+								? `ще ${continueCourses.length} курс(и/ів) чекають на вас.`
 								: 'додайте свій перший курс та почніть прогресувати.'}
 						</p>
 						<div className='flex flex-wrap gap-3'>
@@ -196,7 +196,7 @@ const DashboardPage = async () => {
 								</Button>
 							</Link>
 						</div>
-						<RecentCoursesList recentCourses={safeContinueCourses} />
+						<RecentCoursesList recentCourses={continueCourses} />
 					</div>
 				</div>
 				<Card className='flex w-[30%] flex-col justify-between'>

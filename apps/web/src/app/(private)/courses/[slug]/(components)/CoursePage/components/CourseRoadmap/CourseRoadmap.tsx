@@ -1,6 +1,7 @@
 'use client'
 
 import type { LessonProgress, ModuleWithLessons, RoadmapPosition } from '@studyx/types'
+import type { NodePosition } from '@studyx/types'
 import {
 	Background,
 	Controls,
@@ -15,7 +16,7 @@ import { useCallback, useMemo } from 'react'
 
 import { LessonNode, ModuleNode } from './nodes'
 import { transformCourseToFlow } from './utils/transformCourseToFlow'
-import { type NodePosition, saveRoadmapPosition } from '@/shared/api/requests/roadmap-positions'
+import { saveRoadmapPosition } from '@/shared/api/requests/roadmap-positions'
 
 const nodeTypes: NodeTypes = {
 	lesson: LessonNode,
