@@ -2,11 +2,17 @@
 
 import { auth } from '@/lib/better-auth/server'
 
-export const handleSignUp = async (email: string, password: string, username: string) =>
+interface handleSignUpProps {
+	name: string
+	email: string
+	password: string
+}
+
+export const handleSignUp = async ({ name, email, password }: handleSignUpProps) =>
 	await auth.api.signUpEmail({
 		body: {
 			email,
 			password,
-			name: username
+			name
 		}
 	})

@@ -147,8 +147,6 @@ export abstract class CourseService {
 			.order('order_index', { referencedTable: 'course_skills', ascending: true })
 			.single()
 
-		console.log(error)
-
 		if (error?.details === 'The result contains 0 rows') return status('Not Found', error)
 
 		if (error) throw new Error(error.message)

@@ -10,10 +10,12 @@ interface PrivateLayoutProps {
 }
 
 const PrivateLayout = async ({ children }: PrivateLayoutProps) => {
-	const { name, surname, email } = await getUser()
+	const user = await getUser()
 	const { data } = await getCourses()
 
-	const user = { name, surname, email }
+	const name = user?.name?.split(' ')[0] ?? 'Anonymous'
+	const surname = user?.name?.split(' ')[1] ?? 'Anonymous'
+	const email = user?.email ?? 'Anonymous'
 
 	return (
 		<SidebarProvider>
@@ -21,7 +23,7 @@ const PrivateLayout = async ({ children }: PrivateLayoutProps) => {
 			<SidebarInset>
 				<Header
 					courses={data ?? []}
-					user={user}
+					user={{ name, surname, email }}
 				/>
 				<div className='p-4'>{children}</div>
 			</SidebarInset>

@@ -21,12 +21,13 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger
 } from '@/components/animate-ui/radix/dropdown-menu'
-import { I18nText } from '@/components/common/I18nText/I18nText'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 import { SIDEBAR_DATA } from '../../../Sidebar/constants/data'
 
-import { handleSignOut } from './(actons)/handleSignOut'
+import { handleSignOut } from './(actions)/handleSignOut'
+import { getErrorMessage } from '@/shared/helpers'
+import { useI18n } from '@/shared/providers/i18n'
 
 export interface User {
 	name: string
@@ -40,17 +41,21 @@ interface UserProfileProps {
 
 export const UserProfile = ({ user }: UserProfileProps) => {
 	const router = useRouter()
+	const i18n = useI18n()
 
 	const [isPending, startTransition] = useTransition()
 
 	const signOut = () =>
 		startTransition(async () => {
-			const response = await handleSignOut()
-			if (response.success) {
-				toast.success(<I18nText path='toast.loggedOut' />)
+			try {
+				await handleSignOut()
+
+				toast.success(i18n.formatMessage({ id: 'toast.loggedOut' }))
+
 				router.replace('/login')
-			} else {
-				toast.error(<I18nText path='toast.failedLogout' />)
+			} catch (error) {
+				const errMsg = getErrorMessage(error instanceof Error ? error.message : String(error))
+				toast.error(i18n.formatMessage({ id: 'toast.failedLogout' }) + ' ' + errMsg)
 			}
 		})
 

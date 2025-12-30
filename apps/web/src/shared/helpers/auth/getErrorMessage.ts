@@ -20,7 +20,7 @@ const errorMessages: Partial<Record<ErrorCodes, string>> = {
 	EMAIL_NOT_VERIFIED: 'Email is not verified',
 	PASSWORD_TOO_SHORT: 'Password is too short',
 	PASSWORD_TOO_LONG: 'Password is too long',
-	USER_ALREADY_EXISTS: 'User already exists',
+	USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL: 'User already exists. Use another email',
 	EMAIL_CAN_NOT_BE_UPDATED: 'Email cannot be updated',
 	CREDENTIAL_ACCOUNT_NOT_FOUND: 'Credential account not found',
 	SESSION_EXPIRED: 'Session has expired',
@@ -30,6 +30,6 @@ const errorMessages: Partial<Record<ErrorCodes, string>> = {
 } as const
 
 export const getErrorMessage = (code: string) => {
-	const message = code.replaceAll(' ', '_').toUpperCase() // Invalid email or password -> INVALID_EMAIL_OR_PASSWORD
+	const message = code.replaceAll('.', '').replaceAll(' ', '_').toUpperCase() // Invalid email or password -> INVALID_EMAIL_OR_PASSWORD
 	return errorMessages[message as ErrorCodes] ?? 'Unknown error'
 }

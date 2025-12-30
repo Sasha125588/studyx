@@ -1,11 +1,23 @@
-import { getSessionCookie } from 'better-auth/cookies'
+import { headers } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
+
+import { auth } from './lib/better-auth/server'
 
 export const proxy = async (request: NextRequest) => {
 	const pathname = request.nextUrl.pathname
-	const sessionCookie = getSessionCookie(request)
+	const session = await auth.api.getSession({ headers: await headers() })
 
-	const isAuthenticated = !!sessionCookie
+	if (pathname.startsWith('/admin')) {
+		if (!session) {
+			return NextResponse.redirect(new URL('/login', request.url))
+		}
+
+		if (!['admin', 'teacher'].includes(session.user.role)) {
+			return NextResponse.redirect(new URL('/', request.url))
+		}
+	}
+
+	const isAuthenticated = !!session?.session
 
 	const isAuthPage = pathname === '/login' || pathname === '/signup'
 	const isProtectedPage = !isAuthPage
@@ -22,5 +34,5 @@ export const proxy = async (request: NextRequest) => {
 }
 
 export const config = {
-	matcher: ['/courses/:path*', '/', '/login', '/signup']
+	matcher: ['/courses/:path*', '/', '/login', '/signup', '/admin/:path*']
 }

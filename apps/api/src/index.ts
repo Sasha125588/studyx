@@ -17,7 +17,6 @@ const app = new Elysia()
 		cors({
 			origin: [
 				'http://localhost:3000',
-				'http://localhost:3001',
 				process.env.FRONTEND_VERCEL_URL!,
 				process.env.FRONTEND_RAILWAY_URL!
 			].filter(Boolean),
@@ -58,7 +57,7 @@ const app = new Elysia()
 const port = process.env.API_PORT ?? 4000
 
 app.listen(port, () => {
-	console.log(`🚀 API server running on http://localhost:${port}`)
+	console.log(`🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`)
 })
 
 export default app

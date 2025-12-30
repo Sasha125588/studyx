@@ -27,13 +27,13 @@
 
 	"toast.loggingIn": "Вхід в систему...",
 	"toast.loggedIn": "Успішно увійшли в систему",
-	"toast.failedLogin": "Не вдалося увійти в систему.",
+	"toast.failedLogin": "Не вдалося увійти в систему:",
 	"toast.signingUp": "Створення облікового запису...",
 	"toast.signedUp": "Обліковий запис успішно створено",
-	"toast.failedSignup": "Не вдалося створити обліковий запис.",
+	"toast.failedSignup": "Не вдалося створити обліковий запис:",
 	"toast.loggingOut": "Вихід з системи...",
 	"toast.loggedOut": "Успішно вийшли з системи",
-	"toast.failedLogout": "Не вдалося вийти з системи.",
+	"toast.failedLogout": "Не вдалося вийти з системи:",
 
 	"home": "Головна",
 	"courses": "Курси",

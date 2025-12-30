@@ -136,7 +136,7 @@ export const SignUpForm = () => {
 					/>
 					<Button
 						type='submit'
-						className='w-full cursor-pointer dark:hover:bg-zinc-50/80'
+						className='w-full cursor-pointer'
 						disabled={state.loading}
 					>
 						{state.loading ? <I18nText path='loading' /> : <I18nText path='button.createAccount' />}

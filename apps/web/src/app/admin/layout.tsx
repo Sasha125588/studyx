@@ -42,7 +42,7 @@ const AdminLayout = async ({ children }: { children: React.ReactNode }) => {
 						</nav>
 					</div>
 					<div className='flex items-center gap-2'>
-						<span className='text-muted-foreground text-sm'>{user.name}</span>
+						<span className='text-muted-foreground text-sm'>{user?.name}</span>
 						<Link
 							href='/'
 							className='text-muted-foreground hover:text-foreground text-sm'

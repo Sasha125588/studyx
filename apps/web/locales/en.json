@@ -27,13 +27,13 @@
 
 	"toast.loggingIn": "Logging in...",
 	"toast.loggedIn": "Logged in successfully",
-	"toast.failedLogin": "Failed to log in.",
+	"toast.failedLogin": "Failed to log in:",
 	"toast.signingUp": "Creating account...",
 	"toast.signedUp": "Account created successfully",
-	"toast.failedSignup": "Failed to create account.",
+	"toast.failedSignup": "Failed to create account:",
 	"toast.loggingOut": "Logging out...",
 	"toast.loggedOut": "Logged out successfully",
-	"toast.failedLogout": "Failed to log out.",
+	"toast.failedLogout": "Failed to log out:",
 
 	"home": "Home",
 	"courses": "Courses",

@@ -5,15 +5,11 @@ import { treaty } from '@elysiajs/eden'
 import { headers } from 'next/headers'
 
 import { auth } from '@/lib/better-auth/server'
+import { APIUrl } from '@/shared/constants/env'
 
-const baseUrl =
-	process.env.NODE_ENV === 'production'
-		? process.env.NEXT_PUBLIC_API_RAILWAY_URL!
-		: 'http://localhost:4000'
+export const baseApi = treaty<App>(APIUrl)
 
-export const baseApi = treaty<App>(baseUrl)
-
-export const api = treaty<App>(baseUrl, {
+export const api = treaty<App>(APIUrl, {
 	onRequest: async () => {
 		const session = await auth.api.getSession({
 			headers: await headers()

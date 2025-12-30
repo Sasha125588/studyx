@@ -30,5 +30,14 @@ export const auth = betterAuth({
 		process.env.NEXT_PUBLIC_FRONTEND_RAILWAY_URL!,
 		process.env.NEXT_PUBLIC_FRONTEND_VERCEL_URL!
 	],
+	user: {
+		additionalFields: {
+			role: {
+				type: 'string',
+				required: true,
+				defaultValue: 'student'
+			}
+		}
+	},
 	plugins: [nextCookies()]
 })

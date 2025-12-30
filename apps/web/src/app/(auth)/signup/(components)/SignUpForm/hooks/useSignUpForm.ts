@@ -37,7 +37,7 @@ export const useSignUpForm = () => {
 		const loadingToast = toast.loading(i18n.formatMessage({ id: 'toast.signingUp' }))
 		startTransition(async () => {
 			try {
-				await handleSignUp(values.email, values.password, values.name)
+				await handleSignUp(values)
 
 				toast.success(i18n.formatMessage({ id: 'toast.signedUp' }), {
 					id: loadingToast
@@ -49,7 +49,6 @@ export const useSignUpForm = () => {
 				toast.error(i18n.formatMessage({ id: 'toast.failedLogin' }) + ' ' + errMsg, {
 					id: loadingToast
 				})
-				throw new Error(errMsg)
 			}
 		})
 	})
