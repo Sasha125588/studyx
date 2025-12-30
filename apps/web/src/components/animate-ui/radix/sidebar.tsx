@@ -528,7 +528,7 @@ const sidebarMenuButtonActiveVariants = cva(
 	{
 		variants: {
 			variant: {
-				default: 'border-2 border-transparent main-gradient text-sidebar-accent-foreground',
+				default: 'border-2 border-transparent text-sidebar-accent-foreground',
 				outline:
 					'bg-sidebar-accent text-sidebar-accent-foreground shadow-[0_0_0_1px_hsl(var(--sidebar-accent))]'
 			}

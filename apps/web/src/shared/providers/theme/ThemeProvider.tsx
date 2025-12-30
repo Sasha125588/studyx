@@ -1,11 +1,24 @@
 'use client'
 
-import { ThemeProvider as NextThemesProvider } from 'next-themes'
-import * as React from 'react'
+import { getCookie, setCookie } from '@siberiacancode/reactuse'
+import { useLayoutEffect, useMemo, useState } from 'react'
 
-export const ThemeProvider = ({
-	children,
-	...props
-}: React.ComponentProps<typeof NextThemesProvider>) => {
-	return <NextThemesProvider {...props}>{children}</NextThemesProvider>
+import { type Theme, ThemeContext } from './ThemeContext'
+
+export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
+	const [theme, setTheme] = useState<Theme>(() => {
+		if (typeof window === 'undefined') return 'dark'
+		return (getCookie('theme') as Theme) ?? 'dark'
+	})
+
+	useLayoutEffect(() => {
+		const root = document.documentElement
+		setCookie('theme', theme)
+		root.classList.remove('light', 'dark')
+		root.classList.add(theme)
+	}, [theme])
+
+	const value = useMemo(() => ({ value: theme, set: setTheme }), [theme])
+
+	return <ThemeContext value={value}>{children}</ThemeContext>
 }

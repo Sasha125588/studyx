@@ -1,20 +1,37 @@
 'use client'
 
-import { useTheme } from 'next-themes'
+import { useTheme } from '@/shared/providers/theme'
 
 export const ThemeSwitcher = () => {
-	const { setTheme, theme } = useTheme()
+	const theme = useTheme()
 
-	const handleThemeChange = () => {
-		setTheme(theme === 'dark' ? 'light' : 'dark')
+	const onThemeClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
+		const x = event.clientX
+		const y = event.clientY
+		const radius = Math.hypot(window.innerWidth, window.innerHeight)
+
+		await document.startViewTransition(() => {
+			theme.set(theme.value === 'dark' ? 'light' : 'dark')
+		}).ready
+
+		document.documentElement.animate(
+			{
+				clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`]
+			},
+			{
+				duration: 700,
+				easing: 'ease-in-out',
+				pseudoElement: '::view-transition-new(root)'
+			}
+		)
 	}
 
 	return (
 		<button
 			className='vt-switch fixed right-4 bottom-4 z-50 block h-8 w-[60px] shrink-0 cursor-pointer rounded-full border transition-colors duration-300 ease-in-out'
 			role='switch'
-			aria-checked={theme === 'dark'}
-			onClick={handleThemeChange}
+			aria-checked={theme.value === 'dark'}
+			onClick={onThemeClick}
 			aria-label='Toggle dark mode'
 		>
 			<span className='absolute top-[2px] left-[2px] size-[26px] rounded-full bg-white shadow-[0_1px_2px_rgba(0,0,0,0.04),0_1px_2px_rgba(0,0,0,0.06)] transition-all duration-300 ease-in-out dark:translate-x-[28px] dark:bg-[#1a1a1a]'>

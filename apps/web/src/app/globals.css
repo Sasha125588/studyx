@@ -174,10 +174,6 @@
 @layer base {
 	* {
 		@apply border-border outline-ring/50;
-		transition:
-			background-color 300ms ease-in-out,
-			border-color 300ms ease-in-out,
-			color 300ms ease-in-out;
 	}
 	body {
 		@apply bg-background text-foreground font-manrope;
@@ -196,37 +192,6 @@ html {
 	-ms-overflow-style: none;
 	scrollbar-width: none; /* Firefox */
 	scroll-behavior: smooth;
-}
-
-.main-gradient {
-	background:
-		linear-gradient(var(--bg, #ffffff), var(--bg, #ffffff)) padding-box,
-		linear-gradient(to right, #73d2a5, #d0e537) border-box;
-}
-
-.dark .main-gradient {
-	--bg: oklch(0.21 0.006 285.885);
-}
-
-/* Gradient background for active items */
-.bg-main-gradient {
-	background: linear-gradient(to right, #73d2a5, #d0e537);
-}
-
-/* Apply gradient border to active sidebar menu buttons */
-[data-sidebar='menu-button'][data-active='true'] {
-	border: 2px solid transparent;
-	background:
-		linear-gradient(
-				var(--background, var(--sidebar-accent)),
-				var(--background, var(--sidebar-accent))
-			)
-			padding-box,
-		linear-gradient(to right, #73d2a5, #d0e537) border-box;
-}
-
-.dark [data-sidebar='menu-button'][data-active='true'] {
-	--bg: oklch(0.21 0.006 285.885);
 }
 
 /* VitePress Theme Switch Variables */
@@ -254,4 +219,9 @@ html {
 
 .vt-switch-icon svg {
 	fill: var(--vt-c-text-2);
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+	animation: none;
 }

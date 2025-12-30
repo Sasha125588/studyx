@@ -21,7 +21,7 @@ import { SIDEBAR_DATA } from '../../constants/data'
 
 export const SidebarNavigation = () => {
 	const pathname = usePathname() // /courses/%D0%9C%D0%9B%D0%A2%D0%90
-	const pageName = `/${pathname.split('/')[1]}`
+	const pageName = pathname === '/' ? '/' : `/${pathname.split('/')[1]}`
 
 	return (
 		<SidebarContent className='overflow-hidden'>
@@ -36,6 +36,7 @@ export const SidebarNavigation = () => {
 										asChild
 										size='md'
 										isActive={!!match(item.url)(pageName)}
+										className='data-[active=true]:border-sidebar-primary/40 data-[active=true]:text-sidebar-primary data-[active=true]:bg-sidebar-primary/5 transition-all duration-200 ease-in-out data-[active=true]:border'
 									>
 										<Link
 											href={item.url}

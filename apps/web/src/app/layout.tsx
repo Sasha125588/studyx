@@ -44,11 +44,7 @@ const LocaleProvider = async ({ children }: { children: React.ReactNode }) => {
 						locale={locale}
 						messages={messages}
 					>
-						<ThemeProvider
-							attribute='class'
-							defaultTheme='dark'
-							enableSystem
-						>
+						<ThemeProvider>
 							{children}
 							<ThemeSwitcher />
 						</ThemeProvider>

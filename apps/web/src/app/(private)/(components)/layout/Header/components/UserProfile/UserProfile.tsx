@@ -67,7 +67,7 @@ export const UserProfile = ({ user }: UserProfileProps) => {
 						src={SIDEBAR_DATA.user.avatar}
 						alt={`${user.name} ${user.surname}`}
 					/>
-					<AvatarFallback className='font-semibold'>
+					<AvatarFallback className='border-border border font-semibold'>
 						{user.name.charAt(0)}
 						{user.surname.charAt(0)}
 					</AvatarFallback>
