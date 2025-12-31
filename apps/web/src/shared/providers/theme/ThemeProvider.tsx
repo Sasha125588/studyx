@@ -1,5 +1,3 @@
-'use client'
-
 import { getCookie, setCookie } from '@siberiacancode/reactuse'
 import { useLayoutEffect, useMemo, useState } from 'react'
 

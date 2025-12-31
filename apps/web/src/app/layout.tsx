@@ -8,9 +8,9 @@ import { Toaster } from 'sonner'
 import { ThemeSwitcher } from '@/components/common/ThemeSwitcher/ThemeSwitcher'
 
 import './globals.css'
+import { Provider } from './provider'
 import { getMessagesByLocale } from '@/shared/helpers/i18n/getMessagesByLocale'
 import { I18nProvider } from '@/shared/providers'
-import { ThemeProvider } from '@/shared/providers/theme/ThemeProvider'
 
 const manrope = Manrope({
 	variable: '--font-manrope',
@@ -38,16 +38,26 @@ const LocaleProvider = async ({ children }: { children: React.ReactNode }) => {
 			lang={locale}
 			suppressHydrationWarning
 		>
+			<head>
+				<script
+					dangerouslySetInnerHTML={{
+						__html: `
+              const theme = document.cookie.match(/theme=(.*?)(;|$)/)?.[1] || 'dark';
+              document.documentElement.classList.add(theme);
+            `
+					}}
+				/>
+			</head>
 			<body className={`${manrope.variable} antialiased`}>
 				<NuqsAdapter>
 					<I18nProvider
 						locale={locale}
 						messages={messages}
 					>
-						<ThemeProvider>
+						<Provider>
 							{children}
 							<ThemeSwitcher />
-						</ThemeProvider>
+						</Provider>
 					</I18nProvider>
 				</NuqsAdapter>
 				<Toaster

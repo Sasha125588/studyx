@@ -32,7 +32,7 @@ export const ThemeSwitcher = () => {
 			role='switch'
 			aria-checked={theme.value === 'dark'}
 			onClick={onThemeClick}
-			aria-label='Toggle dark mode'
+			aria-label='Toggle light mode'
 		>
 			<span className='absolute top-[2px] left-[2px] size-[26px] rounded-full bg-white shadow-[0_1px_2px_rgba(0,0,0,0.04),0_1px_2px_rgba(0,0,0,0.06)] transition-all duration-300 ease-in-out dark:translate-x-[28px] dark:bg-[#1a1a1a]'>
 				<span className='vt-switch-icon relative block size-[26px] overflow-hidden rounded-full'>
