@@ -4,8 +4,13 @@ import type { NodePosition } from '@studyx/types'
 
 import { api } from '@/lib/elysia/client'
 
-export const saveRoadmapPosition = async (courseId: number, position: NodePosition) => {
+export const saveRoadmapPosition = async (
+	userId: string,
+	courseId: number,
+	position: NodePosition
+) => {
 	const response = await api['roadmap-positions'].post({
+		userId,
 		courseId,
 		...position
 	})

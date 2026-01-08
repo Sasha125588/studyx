@@ -95,8 +95,9 @@ const goalProgress = Math.min(
 const DashboardPage = async () => {
 	const userId = await getUserId()
 
-	const { data } = await getContinueLearningCourses(userId!)
-	const continueCourses = data ?? []
+	const recentCoursesResponse = await getContinueLearningCourses(userId!)
+
+	const continueCourses = recentCoursesResponse.data ?? []
 
 	return (
 		<div className='space-y-8'>

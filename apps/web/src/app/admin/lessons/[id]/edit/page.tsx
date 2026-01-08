@@ -4,6 +4,8 @@ import { notFound } from 'next/navigation'
 import { LessonEditor } from '../../(components)/LessonEditor/LessonEditor'
 
 import { api } from '@/lib/elysia/client'
+import { getCourses } from '@/shared/api'
+import { getLessonById } from '@/shared/api/requests/lessons/{id}/getLessonById'
 
 interface EditLessonPageProps {
 	params: Promise<{ id: string }>
@@ -12,10 +14,7 @@ interface EditLessonPageProps {
 const EditLessonPage = async ({ params }: EditLessonPageProps) => {
 	const { id } = await params
 
-	const [lessonResult, coursesResult] = await Promise.all([
-		api.lessons({ id: Number(id) }).get(),
-		api.courses.get()
-	])
+	const [lessonResult, coursesResult] = await Promise.all([getLessonById(+id), getCourses()])
 
 	if (lessonResult.error || !lessonResult.data) {
 		notFound()
@@ -53,7 +52,7 @@ const EditLessonPage = async ({ params }: EditLessonPageProps) => {
 					id: lesson.id,
 					title: lesson.title ?? '',
 					slug: lesson.slug ?? '',
-					type: (lesson.type as 'lecture' | 'practical' | 'test') ?? 'lecture',
+					type: lesson.type,
 					blocks: (lesson.blocks as unknown as LessonBlock[]) ?? [],
 					moduleId: moduleId ?? undefined,
 					courseId

@@ -1,5 +1,6 @@
 'use client'
 
+import type { CourseEnrollment, CourseWithDetails } from '@studyx/types'
 import { RotateCcwIcon, SearchIcon, SlidersHorizontalIcon, XIcon } from 'lucide-react'
 import { parseAsString, useQueryState } from 'nuqs'
 import { useState } from 'react'
@@ -16,9 +17,9 @@ import {
 } from '@/components/ui/select'
 
 import {
-	MY_COURSES_STATUS,
-	MY_COURSES_STATUS_LABELS,
-	type MyCoursesStatus,
+	COURSES_STATUS,
+	COURSES_STATUS_LABELS,
+	type CoursesStatus,
 	SORT_OPTIONS,
 	SORT_OPTIONS_LABELS,
 	type SortOption,
@@ -26,38 +27,28 @@ import {
 	TAB_VALUES,
 	type TabValue
 } from '../constants/filters'
-import type { UseCourseFiltersReturn } from '../hooks/useCourseFilters'
+import { useCourseFilters } from '../hooks/useCourseFilters'
 
 const SEARCH_DEBOUNCE_MS = 300
 
 interface CourseFiltersProps {
-	filters: UseCourseFiltersReturn['filters']
-	authors: UseCourseFiltersReturn['authors']
-	skills: UseCourseFiltersReturn['skills']
-	setTab: UseCourseFiltersReturn['setTab']
-	setSearch: UseCourseFiltersReturn['setSearch']
-	setMyCoursesStatus: UseCourseFiltersReturn['setMyCoursesStatus']
-	setSortBy: UseCourseFiltersReturn['setSortBy']
-	setAuthor: UseCourseFiltersReturn['setAuthor']
-	setSkill: UseCourseFiltersReturn['setSkill']
-	resetFilters: UseCourseFiltersReturn['resetFilters']
-	hasActiveFilters: boolean
-	coursesCount: number
+	courses?: CourseWithDetails[]
+	enrollments?: CourseEnrollment[]
 }
 
-export const CourseFilters = ({
-	filters,
-	authors,
-	skills,
-	setTab,
-	setMyCoursesStatus,
-	setSortBy,
-	setAuthor,
-	setSkill,
-	resetFilters,
-	hasActiveFilters,
-	coursesCount
-}: Omit<CourseFiltersProps, 'setSearch'>) => {
+export const CourseFilters = ({ courses = [], enrollments = [] }: CourseFiltersProps) => {
+	const {
+		filters,
+		authors,
+		skills,
+		setTab,
+		setCoursesStatus,
+		setSortBy,
+		setAuthorId,
+		setSkill,
+		resetFilters,
+		hasActiveFilters
+	} = useCourseFilters({ courses, enrollments })
 	const [showFilters, setShowFilters] = useState(false)
 
 	const [search, setSearch] = useQueryState(
@@ -74,7 +65,7 @@ export const CourseFilters = ({
 
 	const tabValues = Object.values(TAB_VALUES) as TabValue[]
 	const sortOptions = Object.values(SORT_OPTIONS) as SortOption[]
-	const myCoursesStatuses = Object.values(MY_COURSES_STATUS) as MyCoursesStatus[]
+	const coursesStatuses = Object.values(COURSES_STATUS) as CoursesStatus[]
 
 	return (
 		<div className='space-y-4'>
@@ -143,87 +134,80 @@ export const CourseFilters = ({
 				<div className='animate-in slide-in-from-top-2 fade-in rounded-xl border p-4 shadow-sm duration-200'>
 					<div className='flex flex-wrap items-end gap-4'>
 						{/* Підфільтр для "Мої курси" */}
-						{filters.tab === TAB_VALUES.MY && (
-							<div className='space-y-1.5'>
-								<label className='text-xs font-medium'>Статус</label>
-								<Select
-									value={filters.myCoursesStatus}
-									onValueChange={value => setMyCoursesStatus(value as MyCoursesStatus)}
-								>
-									<SelectTrigger className='w-40'>
-										<SelectValue />
-									</SelectTrigger>
-									<SelectContent>
-										{myCoursesStatuses.map(status => (
-											<SelectItem
-												key={status}
-												value={status}
-											>
-												{MY_COURSES_STATUS_LABELS[status]}
-											</SelectItem>
-										))}
-									</SelectContent>
-								</Select>
-							</div>
-						)}
-
+						<div className='space-y-1.5'>
+							<label className='text-xs font-medium'>Статус</label>
+							<Select
+								value={filters.coursesStatus}
+								onValueChange={value => setCoursesStatus(value as CoursesStatus)}
+							>
+								<SelectTrigger className='w-40'>
+									<SelectValue />
+								</SelectTrigger>
+								<SelectContent>
+									{coursesStatuses.map(status => (
+										<SelectItem
+											key={status}
+											value={status}
+										>
+											{COURSES_STATUS_LABELS[status]}
+										</SelectItem>
+									))}
+								</SelectContent>
+							</Select>
+						</div>
 						{/* Фільтр за автором */}
-						{authors.length > 0 && (
-							<div className='space-y-1.5'>
-								<label className='text-xs font-medium'>Автор</label>
-								<Select
-									value={filters.author || 'all'}
-									onValueChange={value => setAuthor(value === 'all' ? null : value)}
-								>
-									<SelectTrigger className='w-48'>
-										<SelectValue placeholder='Всі автори' />
-									</SelectTrigger>
-									<SelectContent>
-										<SelectItem value='all'>Всі автори</SelectItem>
-										{authors.map(author => (
-											<SelectItem
-												key={author.id}
-												value={author.id}
-											>
-												{author.name}
-											</SelectItem>
-										))}
-									</SelectContent>
-								</Select>
-							</div>
-						)}
-
+						<div className='space-y-1.5'>
+							<label className='text-xs font-medium'>Автор</label>
+							<Select
+								value={filters.authorId || 'all'}
+								onValueChange={value => setAuthorId(value === 'all' ? null : value)}
+							>
+								<SelectTrigger className='w-48'>
+									<SelectValue placeholder='Всі автори' />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectItem value='all'>Всі автори</SelectItem>
+									{authors.map(author => (
+										<SelectItem
+											key={author.id}
+											value={author.id}
+										>
+											{author.name}
+										</SelectItem>
+									))}
+								</SelectContent>
+							</Select>
+						</div>
 						{/* Фільтр за навичкою */}
-						{skills.length > 0 && (
-							<div className='space-y-1.5'>
-								<label className='text-xs font-medium'>Навичка</label>
-								<Select
-									value={filters.skill || 'all'}
-									onValueChange={value => setSkill(value === 'all' ? null : value)}
-								>
-									<SelectTrigger className='w-48'>
-										<SelectValue placeholder='Всі навички' />
-									</SelectTrigger>
-									<SelectContent>
-										<SelectItem value='all'>Всі навички</SelectItem>
-										{skills.map(skill => (
-											<SelectItem
-												key={skill}
-												value={skill}
-											>
-												{skill}
-											</SelectItem>
-										))}
-									</SelectContent>
-								</Select>
-							</div>
-						)}
+
+						<div className='space-y-1.5'>
+							<label className='text-xs font-medium'>Навичка</label>
+							<Select
+								value={filters.skill || 'all'}
+								onValueChange={value => setSkill(value === 'all' ? null : value)}
+							>
+								<SelectTrigger className='w-48'>
+									<SelectValue placeholder='Всі навички' />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectItem value='all'>Всі навички</SelectItem>
+									{skills.map(skill => (
+										<SelectItem
+											key={skill}
+											value={skill}
+										>
+											{skill}
+										</SelectItem>
+									))}
+								</SelectContent>
+							</Select>
+						</div>
 
 						{/* Сортування */}
 						<div className='space-y-1.5'>
 							<label className='text-xs font-medium'>Сортування</label>
 							<Select
-								value={filters.sortBy}
+								value={filters.sort}
 								onValueChange={value => setSortBy(value as SortOption)}
 							>
 								<SelectTrigger className='w-48'>
@@ -241,7 +225,6 @@ export const CourseFilters = ({
 								</SelectContent>
 							</Select>
 						</div>
-
 						{/* Скинути фільтри */}
 						{hasActiveFilters && (
 							<Button
@@ -254,11 +237,10 @@ export const CourseFilters = ({
 								Скинути
 							</Button>
 						)}
-
 						{/* Кількість результатів */}
 						<div className='ml-auto text-sm'>
-							Знайдено: <span className='font-semibold'>{coursesCount}</span>{' '}
-							{coursesCount === 1 ? 'курс' : coursesCount < 5 ? 'курси' : 'курсів'}
+							Знайдено: <span className='font-semibold'>{courses.length}</span>{' '}
+							{courses.length === 1 ? 'курс' : courses.length < 5 ? 'курси' : 'курсів'}
 						</div>
 					</div>
 				</div>

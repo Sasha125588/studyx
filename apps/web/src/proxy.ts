@@ -2,6 +2,7 @@ import { headers } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
 import { auth } from './lib/better-auth/server'
+import { updateSession } from './lib/supabase/proxy'
 
 export const proxy = async (request: NextRequest) => {
 	const pathname = request.nextUrl.pathname
@@ -30,7 +31,7 @@ export const proxy = async (request: NextRequest) => {
 		return NextResponse.redirect(new URL('/', request.url))
 	}
 
-	return NextResponse.next()
+	return await updateSession(request)
 }
 
 export const config = {

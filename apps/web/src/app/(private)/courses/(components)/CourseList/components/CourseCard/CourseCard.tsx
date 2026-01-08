@@ -40,14 +40,29 @@ const getProgressStatus = (enrollment?: CourseEnrollment | null) => {
 	const progress = enrollment.progress ?? 0
 
 	if (enrollment.status === 'completed' || progress === 100) {
-		return { label: 'Завершено', icon: CheckCircle2Icon, color: 'text-emerald-600 bg-emerald-50' }
+		return {
+			label: 'Завершено',
+			icon: CheckCircle2Icon,
+			color:
+				'text-emerald-600 bg-emerald-50 dark:text-emerald-400 dark:bg-emerald-950 border border-emerald-200 dark:border-emerald-800'
+		}
 	}
 
 	if (progress > 0) {
-		return { label: `${progress}%`, icon: PlayCircleIcon, color: 'text-violet-600 bg-violet-50' }
+		return {
+			label: `${progress}%`,
+			icon: PlayCircleIcon,
+			color:
+				'text-violet-600 bg-violet-50 dark:text-violet-400 dark:bg-violet-950 border border-violet-200 dark:border-violet-800'
+		}
 	}
 
-	return { label: 'Не розпочато', icon: ClockIcon, color: 'text-slate-500 bg-slate-50' }
+	return {
+		label: 'Не розпочато',
+		icon: ClockIcon,
+		color:
+			'text-neutral-500 bg-neutral-50 dark:text-neutral-400 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800'
+	}
 }
 
 export const CourseCard = ({ course, enrollment }: CourseCardProps) => {
@@ -124,9 +139,7 @@ export const CourseCard = ({ course, enrollment }: CourseCardProps) => {
 						className='px-4'
 					>
 						<Link href={courseHref}>
-							{enrollment && enrollment.progress && enrollment.progress > 0
-								? 'Продовжити'
-								: 'Перейти'}
+							{enrollment?.status === 'enrolled' ? 'Продовжити' : 'Перейти'}
 							<ArrowRightIcon className='size-4' />
 						</Link>
 					</Button>

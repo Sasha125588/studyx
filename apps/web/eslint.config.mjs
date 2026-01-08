@@ -23,7 +23,12 @@ const eslintConfig = defineConfig([
 		}
 	},
 	{
-		files: ['src/components/animate-ui/**/*', 'src/components/ui/**/*', 'src/lib/**/*'],
+		files: [
+			'src/components/animate-ui/**/*',
+			'src/components/ui/**/*',
+			'src/lib/**/*',
+			'src/shared/api/elysia/**/*'
+		],
 		rules: {
 			'prefer-arrow-callback': 'off',
 			'func-style': 'off',

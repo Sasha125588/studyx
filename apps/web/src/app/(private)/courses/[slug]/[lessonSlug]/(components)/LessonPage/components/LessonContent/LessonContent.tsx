@@ -1,7 +1,8 @@
 import type { BlockSubmission, LessonBlock } from '@studyx/types'
-import 'highlight.js/styles/github-dark.css'
 
 import { BlockRenderer } from '../blocks'
+
+import 'highlight.js/styles/github-dark.css'
 
 interface LessonContentProps {
 	lessonId: number

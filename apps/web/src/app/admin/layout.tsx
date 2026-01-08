@@ -5,8 +5,6 @@ import { getUser } from '@/shared/api/requests/auth'
 const AdminLayout = async ({ children }: { children: React.ReactNode }) => {
 	const user = await getUser()
 
-	// TODO: Перевірка ролі користувача (admin/teacher)
-
 	return (
 		<div className='bg-background min-h-screen'>
 			{/* Admin Header */}

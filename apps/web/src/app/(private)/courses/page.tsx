@@ -7,16 +7,30 @@ import { H2 } from '@/components/common/Typography/H2'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 
+import { CourseFilters } from './(components)/CourseFilters/CourseFilters'
 import { CourseList } from './(components)/CourseList/CourseList'
 import { getUserEnrollments } from '@/shared/api'
 import { getUserId } from '@/shared/api/requests/auth/getUserId'
 import { getCoursesWithDetails } from '@/shared/api/requests/courses/getCoursesWithDetails'
 
-const CoursesPage = async () => {
+interface CoursesPageProps {
+	searchParams: Promise<{
+		q?: string
+		author?: string
+		skill?: string
+		tab?: string
+		status?: string
+		sort?: string
+	}>
+}
+
+const CoursesPage = async ({ searchParams }: CoursesPageProps) => {
+	const params = await searchParams
+
 	const userId = (await getUserId())!
 
 	const [getCoursesResponse, getUserEnrollmentsResponse] = await Promise.all([
-		getCoursesWithDetails(),
+		getCoursesWithDetails({ ...params, userId }),
 		getUserEnrollments(userId)
 	])
 
@@ -28,6 +42,8 @@ const CoursesPage = async () => {
 			/>
 		)
 	}
+
+	const hasActiveFilters = Object.values(params).some(value => value !== undefined)
 
 	const courses = getCoursesResponse.data as unknown as CourseWithDetails[]
 
@@ -49,11 +65,16 @@ const CoursesPage = async () => {
 				</Button>
 			</div>
 
+			<CourseFilters
+				courses={courses}
+				enrollments={getUserEnrollmentsResponse.data}
+			/>
+
 			<Suspense fallback={<CoursesListSkeleton />}>
 				<CourseList
 					courses={courses}
 					enrollments={getUserEnrollmentsResponse.data}
-					userId={userId}
+					hasActiveFilters={hasActiveFilters}
 				/>
 			</Suspense>
 		</div>
@@ -77,7 +98,7 @@ const CoursesListSkeleton = () => (
 			{Array.from({ length: 6 }).map((_, i) => (
 				<div
 					key={i}
-					className='flex h-[320px] flex-col justify-between rounded-2xl border border-slate-200 bg-white p-5'
+					className='flex h-[320px] flex-col justify-between rounded-2xl border p-5'
 				>
 					<div className='space-y-3'>
 						<Skeleton className='h-4 w-24' />

@@ -7,14 +7,14 @@ export const TAB_VALUES = {
 
 export type TabValue = (typeof TAB_VALUES)[keyof typeof TAB_VALUES]
 
-export const MY_COURSES_STATUS = {
+export const COURSES_STATUS = {
 	ALL: 'all',
 	NOT_STARTED: 'not_started',
 	IN_PROGRESS: 'in_progress',
 	COMPLETED: 'completed'
 } as const
 
-export type MyCoursesStatus = (typeof MY_COURSES_STATUS)[keyof typeof MY_COURSES_STATUS]
+export type CoursesStatus = (typeof COURSES_STATUS)[keyof typeof COURSES_STATUS]
 
 export const SORT_OPTIONS = {
 	DATE_DESC: 'date_desc',
@@ -30,7 +30,7 @@ export type SortOption = (typeof SORT_OPTIONS)[keyof typeof SORT_OPTIONS]
 export interface CourseFiltersState {
 	tab: TabValue
 	search: string
-	myCoursesStatus: MyCoursesStatus
+	coursesStatus: CoursesStatus
 	sortBy: SortOption
 	author: string | null
 	skill: string | null
@@ -39,7 +39,7 @@ export interface CourseFiltersState {
 export const DEFAULT_FILTERS: CourseFiltersState = {
 	tab: TAB_VALUES.ALL,
 	search: '',
-	myCoursesStatus: MY_COURSES_STATUS.ALL,
+	coursesStatus: COURSES_STATUS.ALL,
 	sortBy: SORT_OPTIONS.DATE_DESC,
 	author: null,
 	skill: null
@@ -54,11 +54,11 @@ export const TAB_LABELS: Record<TabValue, string> = {
 	[TAB_VALUES.RECOMMENDED]: 'Рекомендовані'
 }
 
-export const MY_COURSES_STATUS_LABELS: Record<MyCoursesStatus, string> = {
-	[MY_COURSES_STATUS.ALL]: 'Всі',
-	[MY_COURSES_STATUS.NOT_STARTED]: 'Не розпочаті',
-	[MY_COURSES_STATUS.IN_PROGRESS]: 'В процесі',
-	[MY_COURSES_STATUS.COMPLETED]: 'Завершені'
+export const COURSES_STATUS_LABELS: Record<CoursesStatus, string> = {
+	[COURSES_STATUS.ALL]: 'Всі',
+	[COURSES_STATUS.NOT_STARTED]: 'Не розпочаті',
+	[COURSES_STATUS.IN_PROGRESS]: 'В процесі',
+	[COURSES_STATUS.COMPLETED]: 'Завершені'
 }
 
 export const SORT_OPTIONS_LABELS: Record<SortOption, string> = {

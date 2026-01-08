@@ -36,7 +36,7 @@ const CoursePage = async (props: PageProps<'/courses/[slug]'>) => {
 
 	const course = getCourseResponse.data as unknown as CourseWithDetails
 
-	const savedPositions = await getRoadmapPositions(getCourseResponse.data.id)
+	const savedPositions = await getRoadmapPositions(userId, getCourseResponse.data.id)
 
 	return (
 		<CoursePageMain

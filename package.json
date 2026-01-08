@@ -10,17 +10,13 @@
 		"lint-staged": "^16.2.7",
 		"prettier": "^3.7.4",
 		"prettier-plugin-tailwindcss": "^0.6.14",
-		"turbo": "^2.7.2"
+		"turbo": "^2.7.3"
 	},
 	"packageManager": "bun@1.2.13",
 	"private": true,
 	"scripts": {
 		"dev": "turbo run dev",
-		"dev:web": "turbo run dev --filter=web",
-		"dev:api": "turbo run dev --filter=api",
 		"build": "turbo run build",
-		"build:web": "turbo run build --filter=web",
-		"build:api": "turbo run build --filter=api",
 		"lint": "turbo run lint",
 		"type-check": "turbo run type-check",
 		"clean": "turbo run clean && rm -rf node_modules",

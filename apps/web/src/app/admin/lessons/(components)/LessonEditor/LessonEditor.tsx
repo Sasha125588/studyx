@@ -5,6 +5,7 @@ import { ArrowLeftIcon, EyeIcon, Loader2Icon, SaveIcon } from 'lucide-react'
 import { nanoid } from 'nanoid'
 import Link from 'next/link'
 import { useCallback, useEffect, useState } from 'react'
+import { toast } from 'sonner'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -16,6 +17,9 @@ import {
 	SelectTrigger,
 	SelectValue
 } from '@/components/ui/select'
+
+import { handleCreateLesson } from '../../(actions)/handleCreateLesson'
+import { handleUpdateLesson } from '../../(actions)/handleUpdateLesson'
 
 import { BlockList } from './BlockList'
 import { BlockToolbar } from './BlockToolbar'
@@ -66,11 +70,9 @@ export const LessonEditor = ({
 		const loadModules = async () => {
 			setIsLoadingModules(true)
 			try {
-				const response = await fetch(`/api/modules?courseId=${selectedCourseId}`)
-				if (response.ok) {
-					const data = await response.json()
-					setAvailableModules(data)
-				}
+				const response = await fetch(`/api/modules/course?courseId=${selectedCourseId}`)
+				const data = (await response.json()) ?? []
+				setAvailableModules(data)
 			} catch (error) {
 				console.error('Failed to load modules:', error)
 			} finally {
@@ -161,23 +163,26 @@ export const LessonEditor = ({
 				moduleId: selectedModuleId
 			}
 
-			const url = initialData?.id ? `/api/lessons/${initialData.id}` : '/api/lessons'
 			const method = initialData?.id ? 'PUT' : 'POST'
 
-			const response = await fetch(url, {
-				method,
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(lessonData)
-			})
-
-			if (!response.ok) {
-				throw new Error('Failed to save lesson')
+			if (method === 'PUT') {
+				const response = await handleUpdateLesson({ id: initialData?.id ?? 0, ...lessonData })
+				if (response.error) {
+					toast.error('Помилка збереження')
+					return
+				}
+			} else {
+				const response = await handleCreateLesson(lessonData)
+				if (response.error) {
+					toast.error('Помилка збереження')
+					return
+				}
 			}
 
-			alert('Урок збережено!')
+			toast.success('Урок збережено!')
 		} catch (error) {
 			console.error('Failed to save:', error)
-			alert('Помилка збереження')
+			toast.error('Помилка збереження')
 		} finally {
 			setIsSaving(false)
 		}

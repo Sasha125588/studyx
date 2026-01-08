@@ -1,12 +1,13 @@
 'use client'
 
 import type { TextBlock as TextBlockType } from '@studyx/types'
-import 'highlight.js/styles/github-dark.css'
 import ReactMarkdown from 'react-markdown'
 import rehypeHighlight from 'rehype-highlight'
 import rehypeKatex from 'rehype-katex'
 import remarkGfm from 'remark-gfm'
 import remarkMath from 'remark-math'
+
+import 'highlight.js/styles/github-dark.css'
 
 interface TextBlockProps {
 	block: TextBlockType
