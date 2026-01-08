@@ -15,7 +15,7 @@ export default [
 			'**/.turbo/**',
 			'**/next-env.d.ts',
 			'**/generated/**',
-			'apps/api/**'
+			'apps/web/src/shared/api/elysia/**'
 		]
 	}
 ]
