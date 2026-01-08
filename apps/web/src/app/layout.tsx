@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/next'
 import type { Metadata } from 'next'
 import { Manrope } from 'next/font/google'
 import { cookies } from 'next/headers'
@@ -64,6 +65,7 @@ const LocaleProvider = async ({ children }: { children: React.ReactNode }) => {
 					richColors
 					duration={TOASTER_DURATION}
 				/>
+				<Analytics />
 			</body>
 		</html>
 	)
