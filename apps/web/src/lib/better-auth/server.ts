@@ -25,7 +25,7 @@ export const auth = betterAuth({
 		requireEmailVerification: false
 	},
 	trustedOrigins: [
-		'http://localhost:3000',
+		'http://localhost:3024',
 		process.env.NEXT_PUBLIC_FRONTEND_RAILWAY_URL!,
 		process.env.NEXT_PUBLIC_FRONTEND_VERCEL_URL!
 	],

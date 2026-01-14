@@ -216,11 +216,12 @@ export const app = new Elysia({ prefix: '/api' })
 	.use(
 		cors({
 			origin: [
-				process.env.FRONTEND_VERCEL_URL!,
-				process.env.FRONTEND_RAILWAY_URL!,
-				'http://localhost:3000',
-				'http://localhost:3001',
-				'http://localhost:3024'
+				'*'
+				// process.env.FRONTEND_VERCEL_URL!,
+				// process.env.FRONTEND_RAILWAY_URL!,
+				// 'http://localhost:3000',
+				// 'http://localhost:3001',
+				// 'http://localhost:3024'
 			],
 			methods: ['GET', 'POST', 'PUT', 'PATCH', 'OPTIONS', 'DELETE'],
 			allowedHeaders: ['Content-Type', 'Authorization'],

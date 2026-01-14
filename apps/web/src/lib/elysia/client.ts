@@ -5,7 +5,7 @@ import { IS_VERCEL } from '@/shared/constants/env'
 
 export const api = treaty<App>(
 	typeof window === 'undefined'
-		? ((IS_VERCEL ? process.env.NEXT_PUBLIC_FRONTEND_VERCEL_URL : null) ?? 'http://localhost:3000')
+		? ((IS_VERCEL ? process.env.NEXT_PUBLIC_FRONTEND_VERCEL_URL : null) ?? 'http://localhost:3024')
 		: window.location.origin
 ).api
 

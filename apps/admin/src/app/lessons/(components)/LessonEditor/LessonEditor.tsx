@@ -69,7 +69,7 @@ export const LessonEditor = ({
 		const loadModules = async () => {
 			setIsLoadingModules(true)
 			try {
-				const response = await fetch(`http://localhost:3000/api/modules/course/${selectedCourseId}`)
+				const response = await fetch(`http://localhost:3024/api/modules/course/${selectedCourseId}`)
 				const data = (await response.json()) ?? []
 				setAvailableModules(data)
 			} catch (error) {

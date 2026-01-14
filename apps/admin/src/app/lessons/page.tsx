@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 const LessonsPage = async () => {
 	// const { data: lessons } = await api.lessons.get()
-	const getLessonsResponse = await fetch('http://localhost:3000/api/lessons')
+	const getLessonsResponse = await fetch('http://localhost:3024/api/lessons')
 
 	const lessonsData = await getLessonsResponse.json()
 

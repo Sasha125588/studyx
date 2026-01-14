@@ -21,7 +21,7 @@ export const handleCreateLesson = async ({
 }: CreateLessonRequest) => {
 	// const response = await api.lessons.post({ title, slug, type, blocks: blocks as any, moduleId })
 
-	const response = await fetch('http://localhost:3000/api/lessons', {
+	const response = await fetch('http://localhost:3024/api/lessons', {
 		method: 'POST',
 		body: JSON.stringify({ title, slug, type, blocks: blocks as any, moduleId }),
 		headers: {

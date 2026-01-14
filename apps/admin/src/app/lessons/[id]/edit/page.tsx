@@ -4,19 +4,19 @@ import type { LessonBlock } from '@studyx/types'
 import { LessonEditor } from '../../(components)/LessonEditor/LessonEditor'
 
 const getLesson = async (id: string) => {
-	const getLessonResponse = await fetch(`http://localhost:3000/api/lessons/${id}`)
+	const getLessonResponse = await fetch(`http://localhost:3024/api/lessons/${id}`)
 	const lesson = await getLessonResponse.json()
 	return lesson
 }
 
 const getCourses = async () => {
-	const getCoursesResponse = await fetch('http://localhost:3000/api/courses')
+	const getCoursesResponse = await fetch('http://localhost:3024/api/courses')
 	const courses = await getCoursesResponse.json()
 	return courses
 }
 
 const getModules = async (courseId: number) => {
-	const getModulesResponse = await fetch(`http://localhost:3000/api/modules/course/${courseId}`)
+	const getModulesResponse = await fetch(`http://localhost:3024/api/modules/course/${courseId}`)
 	const modules = await getModulesResponse.json()
 	return modules
 }

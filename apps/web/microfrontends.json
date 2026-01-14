@@ -1,26 +1,14 @@
 {
 	"$schema": "https://openapi.vercel.sh/microfrontends.json",
 	"applications": {
-		"web": {
-			"packageName": "web",
+		"studyx": {
 			"development": {
-				"fallback": "studyx-flax.vercel.app",
-				"local": {
-					"port": 3000
-				}
+				"fallback": "studyx-flax.vercel.app"
 			}
 		},
-		"studyx": {
-			"packageName": "admin",
-			"development": {
-				"fallback": "studyx-flax.vercel.app",
-				"local": {
-					"port": 3001
-				}
-			},
+		"studyx-admin": {
 			"routing": [
 				{
-					"group": "admin",
 					"paths": ["/admin/:path*"]
 				}
 			]

@@ -1,7 +1,6 @@
 {
 	"name": "studyx",
 	"version": "0.1.0",
-	"type": "module",
 	"devDependencies": {
 		"@types/react": "^19.2.8",
 		"@types/react-dom": "^19.2.3",
@@ -39,8 +38,5 @@
 	"workspaces": [
 		"apps/*",
 		"packages/*"
-	],
-	"dependencies": {
-		"studyx": "."
-	}
+	]
 }

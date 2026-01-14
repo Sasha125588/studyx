@@ -20,7 +20,7 @@ export const handleUpdateLesson = async ({
 	// 	.lessons({ id })
 	// 	.put({ title, slug, type, blocks: blocks as any, moduleId })
 
-	const response = await fetch(`http://localhost:3000/api/lessons/${id}`, {
+	const response = await fetch(`http://localhost:3024/api/lessons/${id}`, {
 		method: 'PUT',
 		body: JSON.stringify({ title, slug, type, blocks: blocks as any, moduleId }),
 		headers: {
