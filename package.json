@@ -1,6 +1,7 @@
 {
 	"name": "studyx",
 	"version": "0.1.0",
+	"type": "module",
 	"devDependencies": {
 		"@trivago/prettier-plugin-sort-imports": "^5.2.2",
 		"eslint": "^9.39.2",
@@ -26,7 +27,7 @@
 		"lint-staged": "lint-staged"
 	},
 	"lint-staged": {
-		"*.{*ts,*js,tsx,jsx,md,mdx,css}": [
+		"*.{ts,tsx,js,jsx,md,mdx,css}": [
 			"eslint --fix",
 			"prettier --write"
 		]
