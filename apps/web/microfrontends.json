@@ -1,17 +1,19 @@
 {
-	"$schema": "https://turborepo.com/microfrontends/schema.json",
+	"$schema": "https://openapi.vercel.sh/microfrontends.json",
 	"applications": {
 		"web": {
 			"packageName": "web",
 			"development": {
+				"fallback": "studyx-flax.vercel.app",
 				"local": {
 					"port": 3000
 				}
 			}
 		},
-		"admin": {
+		"studyx": {
 			"packageName": "admin",
 			"development": {
+				"fallback": "studyx-flax.vercel.app",
 				"local": {
 					"port": 3001
 				}
