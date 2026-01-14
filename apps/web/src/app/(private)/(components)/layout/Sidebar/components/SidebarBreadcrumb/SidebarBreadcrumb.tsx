@@ -1,8 +1,6 @@
 'use client'
 
 import type { Course } from '@studyx/types'
-import { usePathname } from 'next/navigation'
-
 import {
 	Breadcrumb,
 	BreadcrumbItem,
@@ -10,17 +8,18 @@ import {
 	BreadcrumbList,
 	BreadcrumbPage,
 	BreadcrumbSeparator
-} from '@/components/ui/breadcrumb'
+} from '@studyx/ui/base'
+import { usePathname } from 'next/navigation'
 
+import { useIntl } from '@/app/(contexts)/intl'
 import { getBreadcrumbs } from '@/shared/helpers/breadcrumb/getBreadcrumbs'
-import { useI18n } from '@/shared/providers'
 
 interface SidebarBreadcrumbProps {
 	courses: Course[]
 }
 
 export const SidebarBreadcrumb = ({ courses }: SidebarBreadcrumbProps) => {
-	const i18n = useI18n()
+	const i18n = useIntl()
 	const pathname = usePathname()
 
 	const breadcrumbs = getBreadcrumbs({ pathname, i18n, courses })

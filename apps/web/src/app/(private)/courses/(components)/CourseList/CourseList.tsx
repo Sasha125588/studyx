@@ -1,7 +1,6 @@
 import type { CourseEnrollment, CourseWithDetails } from '@studyx/types'
+import { EmptyCard } from '@studyx/ui/common'
 import { BookOpenIcon } from 'lucide-react'
-
-import { EmptyCard } from '@/components/common/EmptyCard/EmptyCard'
 
 import { CourseCard } from './components/CourseCard/CourseCard'
 

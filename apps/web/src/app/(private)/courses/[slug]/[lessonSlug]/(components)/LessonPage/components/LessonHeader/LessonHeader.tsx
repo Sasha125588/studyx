@@ -1,4 +1,5 @@
 import { type LessonFullContext, LessonTypes } from '@studyx/types'
+import { Badge } from '@studyx/ui/base'
 import {
 	ArrowLeftIcon,
 	// BookOpenIcon,
@@ -7,8 +8,6 @@ import {
 	FlaskConicalIcon
 } from 'lucide-react'
 import Link from 'next/link'
-
-import { Badge } from '@/components/ui/badge'
 
 interface LessonHeaderProps {
 	lesson: LessonFullContext['lesson']

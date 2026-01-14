@@ -1,24 +1,25 @@
 'use client'
 
-import { I18nText } from '@/components/common/I18nText/I18nText'
 // import { SocialLoginButtons } from '@/components/common/SocialLoginButtons/SocialLoginButtons'
-import { Button } from '@/components/ui/button'
 import {
+	Button,
 	Form,
 	FormControl,
 	FormField,
 	FormItem,
 	FormLabel,
-	FormMessage
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
+	FormMessage,
+	Input
+} from '@studyx/ui/base'
+
+import { IntlText } from '@/components/common/IntlText/IntlText'
 
 import { useSignUpForm } from './hooks/useSignUpForm'
-import { useI18n } from '@/shared/providers'
+import { useIntl } from '@/app/(contexts)/intl'
 
 export const SignUpForm = () => {
 	const { form, functions, state } = useSignUpForm()
-	const i18n = useI18n()
+	const i18n = useIntl()
 
 	return (
 		<Form {...form}>
@@ -32,10 +33,10 @@ export const SignUpForm = () => {
 				<div className='flex flex-col gap-6'>
 					<div className='flex flex-col items-center text-center'>
 						<h1 className='text-2xl font-bold'>
-							<I18nText path='form.signup.title' />
+							<IntlText path='form.signup.title' />
 						</h1>
 						<p className='text-muted-foreground text-balance'>
-							<I18nText path='form.signup.description' />
+							<IntlText path='form.signup.description' />
 						</p>
 					</div>
 					<FormField
@@ -44,7 +45,7 @@ export const SignUpForm = () => {
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel htmlFor='email'>
-									<I18nText path='field.email.label' />
+									<IntlText path='field.email.label' />
 								</FormLabel>
 								<FormControl>
 									<Input
@@ -68,7 +69,7 @@ export const SignUpForm = () => {
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel htmlFor='name'>
-									<I18nText path='field.name.label' />
+									<IntlText path='field.name.label' />
 								</FormLabel>
 								<FormControl>
 									<Input
@@ -92,7 +93,7 @@ export const SignUpForm = () => {
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel htmlFor='password'>
-									<I18nText path='field.password.label' />
+									<IntlText path='field.password.label' />
 								</FormLabel>
 								<FormControl>
 									<Input
@@ -116,7 +117,7 @@ export const SignUpForm = () => {
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel htmlFor='confirmPassword'>
-									<I18nText path='field.confirmPassword.label' />
+									<IntlText path='field.confirmPassword.label' />
 								</FormLabel>
 								<FormControl>
 									<Input
@@ -139,23 +140,23 @@ export const SignUpForm = () => {
 						className='w-full cursor-pointer'
 						disabled={state.loading}
 					>
-						{state.loading ? <I18nText path='loading' /> : <I18nText path='button.createAccount' />}
+						{state.loading ? <IntlText path='loading' /> : <IntlText path='button.createAccount' />}
 					</Button>
 					<div className='after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t'>
 						<span className='bg-card text-muted-foreground relative z-10 px-2'>
-							<I18nText path='form.orContinueWith' />
+							<IntlText path='form.orContinueWith' />
 						</span>
 					</div>
 					{/* <SocialLoginButtons /> */}
 					<div className='text-center text-sm'>
-						<I18nText path='form.alreadyHaveAccount' />{' '}
+						<IntlText path='form.alreadyHaveAccount' />{' '}
 						<Button
 							type='button'
 							variant='link'
 							className='h-auto cursor-pointer p-0'
 							onClick={functions.goToSignIn}
 						>
-							<I18nText path='button.login' />
+							<IntlText path='button.login' />
 						</Button>
 					</div>
 				</div>

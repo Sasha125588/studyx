@@ -1,6 +1,7 @@
 'use client'
 
 import type { LessonAttachment, LessonNavItem } from '@studyx/types'
+import { Button } from '@studyx/ui/base'
 import {
 	ArrowRightIcon,
 	ExternalLinkIcon,
@@ -14,8 +15,6 @@ import { AnimatePresence, motion, useScroll, useSpring, useTransform } from 'mot
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
-
-import { Button } from '@/components/ui/button'
 
 import { cn } from '@/shared/helpers'
 

@@ -1,0 +1,27 @@
+{
+	"$schema": "https://turborepo.com/microfrontends/schema.json",
+	"applications": {
+		"web": {
+			"packageName": "web",
+			"development": {
+				"local": {
+					"port": 3000
+				}
+			}
+		},
+		"admin": {
+			"packageName": "admin",
+			"development": {
+				"local": {
+					"port": 3001
+				}
+			},
+			"routing": [
+				{
+					"group": "admin",
+					"paths": ["/admin/:path*"]
+				}
+			]
+		}
+	}
+}

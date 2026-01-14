@@ -1,20 +1,20 @@
 'use client'
 
 import type { CourseEnrollment, CourseWithDetails } from '@studyx/types'
-import { RotateCcwIcon, SearchIcon, SlidersHorizontalIcon, XIcon } from 'lucide-react'
-import { parseAsString, useQueryState } from 'nuqs'
-import { useState } from 'react'
-
-import { Tabs, TabsList, TabsTrigger } from '@/components/animate-ui/components/radix/tabs'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import {
+	Button,
+	Input,
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue
-} from '@/components/ui/select'
+} from '@studyx/ui/base'
+import { RotateCcwIcon, SearchIcon, SlidersHorizontalIcon, XIcon } from 'lucide-react'
+import { parseAsString, useQueryState } from 'nuqs'
+import { useState } from 'react'
+
+import { Tabs, TabsList, TabsTrigger } from '@/components/animate-ui/components/radix/tabs'
 
 import {
 	COURSES_STATUS,

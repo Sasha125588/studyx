@@ -1,4 +1,4 @@
-import { Card, CardContent } from '@/components/ui/card'
+import { Card, CardContent } from '@studyx/ui/base'
 
 import { SignUpForm } from './(components)/SignUpForm/SignUpForm'
 

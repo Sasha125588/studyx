@@ -1,4 +1,5 @@
 import type { CourseEnrollment, CourseWithDetails } from '@studyx/types'
+import { Button, Card, CardDescription, CardFooter, CardTitle } from '@studyx/ui/base'
 import {
 	ArrowRightIcon,
 	BookOpenIcon,
@@ -8,9 +9,6 @@ import {
 	PlayCircleIcon
 } from 'lucide-react'
 import Link from 'next/link'
-
-import { Button } from '@/components/ui/button'
-import { Card, CardDescription, CardFooter, CardTitle } from '@/components/ui/card'
 
 import { getCourseAuthors } from '@/shared/helpers'
 

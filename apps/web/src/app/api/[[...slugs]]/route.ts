@@ -1,15 +1,15 @@
 import { cors } from '@elysiajs/cors'
 import { openapi } from '@elysiajs/openapi'
-import { serverTiming } from '@elysiajs/server-timing'
+// import { serverTiming } from '@elysiajs/server-timing'
 import type { SocketAddress } from 'bun'
 import { Elysia, NotFoundError } from 'elysia'
-import { helmet } from 'elysia-helmet'
+// import { helmet } from 'elysia-helmet'
 import { DefaultContext, rateLimit } from 'elysia-rate-limit'
 import { notFound } from 'next/navigation'
 
 import { logger } from '@/lib/pino/logger'
 import { createClient } from '@/lib/supabase/server'
-import { docsCsp, strictCsp } from '@/shared/api/constants'
+// import { docsCsp } from '@/shared/api/constants'
 import { blockSubmissionsRoutes } from '@/shared/api/elysia/modules/block-submissions'
 import { BlockSubmissionService } from '@/shared/api/elysia/modules/block-submissions/service'
 import { coursesRoutes } from '@/shared/api/elysia/modules/courses'
@@ -30,25 +30,25 @@ const ipGenerator = (_r: unknown, _s: unknown, { ip }: { ip?: SocketAddress }) =
 	ip?.address ?? 'unknown'
 
 export const app = new Elysia({ prefix: '/api' })
-	.onRequest(({ request }) => {
-		logger.info(
-			{
-				method: request.method,
-				url: request.url
-			},
-			'Request started'
-		)
-	})
-	.onAfterResponse(({ request, set }) => {
-		logger.info(
-			{
-				method: request.method,
-				url: request.url,
-				status: set.status || 200
-			},
-			'Request completed'
-		)
-	})
+	// .onRequest(({ request }) => {
+	// 	logger.info(
+	// 		{
+	// 			method: request.method,
+	// 			url: request.url
+	// 		},
+	// 		'Request started'
+	// 	)
+	// })
+	// .onAfterResponse(({ request, set }) => {
+	// 	logger.info(
+	// 		{
+	// 			method: request.method,
+	// 			url: request.url,
+	// 			status: set.status || 200
+	// 		},
+	// 		'Request completed'
+	// 	)
+	// })
 
 	.onError(({ code, error, request, set }) => {
 		if (isNextJsInternalError(error)) {
@@ -128,85 +128,99 @@ export const app = new Elysia({ prefix: '/api' })
 		}
 	})
 
-	.trace(async ({ onBeforeHandle, onAfterHandle, onError }) => {
-		onBeforeHandle(({ begin, onStop }) => {
-			onStop(({ end }) => {
-				logger.debug(
-					{
-						phase: 'beforeHandle',
-						duration: end - begin
-					},
-					'BeforeHandle took'
-				)
-			})
-		})
+	// .trace(async ({ onBeforeHandle, onAfterHandle, onRequest, onError }) => {
+	// 	onRequest(({ begin, onStop }) => {
+	// 		onStop(({ end }) => {
+	// 			logger.info(
+	// 				{
+	// 					phase: 'request',
+	// 					duration: end - begin
+	// 				},
+	// 				'Request took'
+	// 			)
+	// 		})
+	// 	})
 
-		onAfterHandle(({ begin, onStop }) => {
-			onStop(({ end }) => {
-				logger.debug(
-					{
-						phase: 'afterHandle',
-						duration: end - begin
-					},
-					'AfterHandle took'
-				)
-			})
-		})
+	// 	onBeforeHandle(({ begin, onStop }) => {
+	// 		onStop(({ end }) => {
+	// 			logger.debug(
+	// 				{
+	// 					phase: 'beforeHandle',
+	// 					duration: end - begin
+	// 				},
+	// 				'BeforeHandle took'
+	// 			)
+	// 		})
+	// 	})
 
-		onError(({ begin, onStop }) => {
-			onStop(({ end, error }) => {
-				logger.error(
-					{
-						phase: 'error',
-						duration: end - begin,
-						error: error?.message
-					},
-					'Error occurred in trace'
-				)
-			})
-		})
-	})
+	// 	onAfterHandle(({ begin, onStop }) => {
+	// 		onStop(({ end }) => {
+	// 			logger.debug(
+	// 				{
+	// 					phase: 'afterHandle',
+	// 					duration: end - begin
+	// 				},
+	// 				'AfterHandle took'
+	// 			)
+	// 		})
+	// 	})
 
-	.use(
-		helmet({
-			contentSecurityPolicy: {
-				useDefaults: false,
-				directives: strictCsp
-			},
-			hsts: {
-				maxAge: 31_536_000,
-				includeSubDomains: true,
-				preload: true
-			},
-			xFrameOptions: { action: 'deny' },
-			referrerPolicy: {
-				policy: ['strict-origin-when-cross-origin']
-			}
-		})
-	)
+	// 	onError(({ begin, onStop }) => {
+	// 		onStop(({ end, error }) => {
+	// 			logger.error(
+	// 				{
+	// 					phase: 'error',
+	// 					duration: end - begin,
+	// 					error: error?.message
+	// 				},
+	// 				'Error occurred in trace'
+	// 			)
+	// 		})
+	// 	})
+	// })
 
-	.use(
-		serverTiming({
-			trace: {
-				request: true,
-				parse: true,
-				transform: true,
-				beforeHandle: true,
-				handle: true,
-				afterHandle: true,
-				error: true,
-				mapResponse: true,
-				total: true
-			}
-		})
-	)
+	// .use(
+	// 	helmet({
+	// 		contentSecurityPolicy: {
+	// 			useDefaults: false,
+	// 			directives: strictCsp
+	// 		},
+	// 		hsts: {
+	// 			maxAge: 31_536_000,
+	// 			includeSubDomains: true,
+	// 			preload: true
+	// 		},
+	// 		xFrameOptions: { action: 'deny' },
+	// 		referrerPolicy: {
+	// 			policy: ['strict-origin-when-cross-origin']
+	// 		}
+	// 	})
+	// )
+
+	// .use(
+	// 	serverTiming({
+	// 		trace: {
+	// 			request: true,
+	// 			parse: true,
+	// 			transform: true,
+	// 			beforeHandle: true,
+	// 			handle: true,
+	// 			afterHandle: true,
+	// 			error: true,
+	// 			mapResponse: true,
+	// 			total: true
+	// 		}
+	// 	})
+	// )
 
 	.use(
 		cors({
 			origin: [
 				process.env.FRONTEND_VERCEL_URL!,
 				process.env.FRONTEND_RAILWAY_URL!,
-				'http://localhost:3000'
+				'http://localhost:3000',
+				'http://localhost:3001',
+				'http://localhost:3024'
 			],
 			methods: ['GET', 'POST', 'PUT', 'PATCH', 'OPTIONS', 'DELETE'],
 			allowedHeaders: ['Content-Type', 'Authorization'],
@@ -233,18 +247,18 @@ export const app = new Elysia({ prefix: '/api' })
 		})
 	)
 
-	.group('', app =>
-		app
-			.use(
-				helmet({
-					contentSecurityPolicy: {
-						useDefaults: false,
-						directives: docsCsp
-					}
-				})
-			)
-			.use(openapi())
-	)
+	// .group('', app =>
+	// 	app
+	// 		.use(
+	// 			helmet({
+	// 				contentSecurityPolicy: {
+	// 					useDefaults: false,
+	// 					directives: docsCsp
+	// 				}
+	// 			})
+	// 		)
+	// 		.use(openapi())
+	// )
 
 	.use(openapi())
 

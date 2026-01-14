@@ -1,16 +1,15 @@
 import type { ContinueLearningCourse } from '@studyx/types'
-import { PlayIcon } from 'lucide-react'
-import Link from 'next/link'
-
-import { Button } from '@/components/ui/button'
 import {
+	Button,
 	Card,
 	CardAction,
 	CardDescription,
 	CardFooter,
 	CardHeader,
 	CardTitle
-} from '@/components/ui/card'
+} from '@studyx/ui/base'
+import { PlayIcon } from 'lucide-react'
+import Link from 'next/link'
 
 interface RecentCoursesItemProps {
 	course: ContinueLearningCourse

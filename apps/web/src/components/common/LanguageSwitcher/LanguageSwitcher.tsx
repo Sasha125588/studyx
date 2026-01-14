@@ -1,17 +1,16 @@
 'use client'
 
-import { GlobeIcon } from 'lucide-react'
-
 import {
+	Button,
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuTrigger
-} from '@/components/animate-ui/radix/dropdown-menu'
-import { Button } from '@/components/ui/button'
+} from '@studyx/ui/base'
+import { GlobeIcon } from 'lucide-react'
 
-import { setLocale } from '@/shared/helpers/i18n/setLocale'
-import { useI18n } from '@/shared/providers/i18n/useI18n'
+import { setLocale } from '@/app/(contexts)/intl/helpers/setLocale'
+import { useIntl } from '@/app/(contexts)/intl/useIntl'
 
 const languages = [
 	{ code: 'en', label: 'EN', name: 'English' },
@@ -19,7 +18,7 @@ const languages = [
 ]
 
 export const LanguageSwitcher = () => {
-	const i18n = useI18n()
+	const i18n = useIntl()
 	const locale = i18n.locale ?? 'en'
 	const currentLanguage = languages.find(l => l.code === locale)?.label ?? locale.toUpperCase()
 

@@ -1,7 +1,5 @@
 import type { BlockSubmission, LessonFullContext } from '@studyx/types'
-
-import { ErrorCard } from '@/components/common/ErrorCard/ErrorCard'
-import { NotFoundCard } from '@/components/common/NotFoundCard/NotFoundCard'
+import { ErrorCard, NotFoundCard } from '@studyx/ui/common'
 
 import { LessonPageMain } from './(components)/LessonPage/LessonPage'
 import { getLessonBySlug } from '@/shared/api'

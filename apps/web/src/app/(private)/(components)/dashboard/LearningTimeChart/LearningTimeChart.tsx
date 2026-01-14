@@ -1,23 +1,23 @@
 'use client'
 
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from 'recharts'
-
-import { H3 } from '@/components/common/Typography/H3'
 // import { I18nText } from '@/components/common/I18nText/I18nText'
-import { Card, CardAction, CardContent } from '@/components/ui/card'
 import {
+	Card,
+	CardAction,
+	CardContent,
 	type ChartConfig,
 	ChartContainer,
 	ChartTooltip,
-	ChartTooltipContent
-} from '@/components/ui/chart'
-import {
+	ChartTooltipContent,
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue
-} from '@/components/ui/select'
+} from '@studyx/ui/base'
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from 'recharts'
+
+import { H3 } from '@/components/common/Typography/H3'
 
 const chartData = [
 	{ day: 'Понеділок', hour: 6.5 },

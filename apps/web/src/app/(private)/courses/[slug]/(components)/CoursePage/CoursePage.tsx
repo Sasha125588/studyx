@@ -1,4 +1,6 @@
 import { type CourseWithDetails, EnrollmentStatuses, type RoadmapPosition } from '@studyx/types'
+import { Badge } from '@studyx/ui/base'
+import { EmptyCard } from '@studyx/ui/common'
 import { LayoutListIcon, MapIcon, MessageCircleIcon, MessageSquareIcon } from 'lucide-react'
 
 import {
@@ -10,8 +12,6 @@ import {
 	TabsList,
 	TabsTrigger
 } from '@/components/animate-ui/primitives/radix/tabs'
-import { EmptyCard } from '@/components/common/EmptyCard/EmptyCard'
-import { Badge } from '@/components/ui/badge'
 
 import { CourseContent } from './components/CourseContent/CourseContent'
 import { CourseHero } from './components/CourseHero/CourseHero'

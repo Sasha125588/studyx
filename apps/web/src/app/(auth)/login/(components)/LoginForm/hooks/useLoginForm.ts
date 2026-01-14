@@ -7,8 +7,8 @@ import { toast } from 'sonner'
 import { loginFormSchema } from '../constants/loginSchema'
 
 import { handleLogin } from '@/app/(auth)/(actions)/handleLogin'
+import { useIntl } from '@/app/(contexts)/intl'
 import { getErrorMessage } from '@/shared/helpers/auth/getErrorMessage'
-import { useI18n } from '@/shared/providers'
 
 interface SignInForm {
 	email: string
@@ -19,7 +19,7 @@ export const useLoginForm = () => {
 	const [isPending, startTransition] = useTransition()
 	const router = useRouter()
 
-	const i18n = useI18n()
+	const i18n = useIntl()
 
 	const signInForm = useForm<SignInForm>({
 		resolver: zodResolver(loginFormSchema),

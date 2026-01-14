@@ -55,7 +55,7 @@ export const CourseRoadmapInner = ({
 
 			if (!nodeIdMatch) return
 
-			const nodeId = parseInt(nodeIdMatch[2])
+			const nodeId = parseInt(nodeIdMatch[2]!)
 
 			const position: NodePosition = {
 				nodeType,

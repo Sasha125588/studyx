@@ -1,4 +1,5 @@
 import type { ModuleWithLessons } from '@studyx/types'
+import { Badge, Button } from '@studyx/ui/base'
 import { ArrowRightIcon, BookOpenIcon, FileTextIcon, FlaskConicalIcon } from 'lucide-react'
 import Link from 'next/link'
 
@@ -7,9 +8,7 @@ import {
 	AccordionContent,
 	AccordionItem,
 	AccordionTrigger
-} from '@/components/animate-ui/radix/accordion'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
+} from '@/components/animate-ui/components/radix/accordion'
 
 export interface CourseContentProps {
 	modules: ModuleWithLessons[]
@@ -19,7 +18,7 @@ export interface CourseContentProps {
 export const CourseContent = ({ modules, courseSlug }: CourseContentProps) => {
 	// TODO: отримати реальний прогрес з API
 	const getLessonStatus = () => {
-		const random = crypto.getRandomValues(new Uint8Array(1))[0] % 100
+		const random = crypto.getRandomValues(new Uint8Array(1))[0]! % 100
 		return random > 50
 	}
 

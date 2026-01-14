@@ -1,9 +1,8 @@
 'use client'
 
+import { Card, CardContent } from '@studyx/ui/base'
 import { AlarmClockCheckIcon, BookOpenCheckIcon, GaugeIcon, TrophyIcon } from 'lucide-react'
 import { useState } from 'react'
-
-import { Card, CardContent } from '@/components/ui/card'
 
 const statsCards = [
 	{
@@ -56,7 +55,7 @@ export const StatsCards = () => {
 					<div className='absolute inset-x-0 top-0 h-[3px] bg-linear-to-r from-yellow-500 via-yellow-200 to-yellow-500' />
 					<div
 						style={{
-							background: `radial-gradient(circle at ${gradientPositions[index].x}% ${gradientPositions[index].y}%, rgba(250, 204, 21,0.1), transparent 42%)`
+							background: `radial-gradient(circle at ${gradientPositions[index]!.x}% ${gradientPositions[index]!.y}%, rgba(250, 204, 21,0.1), transparent 42%)`
 						}}
 						className='pointer-events-none absolute inset-0'
 					/>

@@ -1,11 +1,17 @@
 'use client'
 
-import * as React from 'react'
+import type { ComponentProps, ReactNode } from 'react'
 
-import { ThemeProvider } from '@/shared/providers/theme/ThemeProvider'
+import { IntlProvider } from './(contexts)/intl/IntlProvider'
+import { ThemeProvider } from '@/app/(contexts)/theme/ThemeProvider'
 
 interface ProviderProps {
-	children: React.ReactNode
+	children: ReactNode
+	intl: Omit<ComponentProps<typeof IntlProvider>, 'children'>
 }
 
-export const Provider = ({ children }: ProviderProps) => <ThemeProvider>{children}</ThemeProvider>
+export const Provider = ({ children, intl }: ProviderProps) => (
+	<IntlProvider {...intl}>
+		<ThemeProvider>{children}</ThemeProvider>
+	</IntlProvider>
+)

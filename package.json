@@ -10,7 +10,7 @@
 		"lint-staged": "^16.2.7",
 		"prettier": "^3.7.4",
 		"prettier-plugin-tailwindcss": "^0.6.14",
-		"turbo": "^2.7.3"
+		"turbo": "^2.7.4"
 	},
 	"packageManager": "bun@1.2.13",
 	"private": true,
@@ -22,7 +22,14 @@
 		"clean": "turbo run clean && rm -rf node_modules",
 		"format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
 		"generate-db-types": "bunx supabase gen types typescript --project-id hiumfpqtebwwjepqojsd --schema public > packages/database/src/db.ts",
-		"prepare": "husky"
+		"prepare": "husky",
+		"lint-staged": "lint-staged"
+	},
+	"lint-staged": {
+		"*.{*ts,*js,tsx,jsx,md,mdx,css}": [
+			"eslint --fix",
+			"prettier --write"
+		]
 	},
 	"workspaces": [
 		"apps/*",

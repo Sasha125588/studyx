@@ -1,6 +1,6 @@
 'use client'
 
-import { useTheme } from '@/shared/providers/theme'
+import { useTheme } from '@/app/(contexts)/theme'
 
 export const ThemeSwitcher = () => {
 	const theme = useTheme()

@@ -1,4 +1,5 @@
 // import { formatDate } from 'date-fns'
+import { Button, Card, CardContent, CardFooter, CardHeader, CardTitle } from '@studyx/ui/base'
 import {
 	AlarmClockCheckIcon,
 	ChevronRightIcon,
@@ -9,12 +10,10 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 
-import { I18nText } from '@/components/common/I18nText/I18nText'
+import { IntlText } from '@/components/common/IntlText/IntlText'
 import { H2 } from '@/components/common/Typography/H2'
 import { H3 } from '@/components/common/Typography/H3'
 import { MouseEffectCard } from '@/components/kokonut-ui/mouse-effect-card'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 
 import { LearningTimeChart } from './(components)/dashboard/LearningTimeChart/LearningTimeChart'
 import { RecentCoursesList } from './(components)/dashboard/RecentCoursesList/RecentCoursesList'
@@ -185,7 +184,7 @@ const DashboardPage = async () => {
 					<div className='mt-6 space-y-4'>
 						<div className='flex items-center justify-between'>
 							<H3>
-								<I18nText path='continueLearning' />
+								<IntlText path='continueLearning' />
 							</H3>
 							<Link href='/courses'>
 								<Button
@@ -193,7 +192,7 @@ const DashboardPage = async () => {
 									className='cursor-pointer duration-300 ease-in-out'
 								>
 									<ChevronRightIcon size={16} />
-									<I18nText path='allCourses' />
+									<IntlText path='allCourses' />
 								</Button>
 							</Link>
 						</div>

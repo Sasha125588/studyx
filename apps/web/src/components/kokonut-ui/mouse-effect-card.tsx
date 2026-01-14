@@ -9,10 +9,9 @@
  * @website: https://kokonutui.com
  * @github: https://github.com/kokonut-labs/kokonutui
  */
+import { Card, CardContent } from '@studyx/ui/base'
 import { motion, useMotionValue, useSpring, useTransform } from 'motion/react'
 import { memo, useEffect, useRef, useState } from 'react'
-
-import { Card, CardContent } from '@/components/ui/card'
 
 import { cn } from '@/shared/helpers'
 

@@ -1,7 +1,6 @@
 import type { ContinueLearningCourse } from '@studyx/types'
+import { EmptyCard } from '@studyx/ui/common'
 import { SparklesIcon } from 'lucide-react'
-
-import { EmptyCard } from '@/components/common/EmptyCard/EmptyCard'
 
 import { RecentCoursesItem } from './components/CoursesItem/RecentCoursesItem'
 

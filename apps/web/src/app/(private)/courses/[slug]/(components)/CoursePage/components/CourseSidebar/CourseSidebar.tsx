@@ -1,10 +1,6 @@
 import type { CourseWithDetails } from '@studyx/types'
+import { Avatar, AvatarFallback, AvatarImage, Button, Card, Separator } from '@studyx/ui/base'
 import { BookOpenIcon, FlaskConicalIcon } from 'lucide-react'
-
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
-import { Separator } from '@/components/ui/separator'
 
 import { CourseProgress } from './CourseProgress'
 import { getInitials } from '@/shared/helpers/user'

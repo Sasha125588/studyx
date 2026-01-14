@@ -7,7 +7,7 @@ import {
 	AccordionContent,
 	AccordionItem,
 	AccordionTrigger
-} from '@/components/animate-ui/radix/accordion'
+} from '@/components/animate-ui/components/radix/accordion'
 
 import { cn } from '@/shared/helpers'
 

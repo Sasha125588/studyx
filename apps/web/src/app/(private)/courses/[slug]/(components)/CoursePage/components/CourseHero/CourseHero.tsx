@@ -1,9 +1,7 @@
 import type { CourseWithDetails } from '@studyx/types'
+import { Avatar, AvatarFallback, AvatarImage, Badge } from '@studyx/ui/base'
 import { ExternalLinkIcon } from 'lucide-react'
 import Link from 'next/link'
-
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Badge } from '@/components/ui/badge'
 
 import { getCourseAuthors } from '@/shared/helpers'
 import { getInitials } from '@/shared/helpers/user'

@@ -1,6 +1,6 @@
 import type { BlockSubmission, LessonBlock } from '@studyx/types'
 
-import { BlockRenderer } from '../blocks'
+import { BlockRenderer } from '../../../../../../../../../../../../packages/ui/src/components/blocks/view'
 
 import 'highlight.js/styles/github-dark.css'
 

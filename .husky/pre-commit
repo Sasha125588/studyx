@@ -1,1 +1,8 @@
+#!/bin/sh
+set -e
+
+if [ -t 1 ]; then
+  exec < /dev/tty
+fi
+
 bunx lint-staged

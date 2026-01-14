@@ -1,11 +1,10 @@
 import type { CourseWithDetails } from '@studyx/types'
+import { Button, Skeleton } from '@studyx/ui/base'
+import { ErrorCard } from '@studyx/ui/common'
 import Link from 'next/link'
 import { Suspense } from 'react'
 
-import { ErrorCard } from '@/components/common/ErrorCard/ErrorCard'
 import { H2 } from '@/components/common/Typography/H2'
-import { Button } from '@/components/ui/button'
-import { Skeleton } from '@/components/ui/skeleton'
 
 import { CourseFilters } from './(components)/CourseFilters/CourseFilters'
 import { CourseList } from './(components)/CourseList/CourseList'

@@ -1,6 +1,18 @@
 'use client'
 
 import {
+	Avatar,
+	AvatarFallback,
+	AvatarImage,
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuGroup,
+	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger
+} from '@studyx/ui/base'
+import {
 	BadgeCheckIcon,
 	BellIcon,
 	CreditCardIcon,
@@ -12,22 +24,11 @@ import { useRouter } from 'next/navigation'
 import { useTransition } from 'react'
 import { toast } from 'sonner'
 
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuGroup,
-	DropdownMenuItem,
-	DropdownMenuLabel,
-	DropdownMenuSeparator,
-	DropdownMenuTrigger
-} from '@/components/animate-ui/radix/dropdown-menu'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-
 import { SIDEBAR_DATA } from '../../../Sidebar/constants/data'
 
 import { handleSignOut } from './(actions)/handleSignOut'
+import { useIntl } from '@/app/(contexts)/intl'
 import { getErrorMessage } from '@/shared/helpers'
-import { useI18n } from '@/shared/providers/i18n'
 
 export interface User {
 	name: string
@@ -41,7 +42,7 @@ interface UserProfileProps {
 
 export const UserProfile = ({ user }: UserProfileProps) => {
 	const router = useRouter()
-	const i18n = useI18n()
+	const i18n = useIntl()
 
 	const [isPending, startTransition] = useTransition()
 

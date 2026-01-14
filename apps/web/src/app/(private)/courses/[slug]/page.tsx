@@ -1,8 +1,6 @@
 import type { CourseWithDetails } from '@studyx/types'
+import { ErrorCard, NotFoundCard } from '@studyx/ui/common'
 import { XIcon } from 'lucide-react'
-
-import { ErrorCard } from '@/components/common/ErrorCard/ErrorCard'
-import { NotFoundCard } from '@/components/common/NotFoundCard/NotFoundCard'
 
 import { CoursePageMain } from './(components)/CoursePage/CoursePage'
 import { getCourse, getRoadmapPositions, getUserId } from '@/shared/api'

@@ -1,21 +1,17 @@
 'use client'
 
+import { Tooltip, TooltipContent, TooltipTrigger } from '@studyx/ui/base'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { match } from 'path-to-regexp'
 
-import {
-	Tooltip,
-	TooltipPanel,
-	TooltipTrigger
-} from '@/components/animate-ui/components/base/tooltip'
 import {
 	SidebarContent,
 	SidebarGroup,
 	SidebarMenu,
 	SidebarMenuButton,
 	SidebarMenuItem
-} from '@/components/animate-ui/radix/sidebar'
+} from '@/components/animate-ui/components/radix/sidebar'
 
 import { SIDEBAR_DATA } from '../../constants/data'
 
@@ -46,7 +42,7 @@ export const SidebarNavigation = () => {
 										</Link>
 									</SidebarMenuButton>
 								</TooltipTrigger>
-								<TooltipPanel side='right'>{item.title}</TooltipPanel>
+								<TooltipContent side='right'>{item.title}</TooltipContent>
 							</Tooltip>
 						</SidebarMenuItem>
 					))}

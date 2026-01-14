@@ -111,8 +111,8 @@ export const transformCourseToFlow = (
 			if (lessonIndex > 0) {
 				const prevLesson = lessons[lessonIndex - 1]
 				edges.push({
-					id: `edge-lesson-${prevLesson.id}-${lesson.id}`,
-					source: `lesson-${prevLesson.id}`,
+					id: `edge-lesson-${prevLesson?.id}-${lesson.id}`,
+					source: `lesson-${prevLesson?.id}`,
 					target: `lesson-${lesson.id}`,
 					type: 'smoothstep',
 					animated: !isCompleted,
@@ -127,7 +127,7 @@ export const transformCourseToFlow = (
 		// Звʼязок між модулями (останній урок минулого модуля → перший унок наступного)
 		if (moduleIndex > 0) {
 			const prevModule = modules[moduleIndex - 1]
-			const prevLessons = prevModule.lessons || []
+			const prevLessons = prevModule?.lessons || []
 			const currentLessons = module.lessons || []
 
 			if (prevLessons.length > 0 && currentLessons.length > 0) {
