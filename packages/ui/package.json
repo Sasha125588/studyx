@@ -3,9 +3,6 @@
 	"version": "0.0.0",
 	"type": "module",
 	"private": true,
-	"devDependencies": {
-		"typescript": "^5"
-	},
 	"scripts": {
 		"lint": "eslint . --max-warnings 0"
 	},

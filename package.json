@@ -3,6 +3,8 @@
 	"version": "0.1.0",
 	"type": "module",
 	"devDependencies": {
+		"@types/react": "^19.2.8",
+		"@types/react-dom": "^19.2.3",
 		"@trivago/prettier-plugin-sort-imports": "^5.2.2",
 		"eslint": "^9.39.2",
 		"eslint-config-next": "^16.1.1",
@@ -10,6 +12,8 @@
 		"husky": "^9.1.7",
 		"lint-staged": "^16.2.7",
 		"prettier": "^3.7.4",
+		"typescript": "^5.9.3",
+		"tailwindcss": "^4.1.18",
 		"prettier-plugin-tailwindcss": "^0.6.14",
 		"turbo": "^2.7.4"
 	},
@@ -35,5 +39,8 @@
 	"workspaces": [
 		"apps/*",
 		"packages/*"
-	]
+	],
+	"dependencies": {
+		"studyx": "."
+	}
 }
