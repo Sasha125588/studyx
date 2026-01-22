@@ -4,62 +4,63 @@ import { useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
-import { signUpFormSchema } from '../constants/signUpSchema'
-
 import { handleSignUp } from '@/app/(auth)/(actions)/handleSignUp'
+
 import { useIntl } from '@/app/(contexts)/intl'
 import { getErrorMessage } from '@/shared/helpers/auth/getErrorMessage'
+import { signUpFormSchema } from '../constants/signUpSchema'
 
 interface SignUpForm {
-	email: string
-	name: string
-	password: string
-	confirmPassword: string
+  email: string
+  name: string
+  password: string
+  confirmPassword: string
 }
 
-export const useSignUpForm = () => {
-	const [isPending, startTransition] = useTransition()
-	const router = useRouter()
+export function useSignUpForm() {
+  const [isPending, startTransition] = useTransition()
+  const router = useRouter()
 
-	const i18n = useIntl()
+  const i18n = useIntl()
 
-	const signUpForm = useForm<SignUpForm>({
-		resolver: zodResolver(signUpFormSchema),
-		defaultValues: {
-			email: '',
-			name: '',
-			password: '',
-			confirmPassword: ''
-		}
-	})
+  const signUpForm = useForm<SignUpForm>({
+    resolver: zodResolver(signUpFormSchema),
+    defaultValues: {
+      email: '',
+      name: '',
+      password: '',
+      confirmPassword: '',
+    },
+  })
 
-	const onSubmit = signUpForm.handleSubmit(async values => {
-		const loadingToast = toast.loading(i18n.formatMessage({ id: 'toast.signingUp' }))
-		startTransition(async () => {
-			try {
-				await handleSignUp(values)
+  const onSubmit = signUpForm.handleSubmit(async (values) => {
+    const loadingToast = toast.loading(i18n.formatMessage({ id: 'toast.signingUp' }))
+    startTransition(async () => {
+      try {
+        await handleSignUp(values)
 
-				toast.success(i18n.formatMessage({ id: 'toast.signedUp' }), {
-					id: loadingToast
-				})
+        toast.success(i18n.formatMessage({ id: 'toast.signedUp' }), {
+          id: loadingToast,
+        })
 
-				router.refresh()
-			} catch (error) {
-				const errMsg = getErrorMessage(error instanceof Error ? error.message : String(error))
-				toast.error(i18n.formatMessage({ id: 'toast.failedLogin' }) + ' ' + errMsg, {
-					id: loadingToast
-				})
-			}
-		})
-	})
+        router.refresh()
+      }
+      catch (error) {
+        const errMsg = getErrorMessage(error instanceof Error ? error.message : String(error))
+        toast.error(`${i18n.formatMessage({ id: 'toast.failedLogin' })} ${errMsg}`, {
+          id: loadingToast,
+        })
+      }
+    })
+  })
 
-	const goToSignIn = () => redirect('/login')
+  const goToSignIn = () => redirect('/login')
 
-	return {
-		state: {
-			loading: isPending
-		},
-		form: signUpForm,
-		functions: { onSubmit, goToSignIn }
-	}
+  return {
+    state: {
+      loading: isPending,
+    },
+    form: signUpForm,
+    functions: { onSubmit, goToSignIn },
+  }
 }

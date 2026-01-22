@@ -1,5 +1,5 @@
-const NewLessonPage = () => {
-	return <div>NewLessonPage</div>
+function NewLessonPage() {
+  return <div>NewLessonPage</div>
 }
 
 export default NewLessonPage

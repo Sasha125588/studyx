@@ -1,42 +1,39 @@
 {
-	"name": "studyx",
-	"version": "0.1.0",
-	"devDependencies": {
-		"@types/react": "^19.2.8",
-		"@types/react-dom": "^19.2.3",
-		"@trivago/prettier-plugin-sort-imports": "^5.2.2",
-		"eslint": "^9.39.2",
-		"eslint-config-next": "^16.1.1",
-		"eslint-config-prettier": "^10.1.8",
-		"husky": "^9.1.7",
-		"lint-staged": "^16.2.7",
-		"prettier": "^3.7.4",
-		"typescript": "^5.9.3",
-		"tailwindcss": "^4.1.18",
-		"prettier-plugin-tailwindcss": "^0.6.14",
-		"turbo": "^2.7.4"
-	},
-	"packageManager": "bun@1.2.13",
-	"private": true,
-	"scripts": {
-		"dev": "turbo run dev",
-		"build": "turbo run build",
-		"lint": "turbo run lint",
-		"type-check": "turbo run type-check",
-		"clean": "turbo run clean && rm -rf node_modules",
-		"format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
-		"generate-db-types": "bunx supabase gen types typescript --project-id hiumfpqtebwwjepqojsd --schema public > packages/database/src/db.ts",
-		"prepare": "husky",
-		"lint-staged": "lint-staged"
-	},
-	"lint-staged": {
-		"*.{ts,tsx,js,jsx,md,mdx,css}": [
-			"eslint --fix",
-			"prettier --write"
-		]
-	},
-	"workspaces": [
-		"apps/*",
-		"packages/*"
-	]
+  "name": "studyx",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "bun@1.2.13",
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "lint:fix": "turbo run lint:fix",
+    "type-check": "turbo run type-check",
+    "clean": "turbo run clean && rm -rf node_modules",
+    "generate-db-types": "bunx supabase gen types typescript --project-id hiumfpqtebwwjepqojsd --schema public > packages/database/src/db.ts",
+    "prepare": "husky",
+    "lint-staged": "lint-staged"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^7.2.0",
+    "@next/eslint-plugin-next": "^16.1.4",
+    "@types/react": "^19.2.8",
+    "@types/react-dom": "^19.2.3",
+    "eslint": "^9.39.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
+    "tailwindcss": "^4.1.18",
+    "turbo": "^2.7.4",
+    "typescript": "^5.9.3"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,md,mdx,css}": [
+      "eslint --fix"
+    ]
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
 }

@@ -1,17 +1,17 @@
 {
-	"$schema": "https://openapi.vercel.sh/microfrontends.json",
-	"applications": {
-		"studyx": {
-			"development": {
-				"fallback": "studyx-flax.vercel.app"
-			}
-		},
-		"studyx-admin": {
-			"routing": [
-				{
-					"paths": ["/admin/:path*"]
-				}
-			]
-		}
-	}
+  "$schema": "https://openapi.vercel.sh/microfrontends.json",
+  "applications": {
+    "studyx": {
+      "development": {
+        "fallback": "studyx-flax.vercel.app"
+      }
+    },
+    "studyx-admin": {
+      "routing": [
+        {
+          "paths": ["/admin/:path*"]
+        }
+      ]
+    }
+  }
 }

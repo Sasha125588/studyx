@@ -4,8 +4,8 @@ import { headers } from 'next/headers'
 
 import { auth } from '@/lib/better-auth/server'
 
-export const handleSignOut = async () => {
-	await auth.api.signOut({
-		headers: await headers()
-	})
+export async function handleSignOut() {
+  await auth.api.signOut({
+    headers: await headers(),
+  })
 }

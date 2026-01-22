@@ -10,18 +10,18 @@ import remarkMath from 'remark-math'
 import 'highlight.js/styles/github-dark.css'
 
 interface TextBlockProps {
-	block: TextBlockType
+  block: TextBlockType
 }
 
-export const TextBlock = ({ block }: TextBlockProps) => {
-	return (
-		<article className='prose prose-lg dark:prose-invert max-w-none'>
-			<ReactMarkdown
-				remarkPlugins={[remarkGfm, remarkMath]}
-				rehypePlugins={[rehypeKatex, rehypeHighlight]}
-			>
-				{block.content}
-			</ReactMarkdown>
-		</article>
-	)
+export function TextBlock({ block }: TextBlockProps) {
+  return (
+    <article className="prose prose-lg dark:prose-invert max-w-none">
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm, remarkMath]}
+        rehypePlugins={[rehypeKatex, rehypeHighlight]}
+      >
+        {block.content}
+      </ReactMarkdown>
+    </article>
+  )
 }

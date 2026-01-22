@@ -1,25 +1,26 @@
 {
-	"name": "studyx-admin",
-	"version": "0.1.0",
-	"private": true,
-	"scripts": {
-		"dev": "next dev --port $(turbo get-mfe-port)",
-		"build": "next build",
-		"start": "next start",
-		"type-check": "tsc --noEmit",
-		"lint": "eslint",
-		"format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
-		"proxy": "microfrontends proxy"
-	},
-	"dependencies": {
-		"@platejs/basic-nodes": "^52.0.11",
-		"@studyx/ui": "workspace:*",
-		"@vercel/microfrontends": "^2.2.2",
-		"next": "16.1.1",
-		"react": "19.2.3",
-		"react-dom": "19.2.3"
-	},
-	"devDependencies": {
-		"@tailwindcss/postcss": "^4.1.18"
-	}
+  "name": "studyx-admin",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --port $(turbo get-mfe-port)",
+    "build": "next build",
+    "start": "next start",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
+    "proxy": "microfrontends proxy"
+  },
+  "dependencies": {
+    "@platejs/basic-nodes": "^52.0.11",
+    "@studyx/ui": "workspace:*",
+    "@vercel/microfrontends": "^2.2.2",
+    "next": "16.1.1",
+    "react": "19.2.3",
+    "react-dom": "19.2.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.18"
+  }
 }

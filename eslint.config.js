@@ -1,22 +1,25 @@
-import { nextConfig } from './packages/config/eslint/next.js'
+// eslint.config.js
+import antfu from '@antfu/eslint-config'
 
-export default [
-	...nextConfig.map(config => ({
-		...config,
-		files: config.files ? config.files.map(f => `apps/web/${f}`) : ['apps/web/**/*.{js,jsx,ts,tsx}']
-	})),
-	{
-		ignores: [
-			'**/node_modules/**',
-			'**/dist/**',
-			'**/.next/**',
-			'**/out/**',
-			'**/build/**',
-			'**/.turbo/**',
-			'**/next-env.d.ts',
-			'**/generated/**',
-			'apps/web/src/shared/api/elysia/**',
-			'**/apps/web/.source/**'
-		]
-	}
-]
+export default antfu({
+  stylistic: {
+    indent: 2,
+    quotes: 'single',
+    semi: false,
+    overrides: {
+      'style/dot-location': ['error', 'property'],
+      'style/max-len': ['error', {
+        code: 100,
+        tabWidth: 2,
+        ignoreStrings: true,
+        ignoreComments: true,
+      }],
+      'style/no-tabs': ['off', { allowIndentationTabs: true }],
+      'arrow-body-style': ['error', 'as-needed'],
+    },
+  },
+  typescript: true,
+  rules: {
+    'n/prefer-global/process': ['off'],
+  },
+})

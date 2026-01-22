@@ -1,8 +1,7 @@
-import { withMicrofrontends } from '@vercel/microfrontends/next/config'
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-	basePath: '/admin'
+  basePath: '/admin',
 }
 
-export default withMicrofrontends(nextConfig, { debug: true })
+export default nextConfig

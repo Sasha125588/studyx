@@ -1,14 +1,14 @@
 {
-	"extends": "../config/typescript/base.json",
-	"compilerOptions": {
-		"jsx": "react-jsx",
-		"resolveJsonModule": true,
-		"experimentalDecorators": true,
-		"baseUrl": "./src"
-	},
-	"exports": {
-		".": "./src/index.ts"
-	},
-	"include": ["src/**/*"],
-	"exclude": ["dist", "build", "**/node_modules/**"]
+  "extends": "../config/typescript/base.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "experimentalDecorators": true,
+    "baseUrl": "./src",
+    "resolveJsonModule": true
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "include": ["src/**/*"],
+  "exclude": ["dist", "build", "**/node_modules/**"]
 }

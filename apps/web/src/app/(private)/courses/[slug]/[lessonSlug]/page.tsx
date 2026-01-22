@@ -1,47 +1,57 @@
-import type { BlockSubmission, LessonFullContext } from '@studyx/types'
+import type { BlockSubmissionsResponse } from '@/app/api/block-submissions/lesson/[lessonId]/user/[userId]/route'
+
+import type { LessonBySlugResponse } from '@/app/api/lessons/by-slug/route'
 import { ErrorCard, NotFoundCard } from '@studyx/ui/common'
-
+import { api } from '@/app/api'
+import { getUser } from '@/shared/api/requests/auth/getUser'
 import { LessonPageMain } from './(components)/LessonPage/LessonPage'
-import { getLessonBySlug } from '@/shared/api'
-import { getMySubmissions } from '@/shared/api/requests/block-submissions/{userId}/{my}/getUserSubmissions'
 
-const LessonPage = async (props: PageProps<'/courses/[slug]/[lessonSlug]'>) => {
-	const { slug, lessonSlug } = await props.params
+async function LessonPage(props: PageProps<'/courses/[slug]/[lessonSlug]'>) {
+  const { slug, lessonSlug } = await props.params
 
-	const decodedCourseSlug = decodeURIComponent(slug)
-	const decodedLessonSlug = decodeURIComponent(lessonSlug)
+  const decodedCourseSlug = decodeURIComponent(slug)
+  const decodedLessonSlug = decodeURIComponent(lessonSlug)
 
-	const getLessonResponse = await getLessonBySlug(decodedCourseSlug, decodedLessonSlug)
+  const lessonResponse = await api.get<LessonBySlugResponse>(`/api/lessons/by-slug/?courseSlug=${decodedCourseSlug}&lessonSlug=${decodedLessonSlug}`)
 
-	if (getLessonResponse.error) {
-		return (
-			<ErrorCard
-				title='Не вдалося завантажити заняття'
-				description='Спробуйте оновити сторінку.'
-			/>
-		)
-	}
+  if (!lessonResponse.data.success) {
+    return (
+      <ErrorCard
+        title="Не вдалося завантажити заняття"
+        description="Спробуйте оновити сторінку."
+      />
+    )
+  }
 
-	if (getLessonResponse.status === 404) {
-		return (
-			<NotFoundCard
-				title='404 - Заняття не знайдено'
-				description='Схоже, заняття, яке ви шукаєте, не існує.'
-			/>
-		)
-	}
+  if (lessonResponse.status === 404) {
+    return (
+      <NotFoundCard
+        title="404 - Заняття не знайдено"
+        description="Схоже, заняття, яке ви шукаєте, не існує."
+      />
+    )
+  }
 
-	const submissionsResponse = await getMySubmissions(getLessonResponse.data!.lesson.id)
+  const fullLessonData = lessonResponse.data.data
 
-	const fullLessonData = getLessonResponse.data as unknown as LessonFullContext
-	const submissions = submissionsResponse.data as unknown as BlockSubmission[]
+  const user = await getUser()
+  const submissionsResponse = await api.get<BlockSubmissionsResponse>(`/api/block-submissions/lesson/${fullLessonData.lesson.id}/user/${user?.id}`)
 
-	return (
-		<LessonPageMain
-			data={fullLessonData}
-			submissions={submissions}
-		/>
-	)
+  if (!submissionsResponse.data.success) {
+    return (
+      <ErrorCard
+        title="Не вдалося завантажити відповіді"
+        description="Спробуйте оновити сторінку."
+      />
+    )
+  }
+
+  return (
+    <LessonPageMain
+      data={fullLessonData}
+      submissions={submissionsResponse.data.data}
+    />
+  )
 }
 
 export default LessonPage

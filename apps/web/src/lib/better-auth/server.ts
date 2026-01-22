@@ -3,40 +3,42 @@ import { nextCookies } from 'better-auth/next-js'
 import { Pool } from 'pg'
 
 export const auth = betterAuth({
-	secret: process.env.BETTER_AUTH_SECRET!,
-	database: new Pool({
-		connectionString: process.env.NEXT_PUBLIC_DATABASE_URL
-	}),
+  baseURL: 'http://localhost:3024',
+  secret: process.env.BETTER_AUTH_SECRET!,
+  database: new Pool({
+    connectionString: process.env.NEXT_PUBLIC_DATABASE_URL,
+  }),
 
-	socialProviders: {
-		google: {
-			prompt: 'select_account',
-			clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!,
-			clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET!
-		},
-		github: {
-			clientId: process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID!,
-			clientSecret: process.env.NEXT_PUBLIC_GITHUB_CLIENT_SECRET!
-		}
-	},
+  socialProviders: {
+    google: {
+      prompt: 'select_account',
+      clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET!,
+    },
+    github: {
+      clientId: process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID!,
+      clientSecret: process.env.NEXT_PUBLIC_GITHUB_CLIENT_SECRET!,
+    },
+  },
 
-	emailAndPassword: {
-		enabled: true,
-		requireEmailVerification: false
-	},
-	trustedOrigins: [
-		'http://localhost:3024',
-		process.env.NEXT_PUBLIC_FRONTEND_RAILWAY_URL!,
-		process.env.NEXT_PUBLIC_FRONTEND_VERCEL_URL!
-	],
-	user: {
-		additionalFields: {
-			role: {
-				type: 'string',
-				required: true,
-				defaultValue: 'student'
-			}
-		}
-	},
-	plugins: [nextCookies()]
+  emailAndPassword: {
+    enabled: true,
+    requireEmailVerification: false,
+  },
+  trustedOrigins: [
+    'http://localhost:3024',
+    'http://localhost:3977',
+    process.env.NEXT_PUBLIC_FRONTEND_RAILWAY_URL!,
+    process.env.NEXT_PUBLIC_FRONTEND_VERCEL_URL!,
+  ],
+  user: {
+    additionalFields: {
+      role: {
+        type: 'string',
+        required: true,
+        defaultValue: 'student',
+      },
+    },
+  },
+  plugins: [nextCookies()],
 })

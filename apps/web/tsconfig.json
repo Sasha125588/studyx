@@ -1,20 +1,22 @@
 {
-	"extends": "../../packages/config/typescript/nextjs.json",
-	"compilerOptions": {
-		"baseUrl": ".",
-		"paths": {
-			"@/*": ["./src/*"],
-			"@api": ["../api/src/index.ts"],
-			"@studyx/ui/*": ["../../packages/ui/src/*"],
-			"fumadocs-mdx:collections/*": [".source/*"]
-		}
-	},
-	"include": [
-		"next-env.d.ts",
-		"src/**/*.ts",
-		"src/**/*.tsx",
-		".next/types/**/*.ts",
-		"@types/18n.d.ts"
-	],
-	"exclude": ["node_modules", ".next"]
+  "extends": "../../packages/config/typescript/nextjs.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@api": ["../api/src/index.ts"],
+      "@studyx/ui/*": ["../../packages/ui/src/*"],
+      "fumadocs-mdx:collections/*": [".source/*"]
+    },
+    "exactOptionalPropertyTypes": false,
+    "noImplicitOverride": false
+  },
+  "include": [
+    "next-env.d.ts",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    ".next/types/**/*.ts",
+    "@types/18n.d.ts"
+  ],
+  "exclude": ["node_modules", ".next"]
 }

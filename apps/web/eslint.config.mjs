@@ -1,45 +1,9 @@
-import nextVitals from 'eslint-config-next/core-web-vitals'
-import nextTs from 'eslint-config-next/typescript'
-import prettier from 'eslint-config-prettier/flat'
-import { defineConfig, globalIgnores } from 'eslint/config'
+import antfu from '@antfu/eslint-config'
 
-const eslintConfig = defineConfig([
-	...nextVitals,
-	...nextTs,
-	prettier,
-	// Override default ignores of eslint-config-next.
-	globalIgnores([
-		// Default ignores of eslint-config-next:
-		'.next/**',
-		'out/**',
-		'build/**',
-		'next-env.d.ts'
-	]),
-	{
-		rules: {
-			'no-restricted-syntax': ['error', 'FunctionExpression', 'FunctionDeclaration'],
-			'prefer-arrow-callback': 'error',
-			'func-style': ['error', 'expression']
-		}
-	},
-	{
-		files: [
-			'src/components/animate-ui/**/*',
-			'src/components/ui/**/*',
-			'src/lib/**/*',
-			'src/shared/api/elysia/**/*'
-		],
-		rules: {
-			'prefer-arrow-callback': 'off',
-			'func-style': 'off',
-			'no-restricted-syntax': 'off',
-			'react-hooks/preserve-manual-memoization': 'off',
-			'react-hooks/refs': 'off'
-		}
-	},
-	{
-		ignores: ['node_modules/**', '.next/**', 'out/**', 'build/**', 'next-env.d.ts']
-	}
-])
-
-export default eslintConfig
+export default antfu({
+  nextjs: true,
+  ignores: ['./.source/*'],
+  rules: {
+    'n/prefer-global/process': ['off'],
+  },
+})
