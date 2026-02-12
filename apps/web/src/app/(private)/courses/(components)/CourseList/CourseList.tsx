@@ -1,7 +1,9 @@
+'use client'
+
 import type { CourseEnrollment, CourseWithDetails } from '@studyx/types'
 import { EmptyCard } from '@studyx/ui/common'
 import { BookOpenIcon } from 'lucide-react'
-
+import { useMemo } from 'react'
 import { CourseCard } from './components/CourseCard/CourseCard'
 
 interface CourseListProps {
@@ -15,7 +17,16 @@ export function CourseList({
   enrollments = [],
   hasActiveFilters,
 }: CourseListProps) {
-  const getEnrollment = (courseId: number) => enrollments.find(e => e.course_id === courseId)
+  // O(1) lookup вместо O(n) для каждого курса
+  const enrollmentMap = useMemo(() => {
+    const map = new Map<number, CourseEnrollment>()
+    enrollments.forEach((e) => {
+      map.set(e.course_id, e)
+    })
+    return map
+  }, [enrollments])
+
+  const getEnrollment = (courseId: number) => enrollmentMap.get(courseId)
 
   if (courses.length === 0) {
     return (

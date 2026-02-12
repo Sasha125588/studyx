@@ -3,25 +3,21 @@
 import type { CourseEnrollment, CourseWithDetails } from '@studyx/types'
 import type { CoursesStatus, SortOption, TabValue } from '../constants/filters'
 import { parseAsString, parseAsStringLiteral, useQueryStates } from 'nuqs'
-
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import {
   COURSES_STATUS,
-
   DEFAULT_FILTERS,
   SORT_OPTIONS,
-
   TAB_VALUES,
-
 } from '../constants/filters'
 
 const courseFiltersParsers = {
   tab: parseAsStringLiteral(Object.values(TAB_VALUES)).withDefault(DEFAULT_FILTERS.tab),
   q: parseAsString.withDefault(''),
   status: parseAsStringLiteral(Object.values(COURSES_STATUS)).withDefault(
-    DEFAULT_FILTERS.coursesStatus,
+    DEFAULT_FILTERS.status,
   ),
-  sort: parseAsStringLiteral(Object.values(SORT_OPTIONS)).withDefault(DEFAULT_FILTERS.sortBy),
+  sort: parseAsStringLiteral(Object.values(SORT_OPTIONS)).withDefault(DEFAULT_FILTERS.sort),
   authorId: parseAsString,
   skill: parseAsString,
 }
@@ -34,28 +30,28 @@ interface UseCourseFiltersProps {
 export function useCourseFilters({ courses = [], enrollments = [] }: UseCourseFiltersProps) {
   const [params, setParams] = useQueryStates(courseFiltersParsers, {
     history: 'replace',
-    shallow: false,
+    shallow: true,
   })
 
-  const filters = {
+  // Стабильный объект filters
+  const filters = useMemo(() => ({
     tab: params.tab as TabValue,
     search: params.q,
-    coursesStatus: params.status as CoursesStatus,
+    status: params.status as CoursesStatus,
     sort: params.sort as SortOption,
     authorId: params.authorId,
     skill: params.skill,
-  }
+  }), [params])
 
+  // Оптимизированные вычисления authors
   const authors = useMemo(() => {
     const authorMap = new Map<string, string>()
 
     courses.forEach((course) => {
       course.authors?.forEach((author) => {
         const name = author.name ?? author.email
-        const id = author.id
-
-        if (name && !authorMap.has(id)) {
-          authorMap.set(id, name)
+        if (name && !authorMap.has(author.id)) {
+          authorMap.set(author.id, name)
         }
       })
     })
@@ -63,11 +59,12 @@ export function useCourseFilters({ courses = [], enrollments = [] }: UseCourseFi
     return Array.from(authorMap.entries()).map(([id, name]) => ({ id, name }))
   }, [courses])
 
+  // Оптимизированные вычисления skills
   const skills = useMemo(() => {
     const skillSet = new Set<string>()
 
     courses.forEach((course) => {
-      course.skills.forEach((skill) => {
+      course.skills?.forEach((skill) => {
         if (skill.name) {
           skillSet.add(skill.name)
         }
@@ -77,28 +74,65 @@ export function useCourseFilters({ courses = [], enrollments = [] }: UseCourseFi
     return Array.from(skillSet).sort()
   }, [courses])
 
-  const getEnrollment = (courseId: number) => enrollments.find(e => e.course_id === courseId)
+  // Callbacks со стабильными ссылками
+  const setTab = useCallback((tab: TabValue) => {
+    setParams(prev => ({
+      ...prev,
+      tab,
+      status:
+        tab === TAB_VALUES.MY
+          ? prev.status
+          : COURSES_STATUS.ALL,
+    }))
+  }, [setParams])
 
-  const setTab = (tab: TabValue) => setParams({ tab, status: DEFAULT_FILTERS.coursesStatus })
+  const setSearch = useCallback((q: string) => {
+    setParams({ q: q || null })
+  }, [setParams])
 
-  const setSearch = (q: string) => setParams({ q: q || null })
+  const setCoursesStatus = useCallback((status: CoursesStatus) => {
+    setParams({ status })
+  }, [setParams])
 
-  const setCoursesStatus = (status: CoursesStatus) => setParams({ status })
+  const setSortBy = useCallback((sort: SortOption) => {
+    setParams({ sort })
+  }, [setParams])
 
-  const setSortBy = (sort: SortOption) => setParams({ sort })
+  const setAuthorId = useCallback((authorId: string | null) => {
+    setParams({ authorId })
+  }, [setParams])
 
-  const setAuthorId = (authorId: string | null) => setParams({ authorId })
+  const setSkill = useCallback((skill: string | null) => {
+    setParams({ skill })
+  }, [setParams])
 
-  const setSkill = (skill: string | null) => setParams({ skill })
+  const resetFilters = useCallback(() => {
+    setParams({
+      tab: null,
+      q: null,
+      status: null,
+      sort: null,
+      authorId: null,
+      skill: null,
+    })
+  }, [setParams])
 
-  const resetFilters = () =>
-    setParams({ tab: null, q: null, status: null, sort: null, authorId: null, skill: null })
+  const hasActiveFilters = useMemo(() => {
+    const statusActive
+      = filters.tab === TAB_VALUES.MY
+        && filters.status !== COURSES_STATUS.ALL
 
-  const hasActiveFilters
-    = filters.search !== ''
+    return (
+      filters.search !== ''
       || filters.authorId !== null
       || filters.skill !== null
-      || filters.coursesStatus !== COURSES_STATUS.ALL
+      || statusActive
+    )
+  }, [filters])
+
+  // Helper для поиска enrollment (если нужен в фильтрах)
+  const getEnrollment = useCallback((courseId: number) =>
+    enrollments.find(e => e.course_id === courseId), [enrollments])
 
   return {
     filters,

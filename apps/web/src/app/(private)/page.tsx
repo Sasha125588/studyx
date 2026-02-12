@@ -1,4 +1,3 @@
-import type { ContinueLearningResponse } from '../api/courses/continue-learning/[userId]/route'
 // import { formatDate } from 'date-fns'
 import { Button, Card, CardContent, CardFooter, CardHeader, CardTitle } from '@studyx/ui/base'
 import {
@@ -11,13 +10,14 @@ import {
 } from 'lucide-react'
 
 import Link from 'next/link'
-import { api } from '@/app/api'
 import { IntlText } from '@/components/common/IntlText/IntlText'
 import { H2 } from '@/components/common/Typography/H2'
 
 import { H3 } from '@/components/common/Typography/H3'
 import { MouseEffectCard } from '@/components/kokonut-ui/mouse-effect-card'
+import { createSupabaseServerClient } from '@/lib/supabase/server'
 import { getUser } from '@/shared/api/requests/auth/getUser'
+import { getContinueLearning } from '@/shared/api/requests/courses/{userId}/getContinueLearning'
 import { LearningTimeChart } from './(components)/dashboard/LearningTimeChart/LearningTimeChart'
 import { RecentCoursesList } from './(components)/dashboard/RecentCoursesList/RecentCoursesList'
 import { StatsCards } from './(components)/dashboard/Stats/StatsCards'
@@ -95,9 +95,9 @@ const goalProgress = Math.min(
 async function DashboardPage() {
   const userId = (await getUser())!.id
 
-  const recentCoursesResponse = await api.get<ContinueLearningResponse>(`/api/courses/continue-learning/${userId}`)
+  const supabase = await createSupabaseServerClient()
 
-  const continueCourses = recentCoursesResponse.data.data
+  const continueCourses = await getContinueLearning({ userId }, supabase)
 
   return (
     <div className="space-y-8">
@@ -112,7 +112,7 @@ async function DashboardPage() {
             <p className="text-muted-foreground max-w-xl text-sm">
               Продовжуйте навчання:
               {' '}
-              {continueCourses.length
+              {continueCourses?.length
                 ? `ще ${continueCourses.length} курс(и/ів) чекають на вас.`
                 : 'додайте свій перший курс та почніть прогресувати.'}
             </p>

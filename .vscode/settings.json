@@ -4,7 +4,7 @@
 	"editor.formatOnSave": false,
 	// Auto fix
 	"editor.codeActionsOnSave": {
-		"source.fixAll.eslint": "explicit",
+		"source.fixAll.eslint": "always",
 		"source.organizeImports": "never"
 	},
 	// Silent the stylistic rules in your IDE, but still auto fix them

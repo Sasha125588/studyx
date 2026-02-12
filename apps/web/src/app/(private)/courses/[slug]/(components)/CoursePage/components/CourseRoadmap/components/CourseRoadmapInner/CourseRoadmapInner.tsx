@@ -11,10 +11,8 @@ import {
   useNodesState,
 } from '@xyflow/react'
 
-import { useRouter } from 'next/navigation'
 import { useCallback, useMemo } from 'react'
-
-import { api } from '@/app/api'
+import { useSaveRoadmapPositionMutation } from '@/shared/api/hooks/roadmap-positions/useSaveRoadmapPositionMutation'
 
 import { LessonNode, ModuleNode } from '../../nodes'
 import { transformCourseToFlow } from '../../utils/transformCourseToFlow'
@@ -36,7 +34,7 @@ export function CourseRoadmapInner({
   lessonsProgress = [],
   savedPositions,
 }: CourseRoadmapInnerProps) {
-  const router = useRouter()
+  const saveRoadmapPositionMutation = useSaveRoadmapPositionMutation()
 
   const {
     nodes: initialNodes,
@@ -61,7 +59,7 @@ export function CourseRoadmapInner({
       const nodeId = Number.parseInt(nodeIdMatch[2]!)
 
       try {
-        await api.post('/api/roadmap-positions', {
+        await saveRoadmapPositionMutation.mutateAsync({
           userId,
           courseId,
           nodeType,
@@ -69,14 +67,12 @@ export function CourseRoadmapInner({
           positionX: node.position.x,
           positionY: node.position.y,
         })
-
-        router.refresh()
       }
       catch (error) {
         console.error('Failed to save position:', error)
       }
     },
-    [userId, courseId],
+    [userId, courseId, saveRoadmapPositionMutation],
   )
 
   return (

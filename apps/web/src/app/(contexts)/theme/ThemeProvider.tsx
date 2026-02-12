@@ -1,3 +1,5 @@
+'use client'
+
 import type { Theme } from './ThemeContext'
 import { getCookie, setCookie } from '@siberiacancode/reactuse'
 

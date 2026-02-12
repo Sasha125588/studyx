@@ -1,9 +1,7 @@
 import type { Metadata } from 'next'
-// import { COOKIES } from './(constants)/cookies'
 import { Analytics } from '@vercel/analytics/next'
 import { RootProvider as FumadocsRootProvider } from 'fumadocs-ui/provider/next'
 import { Manrope } from 'next/font/google'
-// import { cookies } from 'next/headers'
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import { Toaster } from 'sonner'
 
@@ -22,8 +20,6 @@ export const metadata: Metadata = {
   title: 'Studyx',
   description: 'Education platform',
 }
-
-const TOASTER_DURATION = 1500
 
 interface RootLayoutProps {
   children: React.ReactNode
@@ -62,7 +58,7 @@ async function RootLayout({ children }: RootLayoutProps) {
         </NuqsAdapter>
         <Toaster
           richColors
-          duration={TOASTER_DURATION}
+          duration={1500}
         />
         {process.env.NODE_ENV === 'production' && <Analytics mode="production" />}
         {' '}

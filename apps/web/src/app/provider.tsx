@@ -2,8 +2,10 @@
 
 import type { ComponentProps, ReactNode } from 'react'
 
-import { ThemeProvider } from '@/app/(contexts)/theme/ThemeProvider'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { IntlProvider } from './(contexts)/intl/IntlProvider'
+import { QueryProvider } from './(contexts)/query/QueryProvider'
+import { ThemeProvider } from './(contexts)/theme/ThemeProvider'
 
 interface ProviderProps {
   children: ReactNode
@@ -12,8 +14,11 @@ interface ProviderProps {
 
 export function Provider({ children, intl }: ProviderProps) {
   return (
-    <IntlProvider {...intl}>
-      <ThemeProvider>{children}</ThemeProvider>
-    </IntlProvider>
+    <QueryProvider>
+      <ReactQueryDevtools />
+      <IntlProvider {...intl}>
+        <ThemeProvider>{children}</ThemeProvider>
+      </IntlProvider>
+    </QueryProvider>
   )
 }

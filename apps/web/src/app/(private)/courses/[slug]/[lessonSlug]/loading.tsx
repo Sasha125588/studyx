@@ -2,34 +2,7 @@ import { Skeleton } from '@studyx/ui/base'
 
 function Loading() {
   return (
-    <div className="relative flex min-h-[calc(100vh-8rem)]">
-      {/* Left Sidebar Skeleton */}
-      <aside className="sticky top-4 h-fit w-60 shrink-0 pt-14 pr-6">
-        <div className="space-y-4">
-          {/* Course title skeleton */}
-          <Skeleton className="h-6 w-40" />
-          {/* Modules accordion skeleton */}
-          <div className="space-y-2">
-            {Array.from({ length: 3 }).map((_, i) => (
-              <div
-                key={i}
-                className="space-y-2 rounded-lg border p-3"
-              >
-                <Skeleton className="h-5 w-32" />
-                <div className="space-y-1.5 pl-4">
-                  {Array.from({ length: 2 }).map((_, j) => (
-                    <Skeleton
-                      key={j}
-                      className="h-4 w-24"
-                    />
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </aside>
-
+    <>
       {/* Main Content Skeleton */}
       <main className="min-w-0 flex-1 px-4">
         {/* Header Skeleton */}
@@ -111,7 +84,7 @@ function Loading() {
           </div>
         </div>
       </aside>
-    </div>
+    </>
   )
 }
 

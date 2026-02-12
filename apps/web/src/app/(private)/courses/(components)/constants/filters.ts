@@ -29,20 +29,20 @@ export type SortOption = (typeof SORT_OPTIONS)[keyof typeof SORT_OPTIONS]
 
 export interface CourseFiltersState {
   tab: TabValue
-  search: string
-  coursesStatus: CoursesStatus
-  sortBy: SortOption
-  author: string | null
-  skill: string | null
+  search?: string
+  status: CoursesStatus
+  sort: SortOption
+  authorId?: string
+  skill?: string
 }
 
 export const DEFAULT_FILTERS: CourseFiltersState = {
   tab: TAB_VALUES.ALL,
   search: '',
-  coursesStatus: COURSES_STATUS.ALL,
-  sortBy: SORT_OPTIONS.DATE_DESC,
-  author: null,
-  skill: null,
+  status: COURSES_STATUS.ALL,
+  sort: SORT_OPTIONS.DATE_DESC,
+  authorId: undefined,
+  skill: undefined,
 }
 
 // Лейбли для UI

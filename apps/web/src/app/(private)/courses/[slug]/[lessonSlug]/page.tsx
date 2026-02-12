@@ -1,20 +1,39 @@
-import type { BlockSubmissionsResponse } from '@/app/api/block-submissions/lesson/[lessonId]/user/[userId]/route'
-
-import type { LessonBySlugResponse } from '@/app/api/lessons/by-slug/route'
 import { ErrorCard, NotFoundCard } from '@studyx/ui/common'
-import { api } from '@/app/api'
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
+import { queryKeys } from '@/app/(constants)/query'
+import { getQueryClient } from '@/app/(contexts)/query/get-query-client'
+import { createSupabaseServerClient } from '@/lib/supabase/server'
 import { getUser } from '@/shared/api/requests/auth/getUser'
-import { LessonPageMain } from './(components)/LessonPage/LessonPage'
+import { getBlockSubmissions } from '@/shared/api/requests/block-submissions/{lessonId}/{userId}/getBlockSubmissions'
+import { getLessonBySlug } from '@/shared/api/requests/lessons/getLessonBySlug'
+import { LessonPageContent } from './(components)/LessonPage/LessonPage'
 
 async function LessonPage(props: PageProps<'/courses/[slug]/[lessonSlug]'>) {
   const { slug, lessonSlug } = await props.params
 
   const decodedCourseSlug = decodeURIComponent(slug)
   const decodedLessonSlug = decodeURIComponent(lessonSlug)
+  const supabase = await createSupabaseServerClient()
+  const queryClient = getQueryClient()
 
-  const lessonResponse = await api.get<LessonBySlugResponse>(`/api/lessons/by-slug/?courseSlug=${decodedCourseSlug}&lessonSlug=${decodedLessonSlug}`)
+  let lessonData
+  try {
+    lessonData = await queryClient.fetchQuery({
+      queryKey: queryKeys.lessons.bySlug(decodedCourseSlug, decodedLessonSlug),
+      queryFn: () => getLessonBySlug({ courseSlug: decodedCourseSlug, lessonSlug: decodedLessonSlug }, supabase),
+    })
+  }
+  catch (error) {
+    const message = error instanceof Error ? error.message : ''
+    if (message === 'Lesson not found') {
+      return (
+        <NotFoundCard
+          title="404 - Заняття не знайдено"
+          description="Схоже, заняття, яке ви шукаєте, не існує."
+        />
+      )
+    }
 
-  if (!lessonResponse.data.success) {
     return (
       <ErrorCard
         title="Не вдалося завантажити заняття"
@@ -23,21 +42,17 @@ async function LessonPage(props: PageProps<'/courses/[slug]/[lessonSlug]'>) {
     )
   }
 
-  if (lessonResponse.status === 404) {
+  if (!lessonData) {
     return (
-      <NotFoundCard
-        title="404 - Заняття не знайдено"
-        description="Схоже, заняття, яке ви шукаєте, не існує."
+      <ErrorCard
+        title="Не вдалося завантажити заняття"
+        description="Спробуйте оновити сторінку."
       />
     )
   }
 
-  const fullLessonData = lessonResponse.data.data
-
   const user = await getUser()
-  const submissionsResponse = await api.get<BlockSubmissionsResponse>(`/api/block-submissions/lesson/${fullLessonData.lesson.id}/user/${user?.id}`)
-
-  if (!submissionsResponse.data.success) {
+  if (!user) {
     return (
       <ErrorCard
         title="Не вдалося завантажити відповіді"
@@ -46,11 +61,19 @@ async function LessonPage(props: PageProps<'/courses/[slug]/[lessonSlug]'>) {
     )
   }
 
+  await queryClient.prefetchQuery({
+    queryKey: queryKeys.blockSubmissions.byLesson(lessonData.lesson.id, user.id),
+    queryFn: () => getBlockSubmissions({ lessonId: lessonData.lesson.id, userId: user.id }, supabase),
+  })
+
   return (
-    <LessonPageMain
-      data={fullLessonData}
-      submissions={submissionsResponse.data.data}
-    />
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <LessonPageContent
+        courseSlug={decodedCourseSlug}
+        lessonSlug={decodedLessonSlug}
+        userId={user.id}
+      />
+    </HydrationBoundary>
   )
 }
 

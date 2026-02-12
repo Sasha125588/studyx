@@ -1,8 +1,9 @@
-import type { ModuleNav } from '@studyx/types'
+'use client'
+
 import { LessonTypes } from '@studyx/types'
+import { keepPreviousData } from '@tanstack/react-query'
 import { CheckCircle2Icon, FileTextIcon, FlaskConicalIcon } from 'lucide-react'
 import Link from 'next/link'
-
 import {
   Accordion,
   AccordionContent,
@@ -10,16 +11,31 @@ import {
   AccordionTrigger,
 } from '@/components/animate-ui/components/radix/accordion'
 
+import { useGetLessonBySlugQuery } from '@/shared/api/hooks/lessons/useGetLessonBySlugQuery'
+
 import { cn } from '@/shared/helpers'
 
 interface LessonSidebarProps {
-  modules: ModuleNav[]
-  currentLessonId: number
   courseSlug: string
-  courseName: string
+  lessonSlug: string
 }
 
-export function LessonSidebar({ modules, currentLessonId, courseSlug }: LessonSidebarProps) {
+export function LessonSidebar({ courseSlug, lessonSlug }: LessonSidebarProps) {
+  const { data: lessonData } = useGetLessonBySlugQuery(
+    { courseSlug, lessonSlug },
+    {
+      retry: false,
+      placeholderData: keepPreviousData,
+    },
+  )
+
+  if (!lessonData) {
+    return <div className="h-[420px] rounded-xl border" />
+  }
+
+  const modules = lessonData.allModules
+  const currentLessonId = lessonData.lesson.id
+
   const currentModuleId = modules.find(m => m.lessons.some(l => l.id === currentLessonId))?.id
 
   return (

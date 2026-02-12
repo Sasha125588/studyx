@@ -1,12 +1,8 @@
 import type { CourseWithDetails, RoadmapPosition } from '@studyx/types'
-import type { EnrollmentStatusResponse } from '@/app/api/enrollments/status/[courseId]/[userId]/route'
-import { EnrollmentStatuses } from '@studyx/types'
 import { Badge } from '@studyx/ui/base'
 import { EmptyCard } from '@studyx/ui/common'
 
 import { LayoutListIcon, MapIcon, MessageCircleIcon, MessageSquareIcon } from 'lucide-react'
-
-import { api } from '@/app/api'
 import {
   Tabs,
   TabsContent,
@@ -24,14 +20,12 @@ import { CourseSidebar } from './components/CourseSidebar/CourseSidebar'
 interface CoursePageMainProps {
   course: CourseWithDetails
   savedPositions: RoadmapPosition[]
+  isEnrolled: boolean
   userId: string
 }
 
-export async function CoursePageMain({ course, savedPositions, userId }: CoursePageMainProps) {
+export function CoursePageMain({ course, savedPositions, isEnrolled, userId }: CoursePageMainProps) {
   const modules = course.modules ?? []
-
-  const enrollment = await api.get<EnrollmentStatusResponse>(`/api/enrollments/status/${course.id}/${userId}`)
-  const isEnrolled = enrollment.data.data.status === EnrollmentStatuses.ENROLLED
 
   const completedLessons = 0
 
@@ -95,6 +89,7 @@ export async function CoursePageMain({ course, savedPositions, userId }: CourseP
 
               <TabsContent value="roadmap">
                 <CourseRoadmap
+                  userId={userId}
                   courseId={course.id}
                   modules={modules}
                   savedPositions={savedPositions}
